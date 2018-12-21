@@ -1,0 +1,8 @@
+node_modules
+dist
+.DS_Store
+.idea
+.editorconfig
+.prettierrc
+.wepycache
+package-lock.json

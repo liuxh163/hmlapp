@@ -1,0 +1,43 @@
+{
+	"description": "A WePY Sample project",
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wxd915e3d124ceced1",
+	"projectname": "haima",
+	"miniprogramRoot": "dist/",
+	"libVersion": "2.3.0",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"id": -1,
+					"name": "公众号组件测试",
+					"pathName": "pages/webView",
+					"scene": "1011"
+				}
+			]
+		}
+	}
+}

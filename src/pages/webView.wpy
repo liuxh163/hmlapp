@@ -1,0 +1,27 @@
+<style lang="scss">
+</style>
+<template>
+  <web-view src="https://www.baidu.com"></web-view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class webView extends wepy.page {
+    config = {
+      navigationBarTitleText: '',
+    };
+    components = {};
+
+    data = {};
+
+    methods = {};
+
+    onLoad(options,data) {
+      if (!options.preload){
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>

@@ -1,0 +1,46 @@
+<style lang="scss" src="../css/index.scss">
+</style>
+<template>
+  <view class="main">
+    海马
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import commonApi from '../mixins/commonApi'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '海马',
+    };
+    components = {
+    };
+
+    mixins = [commonApi]
+
+    data = {
+
+    };
+
+    methods = {
+
+    };
+
+    // 首页调用用户登录检查
+    login(){
+      this.$parent.checkOpenID(res =>{
+        // 登录或注册成功
+        console.log("登录成功");
+      })
+    }
+
+    onShow(){
+
+    }
+
+    onLoad() {
+      // this.login();
+    }
+  }
+</script>
