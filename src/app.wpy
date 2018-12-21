@@ -23,6 +23,8 @@
     config = {
       pages: [
         'pages/index',
+        'pages/discovery',
+        'pages/mine',
         'pages/webView',
       ],
       window: {
@@ -30,6 +32,24 @@
         navigationBarBackgroundColor: "#FFF",
         navigationBarTitleText: "海马",
         navigationBarTextStyle: "black",
+      },
+      tabBar:{
+        color:"#666666",
+        selectedColor:"#F19F00",
+        list:[
+          {
+            pagePath:"pages/index",
+            text:"首页",
+          },
+          {
+            pagePath:"pages/discovery",
+            text:"发现",
+          },
+          {
+            pagePath:"pages/mine",
+            text:"我的",
+          },
+        ]
       }
     };
 

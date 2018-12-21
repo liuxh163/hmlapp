@@ -1,0 +1,29 @@
+<style lang="scss">
+</style>
+<template>
+  <view>
+    发现
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class webView extends wepy.page {
+    config = {
+      navigationBarTitleText: '发现',
+    };
+    components = {};
+
+    data = {};
+
+    methods = {};
+
+    onLoad(options,data) {
+      if (!options.preload){
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>
