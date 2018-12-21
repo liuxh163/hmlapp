@@ -6,6 +6,8 @@ page{
 .main{
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  .banner{
+    width: px2rpx(375);
+    height: px2rpx(148);
+  }
 }

@@ -2,7 +2,7 @@
 </style>
 <template>
   <view class="main">
-    海马
+    <image class="banner" src="../img/banner.png"></image>
   </view>
 </template>
 
