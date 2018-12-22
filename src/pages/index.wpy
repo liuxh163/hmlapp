@@ -2,7 +2,134 @@
 </style>
 <template>
   <view class="main">
-    <image class="banner" src="../img/banner.png"></image>
+    <view class="banner-container">
+      <image class="banner" src="../img/banner.png"></image>
+      <view class="search-view" @tap="bindTurnSearch">
+        <image src="../img/search.png"></image>
+        <text>精密体检</text>
+      </view>
+    </view>
+    <view class="fun-container">
+      <view class="fun-view" @tap="bindTurnFun(1)">
+        <image src="../img/icon_escort_interpretation.png"></image>
+        <text>陪同翻译</text>
+      </view>
+      <view class="fun-view" @tap="bindTurnFun(2)">
+        <image src="../img/icon_archives_image.png"></image>
+        <text>档案影像</text>
+      </view>
+      <view class="fun-view" @tap="bindTurnFun(3)">
+        <image src="../img/icon_fund.png"></image>
+        <text>海马基金</text>
+      </view>
+    </view>
+    <view class="swiper-view">
+      <swiper autoplay="true" previous-margin="45px" next-margin="45px"
+              bindchange="bindchange" circular="true">
+        <block wx:key="{{item}}" wx:for="{{imgUrls}}">
+          <swiper-item>
+            <view class="swiper-item">
+              <view class="item-container {{index != currentIndex?'scale':''}}">
+                <text class="title">日本康养之旅</text>
+                <image src="{{item}}" />
+                <text class="desc">日本康养的特点特色介绍</text>
+              </view>
+            </view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 32rpx"></view>
+    <view class="recommend-view">
+      <view class="recommend-title">
+        <view class="recommend-text">
+          <image src="../img/title_icon.png"/>
+          <text>精品推荐</text>
+        </view>
+        <view class="more">
+          <text>更多</text>
+          <image src="../img/more.png"/>
+        </view>
+      </view>
+      <block wx:key="item.id" wx:for="{{recommendList}}">
+        <view class="recommend-item">
+          <image class="thumb" src="{{item.image}}"/>
+          <text class="desc">{{item.desc}}</text>
+          <view class="tag">
+            <text>即走</text>
+            <text>推荐</text>
+          </view>
+          <view class="data">
+            <text class="price">¥ {{item.price}}</text>
+            <view class="like-comment">
+              <image src="../img/like.png"/>
+              <text>{{item.likeNum}}</text>
+              <image class="comment-image" src="../img/comment.png"/>
+              <text>{{item.commentNum}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 30rpx;margin-bottom: 30rpx"></view>
+    <view class="recommend-view discovery-view">
+      <view class="recommend-title">
+        <view class="recommend-text">
+          <image src="../img/title_icon.png"/>
+          <text>发现新鲜</text>
+        </view>
+        <view class="more">
+          <text>更多</text>
+          <image src="../img/more.png"/>
+        </view>
+      </view>
+      <view class="discovery-container">
+        <view class="left-container content-container">
+          <block wx:key="item.id" wx:for="{{discoveryList}}">
+            <view class="discovery-item">
+              <view class="location">
+                <image src="../img/location.png"/>
+                <text>{{item.location}}</text>
+              </view>
+              <image class="thumb" src="{{item.image}}"/>
+              <text class="desc">{{item.desc}}</text>
+              <view class="info">
+                <view class="avatar-container">
+                  <image src="{{item.avatar}}"/>
+                  <text>{{item.nickname}}</text>
+                </view>
+                <view class="like-container">
+                  <image src="../img/like.png"/>
+                  <text>{{item.likeNum}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+        <view class="right-container content-container">
+          <block wx:key="item.id" wx:for="{{discoveryList}}">
+            <view class="discovery-item">
+              <view class="location">
+                <image src="../img/location.png"/>
+                <text>{{item.location}}</text>
+              </view>
+              <image class="thumb" src="{{item.image}}"/>
+              <text class="desc">{{item.desc}}</text>
+              <view class="info">
+                <view class="avatar-container">
+                  <image src="{{item.avatar}}"/>
+                  <text>{{item.nickname}}</text>
+                </view>
+                <view class="like-container">
+                  <image src="../img/like.png"/>
+                  <text>{{item.likeNum}}</text>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -20,11 +147,121 @@
     mixins = [commonApi]
 
     data = {
-
+        imgUrls: [
+            '../img/swiper1.jpg',
+            '../img/swiper2.jpg',
+            '../img/swiper3.jpg'
+        ],
+        currentIndex:0,
+        recommendList:[
+            {
+                id:'1001',
+                image:'../img/swiper1.jpg',
+                desc:'联合大阪阪和医院特别推出高品质体检体检舒适行',
+                price:'4600',
+                commentNum:'15',
+                likeNum:'3'
+            },
+            {
+                id:'1002',
+                image:'../img/swiper2.jpg',
+                desc:'联合大阪阪和医院特别推出高品质体检体检舒适行',
+                price:'4600',
+                commentNum:'15',
+                likeNum:'3'
+            },
+        ],
+        discoveryList:[
+            {
+                id:'1001',
+                image:'../img/swiper1.jpg',
+                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
+                avatar:'../img/swiper1.jpg',
+                nickname:'Amanda',
+                likeNum:'3',
+                location:'日本 东京'
+            },
+            {
+                id:'1002',
+                image:'../img/swiper2.jpg',
+                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
+                avatar:'../img/swiper1.jpg',
+                nickname:'Amanda',
+                likeNum:'3',
+                location:'日本 东京'
+            },
+            {
+                id:'1003',
+                image:'../img/swiper3.jpg',
+                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
+                avatar:'../img/swiper1.jpg',
+                nickname:'Amanda',
+                likeNum:'3',
+                location:'日本 东京'
+            },
+            {
+                id:'1004',
+                image:'../img/swiper2.jpg',
+                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
+                avatar:'../img/swiper1.jpg',
+                nickname:'Amanda',
+                likeNum:'3',
+                location:'日本 东京'
+            },
+            {
+                id:'1005',
+                image:'../img/swiper1.jpg',
+                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
+                avatar:'../img/swiper1.jpg',
+                nickname:'Amanda',
+                likeNum:'3',
+                location:'日本 东京'
+            },
+            {
+                id:'1006',
+                image:'../img/swiper2.jpg',
+                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
+                avatar:'../img/swiper1.jpg',
+                nickname:'Amanda',
+                likeNum:'3',
+                location:'日本 东京'
+            },
+        ]
     };
 
     methods = {
-
+        bindTurnSearch(){
+            wx.showToast({
+                title: '跳转到搜索页面',
+                icon: 'none'
+            });
+        },
+        bindTurnFun(type){
+            console.log(type);
+            switch (type) {
+                case '1':
+                    wx.showToast({
+                        title: '跳转到陪同翻译',
+                        icon: 'none'
+                    });
+                    break;
+                case '2':
+                    wx.showToast({
+                        title: '跳转到档案影像',
+                        icon: 'none'
+                    });
+                    break;
+                case '3':
+                    wx.showToast({
+                        title: '跳转到海马基金',
+                        icon: 'none'
+                    });
+                    break;
+            }
+        },
+        bindchange(e){
+            this.currentIndex = e.detail.current;
+        }
     };
 
     // 首页调用用户登录检查
