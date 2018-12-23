@@ -31,7 +31,7 @@
             <view class="swiper-item">
               <view class="item-container {{index != currentIndex?'scale':''}}">
                 <text class="title">日本康养之旅</text>
-                <image src="{{item}}" />
+                <image src="{{item}}"/>
                 <text class="desc">日本康养的特点特色介绍</text>
               </view>
             </view>
@@ -64,8 +64,10 @@
             <view class="like-comment">
               <image src="../img/like.png"/>
               <text>{{item.likeNum}}</text>
-              <image class="comment-image" src="../img/comment.png"/>
-              <text>{{item.commentNum}}</text>
+              <view @tap="bindTurnComment({{item.id}})" class="comment-container">
+                <image class="comment-image" src="../img/comment.png"/>
+                <text>{{item.commentNum}}</text>
+              </view>
             </view>
           </view>
         </view>
@@ -141,138 +143,138 @@
     config = {
       navigationBarTitleText: '海马',
     };
-    components = {
-    };
+    components = {};
 
     mixins = [commonApi]
 
     data = {
-        imgUrls: [
-            '../img/swiper1.jpg',
-            '../img/swiper2.jpg',
-            '../img/swiper3.jpg'
-        ],
-        currentIndex:0,
-        recommendList:[
-            {
-                id:'1001',
-                image:'../img/swiper1.jpg',
-                desc:'联合大阪阪和医院特别推出高品质体检体检舒适行',
-                price:'4600',
-                commentNum:'15',
-                likeNum:'3'
-            },
-            {
-                id:'1002',
-                image:'../img/swiper2.jpg',
-                desc:'联合大阪阪和医院特别推出高品质体检体检舒适行',
-                price:'4600',
-                commentNum:'15',
-                likeNum:'3'
-            },
-        ],
-        discoveryList:[
-            {
-                id:'1001',
-                image:'../img/swiper1.jpg',
-                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
-                avatar:'../img/swiper1.jpg',
-                nickname:'Amanda',
-                likeNum:'3',
-                location:'日本 东京'
-            },
-            {
-                id:'1002',
-                image:'../img/swiper2.jpg',
-                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
-                avatar:'../img/swiper1.jpg',
-                nickname:'Amanda',
-                likeNum:'3',
-                location:'日本 东京'
-            },
-            {
-                id:'1003',
-                image:'../img/swiper3.jpg',
-                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
-                avatar:'../img/swiper1.jpg',
-                nickname:'Amanda',
-                likeNum:'3',
-                location:'日本 东京'
-            },
-            {
-                id:'1004',
-                image:'../img/swiper2.jpg',
-                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
-                avatar:'../img/swiper1.jpg',
-                nickname:'Amanda',
-                likeNum:'3',
-                location:'日本 东京'
-            },
-            {
-                id:'1005',
-                image:'../img/swiper1.jpg',
-                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
-                avatar:'../img/swiper1.jpg',
-                nickname:'Amanda',
-                likeNum:'3',
-                location:'日本 东京'
-            },
-            {
-                id:'1006',
-                image:'../img/swiper2.jpg',
-                desc:'东京健康体检之旅开始啦健康体检之旅开始啦',
-                avatar:'../img/swiper1.jpg',
-                nickname:'Amanda',
-                likeNum:'3',
-                location:'日本 东京'
-            },
-        ]
+      imgUrls: [
+        '../img/swiper1.jpg',
+        '../img/swiper2.jpg',
+        '../img/swiper3.jpg'
+      ],
+      currentIndex: 0,
+      recommendList: [
+        {
+          id: '1001',
+          image: '../img/swiper1.jpg',
+          desc: '联合大阪阪和医院特别推出高品质体检体检舒适行',
+          price: '4600',
+          commentNum: '15',
+          likeNum: '3'
+        },
+        {
+          id: '1002',
+          image: '../img/swiper2.jpg',
+          desc: '联合大阪阪和医院特别推出高品质体检体检舒适行',
+          price: '4600',
+          commentNum: '15',
+          likeNum: '3'
+        },
+      ],
+      discoveryList: [
+        {
+          id: '1001',
+          image: '../img/swiper1.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          likeNum: '3',
+          location: '日本 东京'
+        },
+        {
+          id: '1002',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          likeNum: '3',
+          location: '日本 东京'
+        },
+        {
+          id: '1003',
+          image: '../img/swiper3.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          likeNum: '3',
+          location: '日本 东京'
+        },
+        {
+          id: '1004',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          likeNum: '3',
+          location: '日本 东京'
+        },
+        {
+          id: '1005',
+          image: '../img/swiper1.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          likeNum: '3',
+          location: '日本 东京'
+        },
+        {
+          id: '1006',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          likeNum: '3',
+          location: '日本 东京'
+        },
+      ]
     };
 
     methods = {
-        bindTurnSearch(){
+      bindTurnSearch() {
+        wx.showToast({
+          title: '跳转到搜索页面',
+          icon: 'none'
+        });
+      },
+      bindTurnFun(type) {
+        console.log(type);
+        switch (type) {
+          case '1':
             wx.showToast({
-                title: '跳转到搜索页面',
-                icon: 'none'
+              title: '跳转到陪同翻译',
+              icon: 'none'
             });
-        },
-        bindTurnFun(type){
-            console.log(type);
-            switch (type) {
-                case '1':
-                    wx.showToast({
-                        title: '跳转到陪同翻译',
-                        icon: 'none'
-                    });
-                    break;
-                case '2':
-                    wx.showToast({
-                        title: '跳转到档案影像',
-                        icon: 'none'
-                    });
-                    break;
-                case '3':
-                    wx.showToast({
-                        title: '跳转到海马基金',
-                        icon: 'none'
-                    });
-                    break;
-            }
-        },
-        bindchange(e){
-            this.currentIndex = e.detail.current;
+            break;
+          case '2':
+            wx.showToast({
+              title: '跳转到档案影像',
+              icon: 'none'
+            });
+            break;
+          case '3':
+            this.$navigate("healthGold");
+            break;
         }
+      },
+      bindchange(e) {
+        this.currentIndex = e.detail.current;
+      },
+      bindTurnComment(id){
+        console.log('id',id);
+        this.$navigate("comments");
+      }
     };
 
     // 首页调用用户登录检查
-    login(){
-      this.$parent.checkOpenID(res =>{
+    login() {
+      this.$parent.checkOpenID(res => {
         // 登录或注册成功
         console.log("登录成功");
       })
     }
 
-    onShow(){
+    onShow() {
 
     }
 

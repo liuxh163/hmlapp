@@ -1,0 +1,97 @@
+@import "base";
+/**index.wxss**/
+page {
+  height: 100%;
+}
+
+.main {
+  height: 100%;
+  .banner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .banner {
+      width: px2rpx(375);
+      height: px2rpx(148);
+    }
+  }
+  .product-view {
+    margin-top: px2rpx(19);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .product-title {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      margin-left: px2rpx(15);
+      margin-bottom: px2rpx(6);
+      image {
+        width: px2rpx(3);
+        height: px2rpx(13);
+      }
+      text {
+        margin-left: px2rpx(7);
+        color: #333333;
+        font-size: 15px;
+      }
+    }
+    .product-item:active{
+      opacity: 0.8;
+    }
+    .product-item{
+      border: 1px solid #E3E3E3;
+      border-radius: px2rpx(4);
+      box-shadow: 0 0 px2rpx(10) #E8E8E8;
+      min-height: px2rpx(20);
+      margin-top: px2rpx(15);
+      margin-left: px2rpx(15);
+      margin-right: px2rpx(15);
+      display: flex;
+      align-items: center;
+      .left{
+        display: flex;
+        flex-direction: column;
+        margin-left: px2rpx(15);
+        text:nth-child(1){
+          color: #333333;
+          font-size: px2rpx(16);
+        }
+        text:nth-child(2){
+          color: #999999;
+          font-size: px2rpx(12);
+          margin-top: px2rpx(12);
+        }
+      }
+      .right{
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        margin-right: px2rpx(15);
+        .dashed-line{
+          margin-top: px2rpx(10);
+          margin-bottom: px2rpx(10);
+          width: 1px;
+          height: px2rpx(64);
+          border: 1px dashed #FFC207;
+          border-width: 0 1px 0 0;
+        }
+        .content{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-left: px2rpx(21);
+          text:nth-child(1){
+            color: #F19F00;
+            font-size: px2rpx(22);
+          }
+          text:nth-child(2){
+            margin-top: px2rpx(11);
+            color: #999999;
+            font-size: px2rpx(11);
+          }
+        }
+      }
+    }
+  }
+}

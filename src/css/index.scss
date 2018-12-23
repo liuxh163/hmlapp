@@ -40,6 +40,9 @@ page{
     display: flex;
     align-items: center;
     justify-content: center;
+    .fun-view:active{
+      opacity: 0.8;
+    }
     .fun-view{
       display: flex;
       align-items: center;
@@ -67,6 +70,9 @@ page{
     }
     margin-top: px2rpx(23);
     width: 100%;
+    .swiper-item:active{
+      opacity: 0.9;
+    }
     .swiper-item{
       display: flex;
       align-items: center;
@@ -150,6 +156,9 @@ page{
         }
       }
     }
+    .recommend-item:active{
+      opacity: 0.9;
+    }
     .recommend-item{
       margin-left: px2rpx(15);
       margin-right: px2rpx(15);
@@ -215,6 +224,10 @@ page{
           .comment-image{
             margin-left: px2rpx(24);
           }
+          .comment-container{
+            display: flex;
+            align-items: center;
+          }
         }
       }
     }
@@ -228,6 +241,9 @@ page{
       .content-container{
         display: flex;
         flex-direction: column;
+        .discovery-item:active{
+          opacity: 0.9;
+        }
         .discovery-item{
           overflow: hidden;
           background:rgba(255,255,255,1);

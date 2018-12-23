@@ -1,0 +1,96 @@
+<style lang="scss" src="../css/healthGold.scss">
+</style>
+<template>
+  <view class="main">
+    <view class="banner-container">
+      <image class="banner" src="../img/banner.png"></image>
+    </view>
+    <view class="product-view">
+      <view class="product-title">
+        <image src="../img/title_icon.png"/>
+        <text>全部健康金产品</text>
+      </view>
+      <block wx:key="item.id" wx:for="{{productList}}">
+        <view class="product-item" @tap="bindItem({{item.id}})">
+          <view class="left">
+            <text>{{item.title}}</text>
+            <text>{{item.desc}}</text>
+          </view>
+          <view class="right">
+            <view class="dashed-line"></view>
+            <view class="content">
+              <text>{{item.dayRate}}</text>
+              <text>日利率(%)</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import commonApi from '../mixins/commonApi'
+
+  export default class HealthGold extends wepy.page {
+    config = {
+      navigationBarTitleText: '海马健康金',
+    };
+    components = {};
+
+    mixins = [commonApi]
+
+    data = {
+      productList: [
+        {
+          id: '1001',
+          title: '海马健康金 助力健康',
+          desc: '最高金额80万',
+          dayRate: '0.0035',
+        },
+        {
+          id: '1002',
+          title: '海马健康金 助力健康',
+          desc: '最高金额80万',
+          dayRate: '0.0035',
+        },
+        {
+          id: '1003',
+          title: '海马健康金 助力健康',
+          desc: '最高金额80万',
+          dayRate: '0.0035',
+        },
+        {
+          id: '1004',
+          title: '海马健康金 助力健康',
+          desc: '最高金额80万',
+          dayRate: '0.0035',
+        },
+        {
+          id: '1005',
+          title: '海马健康金 助力健康',
+          desc: '最高金额80万',
+          dayRate: '0.0035',
+        },
+      ],
+    };
+
+    methods = {
+      bindItem(id){
+        wx.showToast({
+          title: 'item'+id,
+          icon: 'none'
+        });
+      }
+    };
+
+    onShow() {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>

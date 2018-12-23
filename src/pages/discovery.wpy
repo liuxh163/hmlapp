@@ -9,7 +9,7 @@
 <script>
   import wepy from 'wepy'
 
-  export default class webView extends wepy.page {
+  export default class Discovery extends wepy.page {
     config = {
       navigationBarTitleText: '发现',
     };

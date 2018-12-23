@@ -7,7 +7,7 @@
 <script>
   import wepy from 'wepy'
 
-  export default class webView extends wepy.page {
+  export default class Mine extends wepy.page {
     config = {
       navigationBarTitleText: '我的',
     };

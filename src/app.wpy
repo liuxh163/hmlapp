@@ -1,10 +1,10 @@
 <style lang="scss">
-  @import "css/base";
+    @import "css/base";
 
-  .container {
-    height: 100%;
-    padding: px2rpx(18) px2rpx(18) px2rpx(35);
-  }
+    .container {
+        height: 100%;
+        padding: px2rpx(18) px2rpx(18) px2rpx(35);
+    }
 </style>
 
 <script>
@@ -25,6 +25,8 @@
         'pages/index',
         'pages/discovery',
         'pages/mine',
+        'pages/healthGold',
+        'pages/comments',
         'pages/webView',
       ],
       window: {
@@ -33,21 +35,21 @@
         navigationBarTitleText: "海马",
         navigationBarTextStyle: "black",
       },
-      tabBar:{
-        color:"#666666",
-        selectedColor:"#F19F00",
-        list:[
+      tabBar: {
+        color: "#666666",
+        selectedColor: "#F19F00",
+        list: [
           {
-            pagePath:"pages/index",
-            text:"首页",
+            pagePath: "pages/index",
+            text: "首页",
           },
           {
-            pagePath:"pages/discovery",
-            text:"发现",
+            pagePath: "pages/discovery",
+            text: "发现",
           },
           {
-            pagePath:"pages/mine",
-            text:"我的",
+            pagePath: "pages/mine",
+            text: "我的",
           },
         ]
       }
@@ -55,12 +57,12 @@
 
     globalData = {
       userInfo: null,
-      goldNum:0,
-      AuthErrorCount:0,
-      isReLogin:false,  // 是否是token过期重新登录
-      isLogin:false,  // 是否登录成功
+      goldNum: 0,
+      AuthErrorCount: 0,
+      isReLogin: false,  // 是否是token过期重新登录
+      isLogin: false,  // 是否登录成功
       // BASE_URL:"http://192.168.5.165:9020/test/", // 测试
-      BASE_URL:"http://192.168.1.198:9020/product/", // 生产
+      BASE_URL: "http://192.168.1.198:9020/product/", // 生产
     };
 
     constructor() {
@@ -113,12 +115,12 @@
     }
 
     // 检查本地是否有openID
-    checkOpenID(resolve){
+    checkOpenID(resolve) {
       let openID = wx.getStorageSync('t_openID');
-      if (openID){
+      if (openID) {
         // 有openID，直接掉后台登录接口通过openID换token
-        this.login(openID,resolve);
-      }else {
+        this.login(openID, resolve);
+      } else {
         // 没有openID，先调用wx.login获取code
         this.wxLogin(resolve);
       }
@@ -134,62 +136,62 @@
         success: function (res) {
           if (res.code) {
             // 通过code调用后台注册接口，获取openID和token
-            self.register(res.code,cb);
+            self.register(res.code, cb);
           } else {
             self.globalData.isLogin = false;
             wx.hideLoading();
             console.log('登录失败！' + res.errMsg);
             wx.showToast({
               title: '登录失败，请稍后再试',
-              icon:"none"
+              icon: "none"
             })
           }
         },
-        fail:function (err) {
+        fail: function (err) {
           self.globalData.isLogin = false;
           console.log("wxlogin err：" + err);
           wx.hideLoading();
           wx.showToast({
             title: '登录失败，请稍后再试',
-            icon:"none"
+            icon: "none"
           })
         }
       });
     }
 
     // 注册
-    register(code,resolve){
+    register(code, resolve) {
       let openID = wx.getStorageSync('t_openID');
       let _url = httpUrl.register;
       let sysInfo = wx.getSystemInfoSync();
 
       let postData = {
-        "openid":openID,
-        "registersource":"WXXCX",
-        "usertype":"06",
-        "clientSystem":sysInfo.model,
-        "clientSystemVersion":sysInfo.system,
-        "clientTypt":sysInfo.platform,
-        "jscode":code,
+        "openid": openID,
+        "registersource": "WXXCX",
+        "usertype": "06",
+        "clientSystem": sysInfo.model,
+        "clientSystemVersion": sysInfo.system,
+        "clientTypt": sysInfo.platform,
+        "jscode": code,
       };
 
       request({
         url: _url,
         method: 'POST',
         data: postData,
-        loadingMsg:"登录中"
+        loadingMsg: "登录中"
       }).then((res) => {
         if (res.data && res.data.isSuccess == "true" && res.data.rows) {
           this.globalData.isLogin = true;
           console.log("登录成功！");
           try {
-            wx.setStorageSync('t_token',res.data.rows.token);
-            wx.setStorageSync('t_openID',res.data.rows.openid);
-            wx.setStorageSync('t_goldNum',res.data.rows.playerInfo.gold_num);
+            wx.setStorageSync('t_token', res.data.rows.token);
+            wx.setStorageSync('t_openID', res.data.rows.openid);
+            wx.setStorageSync('t_goldNum', res.data.rows.playerInfo.gold_num);
             this.globalData.goldNum = res.data.rows.playerInfo.gold_num;
             resolve && resolve(res.data.rows)
           } catch (e) {
-            console.log("e：" +e);
+            console.log("e：" + e);
           }
         } else {
           this.globalData.isLogin = false;
@@ -200,58 +202,58 @@
           }
           wx.showToast({
             title: msg,
-            icon:"none"
+            icon: "none"
           })
         }
       }).catch((err) => {
         this.globalData.isLogin = false;
-        console.log("error--->code：" + err.statusCode+"，msg：" + err.errMsg);
+        console.log("error--->code：" + err.statusCode + "，msg：" + err.errMsg);
         wx.showToast({
           title: "服务器繁忙，请稍后再试",
-          icon:"none"
+          icon: "none"
         })
       })
     }
 
     // 后台服务登录
-    login(openID,resolve){
+    login(openID, resolve) {
       let _url = httpUrl.login;
       let postData = {
-        "openid":openID,
-        "registersource":"WXXCX",
-        "usertype":"06"
+        "openid": openID,
+        "registersource": "WXXCX",
+        "usertype": "06"
       };
 
       request({
         url: _url,
         method: 'POST',
         data: postData,
-        loadingMsg:"登录中"
+        loadingMsg: "登录中"
       }).then((res) => {
         if (res.data && res.data.isSuccess == "true" && res.data.rows) {
           this.globalData.isLogin = true;
           try {
-            wx.setStorageSync('t_token',res.data.rows.token);
-            wx.setStorageSync('t_openID',res.data.rows.openid);
-            wx.setStorageSync('gold_num',res.data.rows.playerInfo.gold_num);
+            wx.setStorageSync('t_token', res.data.rows.token);
+            wx.setStorageSync('t_openID', res.data.rows.openid);
+            wx.setStorageSync('gold_num', res.data.rows.playerInfo.gold_num);
             this.globalData.goldNum = res.data.rows.playerInfo.gold_num;
             resolve && resolve(res.data.rows)
           } catch (e) {
-            console.log("e：" +e);
+            console.log("e：" + e);
           }
-          if (this.globalData.isReLogin){
+          if (this.globalData.isReLogin) {
             this.globalData.isReLogin = false;
             console.log("重新登录成功，刷新当前页面");
             let pages = getCurrentPages();
             let currPage = pages[pages.length - 1];   //当前页面
             currPage.onLoad(currPage.options);
-            setTimeout(res =>{
+            setTimeout(res => {
               wx.showToast({
                 title: '登录信息过期，已重新登录',
                 icon: 'none'
               });
-            },500);
-          }else {
+            }, 500);
+          } else {
             console.log("登录成功！");
           }
         } else {
@@ -263,28 +265,28 @@
           }
           wx.showToast({
             title: msg,
-            icon:"none"
+            icon: "none"
           });
-          if (res.data.msgCode == "10030"){
+          if (res.data.msgCode == "10030") {
             console.log("openID无效，移除本地openID，并重新注册");
             wx.removeStorage({
               key: 't_openID',
-              success: res =>{
+              success: res => {
                 this.checkOpenID(resolve);
               },
-              fail: err =>{
-                console.log("从本地移除openID报错",err);
-                wx.setStorageSync('t_openID',"");
+              fail: err => {
+                console.log("从本地移除openID报错", err);
+                wx.setStorageSync('t_openID', "");
               }
             })
           }
         }
       }).catch((err) => {
         this.globalData.isLogin = false;
-        console.log("error--->code：" + err.statusCode+"，msg：" + err.errMsg);
+        console.log("error--->code：" + err.statusCode + "，msg：" + err.errMsg);
         wx.showToast({
           title: "服务器繁忙，请稍后再试",
-          icon:"none"
+          icon: "none"
         })
       })
     }

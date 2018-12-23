@@ -1,0 +1,219 @@
+<style lang="scss" src="../css/comments.scss">
+</style>
+<template>
+  <view class="main">
+    <view class="comments-view">
+      <block wx:key="item.id" wx:for="{{commentList}}">
+        <view class="comment-item">
+          <view>
+            <image class="avatar" src="{{item.avatar}}"/>
+          </view>
+          <view class="content">
+            <view class="first-line">
+              <view class="left">
+                <text>{{item.nickname}}</text>
+                <text>{{item.date}}</text>
+              </view>
+              <view @tap="bindLike({{item}})" class="right">
+                <image src="{{item.isLiked == 'true'?'../img/search.png':'../img/like.png'}}"/>
+                <text class="{{item.isLiked == 'true'?'liked':''}}">{{item.likeNum}}</text>
+              </view>
+            </view>
+            <text class="comment-content">{{item.commentContent}}</text>
+            <view class="replies-view" wx:if="{{item.replyList && item.replyList.length>0}}">
+              <block wx:key="replyItem.replyID" wx:for-item="replyItem" wx:for="{{item.replyList}}">
+                <view class="reply-item">
+                  <text class="reply-name">{{replyItem.replyNickname}}{{replyItem.beReplyNickname?'':': '}}</text>
+                  <text class="reply-text" wx:if="{{replyItem.beReplyNickname}}"> 回复 </text>
+                  <text class="be-reply-name" wx:if="{{replyItem.beReplyNickname}}">@{{replyItem.beReplyNickname}}</text>
+                  <text class="reply-content">{{replyItem.beReplyNickname?': ':''}}{{replyItem.replayContent}}</text>
+                </view>
+              </block>
+              <text @tap="bindViewReply({{item.id}})" class="view-reply">查看{{item.replyList.length}}条回复 ></text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class="send-comment">
+      <input maxlength="1000" value="{{inputValue}}" placeholder="我也想评论几句" bindinput="bindinput" />
+      <text @tap="bindSend">发送</text>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import commonApi from '../mixins/commonApi'
+
+  export default class Comments extends wepy.page {
+    config = {
+      navigationBarTitleText: '共123条评论',
+    };
+    components = {};
+
+    mixins = [commonApi]
+
+    data = {
+      inputValue:'',
+      commentList: [
+        {
+          id: '1001',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          date: '12-23',
+          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+          likeNum: '3',
+          isLiked: 'true',
+          replyList: []
+        },
+        {
+          id: '1002',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          date: '12-23',
+          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+          likeNum: '3',
+          isLiked: 'false',
+          replyList: [
+            {
+              replyID:'2004',
+              replyNickname: '中华美少女',
+              beReplyNickname: '',
+              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+            },
+            {
+              replyID:'2005',
+              replyNickname: '礼花',
+              beReplyNickname: '中华美少女',
+              replayContent: '不错不错，我也安排。',
+            },
+            {
+              replyID:'2006',
+              replyNickname: '礼花',
+              beReplyNickname: '中华美少女',
+              replayContent: '不错不错，我也安排。',
+            },
+          ]
+        },
+        {
+          id: '1003',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          date: '12-23',
+          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+          likeNum: '3',
+          isLiked: 'true',
+          replyList: [
+            {
+              replyID:'2007',
+              replyNickname: '中华美少女',
+              beReplyNickname: '',
+              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+            },
+            {
+              replyID:'2008',
+              replyNickname: '礼花',
+              beReplyNickname: '中华美少女',
+              replayContent: '不错不错，我也安排。',
+            },
+            {
+              replyID:'2009',
+              replyNickname: '礼花',
+              beReplyNickname: '中华美少女',
+              replayContent: '不错不错，我也安排。',
+            },
+          ]
+        },
+        {
+          id: '1004',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          date: '12-23',
+          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+          likeNum: '3',
+          isLiked: 'true',
+          replyList: [
+            {
+              replyID:'2010',
+              replyNickname: '中华美少女',
+              beReplyNickname: '',
+              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+            },
+            {
+              replyID:'2011',
+              replyNickname: '礼花',
+              beReplyNickname: '中华美少女',
+              replayContent: '不错不错，我也安排。',
+            },
+            {
+              replyID:'2012',
+              replyNickname: '礼花',
+              beReplyNickname: '中华美少女',
+              replayContent: '不错不错，我也安排。',
+            },
+          ]
+        },
+        {
+          id: '1005',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          date: '12-23',
+          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+          likeNum: '3',
+          isLiked: 'true',
+          replyList: [
+            {
+              replyID:'2013',
+              replyNickname: '中华美少女',
+              beReplyNickname: '',
+              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+            },
+            {
+              replyID:'2014',
+              replyNickname: '礼花',
+              beReplyNickname: '中华美少女',
+              replayContent: '不错不错，我也安排。',
+            },
+            {
+              replyID:'2015',
+              replyNickname: '礼花',
+              beReplyNickname: '中华美少女',
+              replayContent: '不错不错，我也安排。',
+            },
+          ]
+        },
+      ],
+    };
+
+    methods = {
+      bindLike(item){
+        wx.showToast({
+          title: '点赞' + item.id+",是否已点赞" + item.isLiked,
+          icon: 'none'
+        });
+      },
+      bindViewReply(id){
+        wx.showToast({
+          title: '查看回复' + id,
+          icon: 'none'
+        });
+      },
+      bindinput(e){
+        this.inputValue = e.detail.value;
+      },
+      bindSend(){
+        console.log(this.inputValue);
+        this.inputValue = '';
+      }
+    };
+
+    onShow() {
+
+    }
+
+    onLoad() {
+
+    }
+  }
+</script>
