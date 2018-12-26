@@ -1,0 +1,29 @@
+<style lang="scss">
+</style>
+<template>
+  <view class="main">
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class productIntroduction extends wepy.page {
+    config = {
+      navigationBarTitleText: '海马金',
+    };
+    components = {};
+
+    data = {};
+
+    methods = {};
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>

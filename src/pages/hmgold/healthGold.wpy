@@ -1,13 +1,13 @@
-<style lang="scss" src="../css/healthGold.scss">
+<style lang="scss" src="../../css/healthGold.scss">
 </style>
 <template>
   <view class="main">
     <view class="banner-container">
-      <image class="banner" src="../img/banner.png"></image>
+      <image class="banner" src="../../img/banner.png"></image>
     </view>
     <view class="product-view">
       <view class="product-title">
-        <image src="../img/title_icon.png"/>
+        <image src="../../img/title_icon.png"/>
         <text>全部健康金产品</text>
       </view>
       <block wx:key="item.id" wx:for="{{productList}}">
@@ -31,7 +31,7 @@
 
 <script>
   import wepy from 'wepy'
-  import commonApi from '../mixins/commonApi'
+  import commonApi from '../../mixins/commonApi'
 
   export default class HealthGold extends wepy.page {
     config = {
@@ -78,10 +78,11 @@
 
     methods = {
       bindItem(id){
-        wx.showToast({
-          title: 'item'+id,
-          icon: 'none'
-        });
+        // wx.showToast({
+        //   title: 'item'+id,
+        //   icon: 'none'
+        // });
+        this.$navigate("productIntroduction");
       }
     };
 

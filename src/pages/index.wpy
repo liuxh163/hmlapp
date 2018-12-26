@@ -253,7 +253,7 @@
             });
             break;
           case '3':
-            this.$navigate("healthGold");
+            this.$navigate("hmgold/healthGold");
             break;
         }
       },
