@@ -41,14 +41,20 @@
         selectedColor: "#F19F00",
         list: [
           {
+            iconPath:"./img/icon_homepage_unselect.png",
+            selectedIconPath:"./img/icon_homepage_selected.png",
             pagePath: "pages/index",
             text: "首页",
           },
           {
+            iconPath:"./img/icon_discovery_unselect.png",
+            selectedIconPath:"./img/icon_discovery_selected.png",
             pagePath: "pages/discovery",
             text: "发现",
           },
           {
+            iconPath:"./img/icon_mine_unselect.png",
+            selectedIconPath:"./img/icon_mine_selected.png",
             pagePath: "pages/mine",
             text: "我的",
           },
