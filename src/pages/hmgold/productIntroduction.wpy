@@ -1,29 +1,133 @@
+<style lang="scss" src="../../css/productIntroduction.scss">
+</style>
 <style lang="scss">
+  @import '../../wxparse/wxParse.wxss';
+  @import "../../css/base";
+  .wxParse-div{
+    .text{
+      .wxParse-inline{
+        margin: px2rpx(20);
+        display: block;
+        color: #333333;
+        font-size: px2rpx(13);
+      }
+    }
+  }
+  .wxParse-img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 </style>
 <template>
   <view class="main">
-
+    <view class="header">
+      <view class="btn-container">
+        <button class="tab-btn {{currentStep == 1?'is-active':''}}" @tap="bindTabBtnTap({{1}})">介绍</button>
+        <view class="water-drop" wx:if="{{currentStep == 1}}"></view>
+      </view>
+      <view class="btn-container">
+        <button class="tab-btn {{currentStep == 2?'is-active':''}}" @tap="bindTabBtnTap({{2}})">拿多少</button>
+        <view class="water-drop" wx:if="{{currentStep == 2}}"></view>
+      </view>
+      <view class="btn-container">
+        <button class="tab-btn {{currentStep == 3?'is-active':''}}" @tap="bindTabBtnTap({{3}})">怎么拿</button>
+        <view class="water-drop" wx:if="{{currentStep == 3}}"></view>
+      </view>
+    </view>
+    <view class="line-container">
+      <view class="line"></view>
+      <view class="line-selected" style="left:{{lineSelectedLeft}}"></view>
+    </view>
+    <view class="content">
+      <view class="panel" wx:if="{{currentStep == 1}}">
+        <import src="../../wxparse/wxParse.wxml"/>
+        <html2wxml :parserName="name" :parserContent.sync="htmlContent"/>
+      </view>
+      <view class="panel" wx:if="{{currentStep == 2}}">
+        拿多少
+      </view>
+      <view class="panel" wx:if="{{currentStep == 3}}">
+        怎么拿
+      </view>
+    </view>
+    <view class="next-btn-container">
+      <button class="next-btn" @tap="bindNextTap">{{currentStep == 3?'申请':'下一步'}}</button>
+    </view>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy';
+  import utils from '../../mixins/utils'
+  import html2wxml from '../../components/html2wxml'
 
   export default class productIntroduction extends wepy.page {
     config = {
       navigationBarTitleText: '海马金',
     };
-    components = {};
+    components = {
+      html2wxml: html2wxml,
+    };
 
-    data = {};
+    mixins = [utils]
 
-    methods = {};
+    data = {
+      name:'parse1',
+      currentStep:1,
+      lineSelectedLeft:'0',
+      htmlContent:'',
+      remoteData: "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>" +
+        "<img src='../../img/swiper1.jpg'>" +
+        "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>",
+    };
+
+    watch = {
+      currentStep(newValue, oldValue) {
+        switch (newValue) {
+          case 1:
+            this.lineSelectedLeft = this.px2rpx(0);
+            break;
+          case 2:
+            this.lineSelectedLeft = this.px2rpx(126);
+            break;
+          case 3:
+            this.lineSelectedLeft = this.px2rpx(126 * 2);
+            break;
+        }
+      }
+    };
+
+    methods = {
+      bindTabBtnTap(stepIndex){
+        this.currentStep = stepIndex;
+      },
+      bindNextTap(){
+        if (this.currentStep < 3) {
+          this.currentStep++;
+        }else {
+          wx.showToast({
+            title: '提交申请',
+            icon: 'none'
+          });
+        }
+      }
+    };
+
+    parseHtml(){
+      this.htmlContent = this.remoteData;
+      this.$apply();
+      //调用通知接口通知组件更新数据
+      this.$invoke('html2wxml', 'htmlParserNotice')
+    }
 
     onLoad(options, data) {
       if (!options.preload) {
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      this.parseHtml();
     }
   }
 </script>

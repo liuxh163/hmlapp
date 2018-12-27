@@ -50,4 +50,9 @@ export default class utils extends wepy.mixin {
       })
     }
   }
+
+  // px转rpx
+  px2rpx(px){
+    return px * 2 + 'rpx';
+  }
 }

@@ -5,6 +5,12 @@
         height: 100%;
         padding: px2rpx(18) px2rpx(18) px2rpx(35);
     }
+    button::after{
+      border: none;
+    }
+    button:active{
+      opacity: 0.9;
+    }
 </style>
 
 <script>
@@ -22,6 +28,7 @@
   export default class extends wepy.app {
     config = {
       pages: [
+        // 'pages/hmgold/productIntroduction',
         'pages/index',
         'pages/discovery',
         'pages/mine',
