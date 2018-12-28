@@ -1,7 +1,19 @@
 @import "base";
 
 .main{
-  border-top: 1px solid #DCDCDC;
+  .top-line{
+    top: 0;
+    height: 1px;
+    background-color: #DCDCDC;
+    position: fixed;
+    width: 100%;
+  }
+  .header-container{
+    top: 1px;
+    width: 100%;
+    position: fixed;
+    background-color: white;
+  }
   .header{
     margin-top: px2rpx(13);
     display: flex;
@@ -56,6 +68,10 @@
       background-color: #FFC207;
       transition: left 0.6s;
     }
+  }
+  .content{
+    margin-top: px2rpx(70);
+    padding-bottom: px2rpx(70);
   }
   .next-btn-container{
     position: fixed;

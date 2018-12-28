@@ -21,23 +21,26 @@
 </style>
 <template>
   <view class="main">
-    <view class="header">
-      <view class="btn-container">
-        <button class="tab-btn {{currentStep == 1?'is-active':''}}" @tap="bindTabBtnTap({{1}})">介绍</button>
-        <view class="water-drop" wx:if="{{currentStep == 1}}"></view>
+    <view class="top-line"></view>
+    <view class="header-container">
+      <view class="header">
+        <view class="btn-container">
+          <button class="tab-btn {{currentStep == 1?'is-active':''}}" @tap="bindTabBtnTap({{1}})">介绍</button>
+          <view class="water-drop" wx:if="{{currentStep == 1}}"></view>
+        </view>
+        <view class="btn-container">
+          <button class="tab-btn {{currentStep == 2?'is-active':''}}" @tap="bindTabBtnTap({{2}})">拿多少</button>
+          <view class="water-drop" wx:if="{{currentStep == 2}}"></view>
+        </view>
+        <view class="btn-container">
+          <button class="tab-btn {{currentStep == 3?'is-active':''}}" @tap="bindTabBtnTap({{3}})">怎么拿</button>
+          <view class="water-drop" wx:if="{{currentStep == 3}}"></view>
+        </view>
       </view>
-      <view class="btn-container">
-        <button class="tab-btn {{currentStep == 2?'is-active':''}}" @tap="bindTabBtnTap({{2}})">拿多少</button>
-        <view class="water-drop" wx:if="{{currentStep == 2}}"></view>
+      <view class="line-container">
+        <view class="line"></view>
+        <view class="line-selected" style="left:{{lineSelectedLeft}}"></view>
       </view>
-      <view class="btn-container">
-        <button class="tab-btn {{currentStep == 3?'is-active':''}}" @tap="bindTabBtnTap({{3}})">怎么拿</button>
-        <view class="water-drop" wx:if="{{currentStep == 3}}"></view>
-      </view>
-    </view>
-    <view class="line-container">
-      <view class="line"></view>
-      <view class="line-selected" style="left:{{lineSelectedLeft}}"></view>
     </view>
     <view class="content">
       <view class="panel" wx:if="{{currentStep == 1}}">
@@ -78,7 +81,7 @@
       lineSelectedLeft:'0',
       htmlContent:'',
       remoteData: "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>" +
-        "<img src='../../img/swiper1.jpg'>" +
+        "<img src='../../img/swiper1.jpg'><img src='../../img/swiper2.jpg'><img src='../../img/swiper3.jpg'>" +
         "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>",
     };
 

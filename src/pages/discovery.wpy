@@ -1,8 +1,63 @@
-<style lang="scss">
+<style lang="scss" src="../css/discovery.scss">
 </style>
 <template>
-  <view>
-    发现
+  <view class="main discovery">
+    <van-tabs custom-class="custom-class" sticky color="#FFC207"
+              line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="{{ active }}"
+              bind:change="onChange">
+      <van-tab title="发现">
+        <view class="discovery-view">
+          <view class="discovery-container">
+            <view class="left-container content-container">
+              <block wx:key="item.id" wx:for="{{discoveryList}}">
+                <view class="discovery-item">
+                  <view class="location">
+                    <image src="../img/location.png"/>
+                    <text>{{item.location}}</text>
+                  </view>
+                  <image class="thumb" src="{{item.image}}"/>
+                  <text class="desc">{{item.desc}}</text>
+                  <view class="info">
+                    <view class="avatar-container">
+                      <image src="{{item.avatar}}"/>
+                      <text>{{item.nickname}}</text>
+                    </view>
+                    <view class="like-container">
+                      <image src="../img/like.png"/>
+                      <text>{{item.viewNum}}</text>
+                    </view>
+                  </view>
+                </view>
+              </block>
+            </view>
+            <view class="right-container content-container">
+              <block wx:key="item.id" wx:for="{{discoveryList}}">
+                <view class="discovery-item">
+                  <view class="location">
+                    <image src="../img/location.png"/>
+                    <text>{{item.location}}</text>
+                  </view>
+                  <image class="thumb" src="{{item.image}}"/>
+                  <text class="desc">{{item.desc}}</text>
+                  <view class="info">
+                    <view class="avatar-container">
+                      <image src="{{item.avatar}}"/>
+                      <text>{{item.nickname}}</text>
+                    </view>
+                    <view class="like-container">
+                      <image src="../img/like.png"/>
+                      <text>{{item.viewNum}}</text>
+                    </view>
+                  </view>
+                </view>
+              </block>
+            </view>
+          </view>
+        </view>
+      </van-tab>
+      <van-tab title="说说">内容 2</van-tab>
+    </van-tabs>
+    <image class="discovery-add" @tap="bindAddTap" src="../img/icon_discovery_add.png"/>
   </view>
 </template>
 
@@ -12,18 +67,130 @@
   export default class Discovery extends wepy.page {
     config = {
       navigationBarTitleText: '发现',
+      "usingComponents": {
+        "van-tab": "../components/vant/tab/index",
+        "van-tabs": "../components/vant/tabs/index"
+      }
     };
     components = {};
 
-    data = {};
+    data = {
+      scrollTop: 0,
+      tab1ScrollTop:0,
+      lineWidth:188,
+      flag:true,
+      discoveryList: [
+        {
+          id: '1001',
+          image: '../img/swiper1.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1002',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1003',
+          image: '../img/swiper3.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1004',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1005',
+          image: '../img/swiper1.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1006',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+      ]
+    };
 
-    methods = {};
+    methods = {
+      bindAddTap(){
+        wx.showToast({
+          title: 'add',
+          icon: 'none'
+        });
+      },
+      onChange(e){
+        let detail = e.detail;
+        console.log("index",detail.index);
+        if (detail.index == 0){
+          this.flag = true;
+          let self = this;
+          setTimeout(function() {
+            wx.pageScrollTo({
+              scrollTop: self.tab1ScrollTop,
+              duration: 0
+            })
+          },100);
+        }else {
+          this.flag = false;
+        }
+      }
+    };
+
+    onPageScroll(e) {
+      // if (e.scrollTop > this.scrollTop) {
+      //   //向下滚动
+      //   console.log('向下 ')
+      //   if (e.scrollTop > 40){
+      //     console.log('隐藏');
+      //   }
+      // } else {
+      //   //向上滚动
+      //   console.log('向上滚动 ')
+      // }
+      this.scrollTop = e.scrollTop;
+      if (this.flag) {
+        this.tab1ScrollTop = this.scrollTop;
+      }
+    }
 
     onLoad(options,data) {
       if (!options.preload){
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      let self = this;
+      wx.getSystemInfo({
+        success(res) {
+          self.lineWidth = res.screenWidth / 2
+        }
+      })
     }
   }
 </script>

@@ -1,0 +1,29 @@
+<style lang="scss" src="../css/medicalExamDetail.scss">
+</style>
+<template>
+  <view class="medical-exam">
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class medicalExamDetail extends wepy.page {
+    config = {
+      navigationBarTitleText: '体检详情'
+    };
+    components = {};
+
+    data = {};
+
+    methods = {};
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>

@@ -28,7 +28,6 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        // 'pages/hmgold/productIntroduction',
         'pages/index',
         'pages/discovery',
         'pages/mine',
