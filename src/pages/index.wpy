@@ -27,7 +27,7 @@
       <swiper autoplay="true" previous-margin="45px" next-margin="45px"
               bindchange="bindchange" circular="true">
         <block wx:key="{{item}}" wx:for="{{imgUrls}}">
-          <swiper-item>
+          <swiper-item @tap="bindSwiperItemTap">
             <view class="swiper-item">
               <view class="item-container {{index != currentIndex?'scale':''}}">
                 <text class="title">日本康养之旅</text>
@@ -231,6 +231,9 @@
     };
 
     methods = {
+      bindSwiperItemTap(){
+        this.$navigate("medicalExamDetail");
+      },
       bindTurnSearch() {
         wx.showToast({
           title: '跳转到搜索页面',

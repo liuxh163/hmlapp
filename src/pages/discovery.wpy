@@ -3,7 +3,7 @@
 <template>
   <view class="main discovery">
     <van-tabs custom-class="custom-class" sticky color="#FFC207"
-              line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="{{ active }}"
+              line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" offset-top="{{offsetTop}}" active="{{ active }}"
               bind:change="onChange">
       <van-tab title="发现">
         <view class="discovery-view">
@@ -75,7 +75,9 @@
     components = {};
 
     data = {
+      isHidden:false,
       scrollTop: 0,
+      offsetTop:0,
       tab1ScrollTop:0,
       lineWidth:188,
       flag:true,
@@ -146,15 +148,15 @@
       },
       onChange(e){
         let detail = e.detail;
-        console.log("index",detail.index);
+        console.log("tap index",detail.index);
         if (detail.index == 0){
           this.flag = true;
-          let self = this;
+          let t = this;
           setTimeout(function() {
             wx.pageScrollTo({
-              scrollTop: self.tab1ScrollTop,
+              scrollTop: t.tab1ScrollTop,
               duration: 0
-            })
+            });
           },100);
         }else {
           this.flag = false;
@@ -163,16 +165,22 @@
     };
 
     onPageScroll(e) {
-      // if (e.scrollTop > this.scrollTop) {
-      //   //向下滚动
-      //   console.log('向下 ')
-      //   if (e.scrollTop > 40){
-      //     console.log('隐藏');
-      //   }
-      // } else {
-      //   //向上滚动
-      //   console.log('向上滚动 ')
-      // }
+      if (e.scrollTop > this.scrollTop) {
+        //向下滚动
+        // console.log('向下 ')
+        if (e.scrollTop > 40){
+          // console.log('隐藏tabs');
+          this.isHidden = true;
+          this.offsetTop = -100;
+          this.$apply();
+        }
+      } else {
+        //向上滚动
+        // console.log('向上滚动 ')
+        this.isHidden = false;
+        this.offsetTop = 0;
+        this.$apply();
+      }
       this.scrollTop = e.scrollTop;
       if (this.flag) {
         this.tab1ScrollTop = this.scrollTop;
@@ -185,10 +193,10 @@
       }
       this.$wxpage.options = options;
 
-      let self = this;
+      let t = this;
       wx.getSystemInfo({
         success(res) {
-          self.lineWidth = res.screenWidth / 2
+          t.lineWidth = res.screenWidth / 2
         }
       })
     }

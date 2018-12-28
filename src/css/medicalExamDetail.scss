@@ -1,1 +1,44 @@
 @import "base";
+
+.swiper-view {
+  position: relative;
+  swiper {
+    height: px2rpx(376);
+  }
+  .swiper-item{
+    image{
+      width: 100%;
+      height: px2rpx(376);
+    }
+  }
+  .indicators{
+    width:px2rpx(36);
+    height:px2rpx(37);
+    background:rgba(0,0,0,0.4);
+    border-top-left-radius: px2rpx(19);
+    border-bottom-left-radius: px2rpx(19);
+    position: absolute;
+    top: px2rpx(15);
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text{
+      color: white;
+      font-size: px2rpx(15);
+    }
+  }
+  .prompt{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width:100%;
+    height:px2rpx(33);
+    background: linear-gradient(to left, rgba(255,194,7,0),rgba(255,194,7,0.8));
+    padding-left: px2rpx(12);
+    text{
+      color: white;
+      font-size: px2rpx(13);
+    }
+  }
+}

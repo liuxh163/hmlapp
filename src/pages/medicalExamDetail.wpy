@@ -2,7 +2,28 @@
 </style>
 <template>
   <view class="medical-exam">
-
+    <view class="swiper-view">
+      <swiper bindchange="bindchange">
+        <block wx:key="{{item}}" wx:for="{{imgUrls}}">
+          <swiper-item @tap="bindSwiperItemTap">
+            <view class="swiper-item">
+              <image src="{{item}}"/>
+            </view>
+          </swiper-item>
+        </block>
+      </swiper>
+      <view class="indicators">
+        <text>{{currentIndex + 1}}</text><text>/{{imgUrls.length}}</text>
+      </view>
+      <view class="prompt">
+        <text>法律保障 先行赔付</text>
+      </view>
+    </view>
+    <view>
+      <van-tag>标签</van-tag>
+      <van-tag type="danger">标签11111111111</van-tag>
+      <van-tag type="primary" style="margin-left: 10px">标签</van-tag>
+    </view>
   </view>
 </template>
 
@@ -11,13 +32,28 @@
 
   export default class medicalExamDetail extends wepy.page {
     config = {
-      navigationBarTitleText: '体检详情'
+      navigationBarTitleText: '体检详情',
+      "usingComponents": {
+        "van-tag": "../components/vant/tag/index",
+      }
     };
     components = {};
 
-    data = {};
+    data = {
+      imgUrls: [
+        '../img/swiper1.jpg',
+        '../img/swiper2.jpg',
+        '../img/swiper3.jpg'
+      ],
+      currentIndex:0,
+      totalCount:0,
+    };
 
-    methods = {};
+    methods = {
+      bindchange(e) {
+        this.currentIndex = e.detail.current;
+      },
+    };
 
     onLoad(options, data) {
       if (!options.preload) {
