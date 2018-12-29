@@ -19,10 +19,67 @@
         <text>法律保障 先行赔付</text>
       </view>
     </view>
-    <view>
-      <van-tag>标签</van-tag>
-      <van-tag type="danger">标签11111111111</van-tag>
-      <van-tag type="primary" style="margin-left: 10px">标签</van-tag>
+    <view class="introduction-view">
+      <text class="title">{{medicalExam.title}}</text>
+      <view class="tags">
+        <van-tag wx:key="{{item}}" wx:for="{{medicalExam.tagList}}">{{item}}</van-tag>
+      </view>
+      <view class="price-view">
+        <text>￥{{medicalExam.price}}</text>
+        <text> / 人起</text>
+      </view>
+      <view class="offer-view">
+        <view class="left">
+          <view class="offer staging">
+            <text>分</text>
+            <text>支持分期</text>
+          </view>
+          <view class="offer card">
+            <text>卡</text>
+            <text>出现卡</text>
+          </view>
+        </view>
+        <view class="right">
+          <text class="offer-introduction">可根据实际款项进行分期,最低3000即走下订单，每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>
+        </view>
+      </view>
+      <view class="operate-view">
+        <view class="left">
+          <image src="../img/like.png"/>
+          <text>{{medicalExam.shareNum}}</text>
+        </view>
+        <view class="right">
+          <view class="common view-view">
+            <image src="../img/like.png"/>
+            <text>{{medicalExam.viewNum}}</text>
+          </view>
+          <view class="common like-view">
+            <image src="../img/like.png"/>
+            <text>{{medicalExam.likeNum}}</text>
+          </view>
+          <view class="common comment-view">
+            <image src="../img/comment.png"/>
+            <text>{{medicalExam.commentNum}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="replies-view" wx:if="{{medicalExam.replyList && medicalExam.replyList.length>0}}">
+        <block wx:key="replyItem.replyID" wx:for-item="replyItem" wx:for="{{medicalExam.replyList}}">
+          <view class="reply-item" wx:if="{{index == 0}}">
+            <text class="reply-content"><text class="reply-name">{{replyItem.replyNickname}}: </text>{{replyItem.replayContent}}</text>
+          </view>
+        </block>
+        <text @tap="bindViewReply({{medicalExam.id}})" class="view-reply">查看{{medicalExam.replyList.length}}条回复 ></text>
+      </view>
+    </view>
+    <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 30rpx;margin-bottom: 30rpx"></view>
+    <text>这里是tab标签页</text>
+    <view class="bottom-view">
+      <view class="customer-service">
+        <image src="../img/icon_escort_interpretation.png"/>
+        <text>在线客服</text>
+      </view>
+      <button>马上预定</button>
     </view>
   </view>
 </template>
@@ -47,11 +104,41 @@
       ],
       currentIndex:0,
       totalCount:0,
+      medicalExam:{
+        id:'1001',
+        title:'健康大阪6天5夜 感受不一样的大阪',
+        tagList:['健康','精密体检','混浴汤泉','混浴汤泉','健康','精密体检','混浴汤泉','健康'],
+        price:'26800',
+        shareNum:60,
+        viewNum:120,
+        likeNum:3,
+        commentNum:15,
+        replyList: [
+          {
+            replyID:'2004',
+            replyNickname: 'Blue',
+            replayContent: '运营不限制模块，内容要穿插显示，好好的中间可运营不限制模块，穿插显示还有很多字还有很多字还有很多字',
+          },
+          {
+            replyID:'2005',
+            replyNickname: 'Blue',
+            replayContent: '运营不限制模块，内容要穿插显示，好好的中间可运营不限制模块，穿插显示还有很多字',
+          },
+          {
+            replyID:'2006',
+            replyNickname: 'Blue',
+            replayContent: '运营不限制模块，内容要穿插显示，好好的中间可运营不限制模块，穿插显示还有很多字',
+          }
+        ]
+      },
     };
 
     methods = {
       bindchange(e) {
         this.currentIndex = e.detail.current;
+      },
+      bindViewReply(id){
+
       },
     };
 

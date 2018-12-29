@@ -1,5 +1,9 @@
 @import "base";
 
+.medical-exam{
+  padding-bottom: px2rpx(60);
+}
+
 .swiper-view {
   position: relative;
   swiper {
@@ -31,8 +35,8 @@
   .prompt{
     position: absolute;
     left: 0;
+    right: 0;
     bottom: 0;
-    width:100%;
     height:px2rpx(33);
     background: linear-gradient(to left, rgba(255,194,7,0),rgba(255,194,7,0.8));
     padding-left: px2rpx(12);
@@ -40,5 +44,221 @@
       color: white;
       font-size: px2rpx(13);
     }
+  }
+}
+
+.introduction-view{
+  margin-top: px2rpx(14);
+  margin-left: px2rpx(16);
+  display: flex;
+  flex-direction: column;
+  .title{
+    margin-right: px2rpx(10);
+    color: #333333;
+    font-size: px2rpx(15);
+  }
+  .tags{
+    margin-top: px2rpx(5);
+    .van-tag{
+      margin-top: px2rpx(5);
+      margin-right: px2rpx(10);
+      padding: px2rpx(8) px2rpx(15);
+      background-color: #FFF6DA !important;
+      color: #F19F00;
+      font-size: px2rpx(12);
+    }
+  }
+  .price-view{
+    margin-top: px2rpx(16);
+    padding-bottom: px2rpx(16);
+    margin-right: px2rpx(15);
+    border-bottom: 1px #EDEDED solid;
+    text{
+      color: #F19F00;
+    }
+    text:first-child{
+      font-size: px2rpx(16);
+    }
+    text:nth-child(2){
+      font-size: px2rpx(11);
+    }
+  }
+  .offer-view{
+    margin-top: px2rpx(6);
+    display: flex;
+    .left{
+      .offer{
+        margin-top: px2rpx(9);
+        display: flex;
+        align-items: center;
+        text:first-child{
+          border-top-left-radius: px2rpx(5);
+          border-bottom-right-radius: px2rpx(5);
+          width: px2rpx(17);
+          height: px2rpx(16);
+          text-align: center;
+          color: white;
+          font-size: px2rpx(10);
+        }
+        text:nth-child(2){
+          margin-left: px2rpx(4);
+          color: #FE585A;
+          font-size: px2rpx(11);
+        }
+      }
+      .staging{
+        text:first-child{
+          background: #FE585A;
+        }
+        text:nth-child(2){
+          color: #FE585A;
+        }
+      }
+      .card{
+        text:first-child{
+          background: #028BFF;
+        }
+        text:nth-child(2){
+          color: #028BFF;
+        }
+      }
+    }
+    .right{
+      margin-top: px2rpx(5);
+      margin-left: px2rpx(12);
+      width: px2rpx(269);
+      .offer-introduction{
+        display: block;
+        font-size: px2rpx(11);
+        color: #333333;
+        line-height: px2rpx(25);
+      }
+    }
+  }
+  .operate-view{
+    margin-top: px2rpx(15);
+    display: flex;
+    text{
+      margin-left: px2rpx(7);
+      color: #999999;
+      font-size: px2rpx(11);
+    }
+    .left{
+      image{
+        width: px2rpx(13);
+        height: px2rpx(10);
+      }
+    }
+    .right{
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      margin-right: px2rpx(15);
+      .common{
+        display: flex;
+        align-items: center;
+      }
+      .view-view{
+        image{
+          width: px2rpx(16);
+          height: px2rpx(9);
+        }
+      }
+      .like-view{
+        margin-left: px2rpx(15);
+        image{
+          width: px2rpx(12);
+          height: px2rpx(11);
+        }
+      }
+      .comment-view{
+        margin-left: px2rpx(15);
+        image{
+          width: px2rpx(12);
+          height: px2rpx(11);
+        }
+      }
+    }
+  }
+  .replies-view{
+    margin-top: px2rpx(15);
+    margin-right: px2rpx(15);
+    background:#F2F2F2;
+    border-radius:px2rpx(4);
+    display: flex;
+    flex-direction: column;
+    .reply-item{
+      margin-left: px2rpx(10);
+      margin-right: px2rpx(10);
+      margin-top: px2rpx(16);
+      display: flex;
+      text{
+        font-size: px2rpx(16);
+      }
+      .reply-name{
+        font-weight: bold;
+        color: #000000;
+      }
+      .reply-content{
+        color: #333333;
+        display: -webkit-box;      //定义为自适应布局
+        word-break: break-all;
+        text-overflow: ellipsis;  //超出文字用省略号代替
+        overflow: hidden;            //多出不分隐藏
+        -webkit-box-orient: vertical;    //竖直方向的超出和隐藏
+        -webkit-line-clamp: 2;    //设定行数为2
+        //white-space: nowrap;
+      }
+    }
+    .view-reply{
+      margin: px2rpx(11) px2rpx(11) px2rpx(11) auto;
+      color: #FE9F05;
+      font-size: px2rpx(12);
+    }
+    .view-reply:active{
+      opacity: 0.8;
+    }
+  }
+}
+.bottom-view{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  box-shadow: 0 0 px2rpx(10) #E8E8E8;
+  width: 100%;
+  height: px2rpx(60);
+  display: flex;
+  .customer-service{
+    width: px2rpx(88);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    justify-content: center;
+    image{
+      width: px2rpx(22);
+      height: px2rpx(22);
+    }
+    text{
+      margin-top: px2rpx(10);
+      color: #333333;
+      font-size: px2rpx(12);
+    }
+  }
+  .customer-service:active{
+    background-color: #f6f6f6;
+  }
+  button{
+    width: 100%;
+    border-radius: 0;
+    background-color: #FE9F05;
+    color: white;
+    font-size: px2rpx(17);
+    line-height: px2rpx(60);
+  }
+  button:active{
+    opacity: 1;
+    background-color: #ea9705;
   }
 }
