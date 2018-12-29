@@ -11,6 +11,9 @@
     button:active{
       opacity: 0.9;
     }
+    .shadow{
+      box-shadow: 0 0 px2rpx(10) #E8E8E8;
+    }
 </style>
 
 <script>
@@ -28,14 +31,14 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        'pages/medicalExamDetail',
+        'pages/mine',
         'pages/index',
         'pages/discovery',
-        'pages/mine',
+        // 'pages/mine',
         'pages/hmgold/healthGold',
         'pages/hmgold/productIntroduction',
         'pages/comments',
-        // 'pages/medicalExamDetail',
+        'pages/medicalExamDetail',
         'pages/webView',
       ],
       window: {

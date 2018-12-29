@@ -1,0 +1,108 @@
+@import "base";
+
+.personal-information{
+  position: relative;
+  width: 100%;
+  height: px2rpx(135);
+  background:linear-gradient(20deg,#FFC207,#FFE698);
+  .avatar-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    image{
+      margin-top: px2rpx(16);
+      width:px2rpx(53);
+      height:px2rpx(53);
+      border-radius:50%;
+      border: 2px solid white;
+    }
+    text{
+      margin-top: px2rpx(8);
+      color: #333333;
+      font-size: px2rpx(18);
+      display: block;
+    }
+  }
+  .setting{
+    position: absolute;
+    top: px2rpx(16);
+    right: px2rpx(16);
+    width: px2rpx(18);
+    height: px2rpx(18);
+  }
+}
+.personal-data{
+  position: relative;
+  background-color: white;
+  margin-top: px2rpx(-20);
+  margin-left: auto;
+  margin-right: auto;
+  width: px2rpx(345);
+  height: px2rpx(73);
+  border-radius: px2rpx(4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .common{
+    display: flex;
+    flex-direction: column;
+    text:first-child{
+      font-weight: bold;
+      color: #333333;
+      font-size: px2rpx(16);
+    }
+    text:nth-child(2){
+      margin-top: px2rpx(9);
+      color: #999999;
+      font-size: px2rpx(12);
+    }
+  }
+  .common:nth-child(2){
+    margin-left: px2rpx(77);
+  }
+  .common:nth-child(3){
+    margin-left: px2rpx(77);
+  }
+}
+
+.black-card{
+  margin-top: px2rpx(15);
+  border-radius: px2rpx(4);
+  margin-left: auto;
+  margin-right: auto;
+  width: px2rpx(345);
+  height: px2rpx(88);
+  background:linear-gradient(-18deg,rgba(52,48,51,1),rgba(71,67,70,1));
+  display: flex;
+  flex-direction: column;
+  .name{
+    margin-top: px2rpx(14);
+    margin-left: px2rpx(11);
+    color: #CEB197;
+    font-size: px2rpx(13);
+  }
+  .apply{
+    color: #CEB197;
+    font-size: px2rpx(12);
+    margin-left: auto;
+    margin-right: px2rpx(15);
+    margin-top: px2rpx(-10);
+  }
+  .money-view{
+    margin-top: px2rpx(5);
+    margin-left: auto;
+    margin-right: auto;
+    text:first-child{
+      color: #746E72;
+      font-size: px2rpx(11);
+    }
+    text:nth-child(2){
+      color: #CEB197;
+      font-size: px2rpx(21);
+    }
+    text:nth-child(3){
+      color: #746E72;
+      font-size: px2rpx(11);
+    }
+  }
+}
