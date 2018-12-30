@@ -134,7 +134,7 @@
 
     // 检查本地是否有openID
     checkOpenID(resolve) {
-      let openID = wx.getStorageSync('t_openID');
+      let openID = wx.getStorageSync('openID');
       if (openID) {
         // 有openID，直接掉后台登录接口通过openID换token
         this.login(openID, resolve);
@@ -179,7 +179,7 @@
 
     // 注册
     register(code, resolve) {
-      let openID = wx.getStorageSync('t_openID');
+      let openID = wx.getStorageSync('openID');
       let _url = httpUrl.register;
       let sysInfo = wx.getSystemInfoSync();
 
@@ -203,9 +203,8 @@
           this.globalData.isLogin = true;
           console.log("登录成功！");
           try {
-            wx.setStorageSync('t_token', res.data.rows.token);
-            wx.setStorageSync('t_openID', res.data.rows.openid);
-            wx.setStorageSync('t_goldNum', res.data.rows.playerInfo.gold_num);
+            wx.setStorageSync('token', res.data.rows.token);
+            wx.setStorageSync('openID', res.data.rows.openid);
             this.globalData.goldNum = res.data.rows.playerInfo.gold_num;
             resolve && resolve(res.data.rows)
           } catch (e) {
@@ -251,9 +250,8 @@
         if (res.data && res.data.isSuccess == "true" && res.data.rows) {
           this.globalData.isLogin = true;
           try {
-            wx.setStorageSync('t_token', res.data.rows.token);
-            wx.setStorageSync('t_openID', res.data.rows.openid);
-            wx.setStorageSync('gold_num', res.data.rows.playerInfo.gold_num);
+            wx.setStorageSync('token', res.data.rows.token);
+            wx.setStorageSync('openID', res.data.rows.openid);
             this.globalData.goldNum = res.data.rows.playerInfo.gold_num;
             resolve && resolve(res.data.rows)
           } catch (e) {
