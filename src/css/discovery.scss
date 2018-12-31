@@ -16,7 +16,7 @@
     border-bottom-color: #E3E3E3 !important;
   }
   .van-tabs__wrap{
-    position: fixed !important;
+    //position: fixed !important;
   }
 }
 
@@ -124,6 +124,121 @@
     }
   }
 }
+
+.talk-about {
+  display: flex;
+  flex-direction: column;
+  .item-view {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .avatar-container {
+      margin-top: px2rpx(11);
+      margin-left: px2rpx(15);
+      display: flex;
+      align-items: center;
+      open-data:nth-child(1) {
+        width: px2rpx(22);
+        height: px2rpx(22);
+        overflow: hidden;
+        border-radius: 50%;
+      }
+      open-data:nth-child(2) {
+        margin-left: px2rpx(8);
+        color: #999999;
+        font-size: px2rpx(12);
+      }
+    }
+    .content {
+      margin: px2rpx(10) px2rpx(15);
+      color: #333333;
+      font-size: px2rpx(12);
+    }
+    .image-container{
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: px2rpx(12);
+    }
+    .image-list {
+      display: flex;
+      flex-flow: row wrap;
+      align-content: flex-start;
+      padding-left: px2rpx(5);
+      image {
+        margin-left: px2rpx(10);
+        margin-bottom: px2rpx(10);
+        width: px2rpx(112);
+        height: px2rpx(81);
+        border-radius: px2rpx(4);
+      }
+    }
+    .operate-view {
+      display: flex;
+      .left {
+        margin-left: px2rpx(15);
+        text {
+          color: #F19F00;
+          font-size: px2rpx(12);
+        }
+      }
+      .right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        margin-right: px2rpx(15);
+        .common {
+          display: flex;
+          align-items: center;
+        }
+        .view-view {
+          image {
+            width: px2rpx(16);
+            height: px2rpx(9);
+          }
+        }
+        .like-view {
+          margin-left: px2rpx(15);
+          image {
+            width: px2rpx(12);
+            height: px2rpx(11);
+          }
+        }
+        .comment-view {
+          margin-left: px2rpx(15);
+          image {
+            width: px2rpx(12);
+            height: px2rpx(11);
+          }
+        }
+        text {
+          margin-left: px2rpx(7);
+          color: #999999;
+          font-size: px2rpx(11);
+        }
+      }
+    }
+    .tag {
+      z-index: -1;
+      background-color: #FE585A;
+      width: px2rpx(80);
+      height: px2rpx(20);
+      position: absolute;
+      top: 0;
+      right: px2rpx(-20);
+      transform: rotate(45deg);
+      text{
+        position: absolute;
+        right: px2rpx(26);
+        top: px2rpx(2);
+        font-size: px2rpx(11);
+        color: white;
+      }
+    }
+  }
+}
+
 .discovery-add{
   position: fixed;
   bottom: px2rpx(10);

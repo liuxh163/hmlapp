@@ -2,7 +2,7 @@
 </style>
 <template>
   <view class="main discovery">
-    <van-tabs custom-class="custom-class" sticky color="#FFC207"
+    <van-tabs custom-class="custom-class" animated sticky color="#FFC207"
               line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" offset-top="{{offsetTop}}" active="{{ active }}"
               bind:change="onChange">
       <van-tab title="发现">
@@ -55,7 +55,49 @@
           </view>
         </view>
       </van-tab>
-      <van-tab title="说说">内容 2</van-tab>
+      <van-tab title="说说">
+        <view class="talk-about">
+          <block wx:key="item.id" wx:for="{{talkAboutList}}">
+            <view class="item-view">
+              <view class="avatar-container">
+                <open-data class="avatar" type="userAvatarUrl"></open-data>
+                <open-data type="userNickName"></open-data>
+              </view>
+              <text class="content">{{item.content}}</text>
+              <view class="image-container">
+                <view class="image-list">
+                  <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
+                    <image src="{{imageItem}}"></image>
+                  </block>
+                </view>
+                <view class="operate-view">
+                  <view class="left" hidden="{{true}}">
+                    <text>查看全文</text>
+                  </view>
+                  <view class="right">
+                    <view class="common view-view">
+                      <image src="../img/like.png"/>
+                      <text>{{item.viewNum}}</text>
+                    </view>
+                    <view class="common like-view">
+                      <image src="../img/like.png"/>
+                      <text>{{item.likeNum}}</text>
+                    </view>
+                    <view class="common comment-view">
+                      <image src="../img/comment.png"/>
+                      <text>{{item.commentNum}}</text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;"></view>
+              <view class="tag" wx:if="{{item.isHot}}">
+                <text>热</text>
+              </view>
+            </view>
+          </block>
+        </view>
+      </van-tab>
     </van-tabs>
     <image class="discovery-add" @tap="bindAddTap" src="../img/icon_discovery_add.png"/>
   </view>
@@ -79,8 +121,11 @@
       scrollTop: 0,
       offsetTop:0,
       tab1ScrollTop:0,
+      tab2ScrollTop:0,
+      flag2:false,
       lineWidth:188,
       flag:true,
+      scrolling:false,
       discoveryList: [
         {
           id: '1001',
@@ -136,7 +181,48 @@
           viewNum: '120',
           location: '日本 东京'
         },
-      ]
+      ],
+      talkAboutList:[
+        {
+          id:'2001',
+          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          imageList:[
+            '../img/swiper1.jpg',
+            '../img/swiper2.jpg',
+            '../img/swiper3.jpg',
+            '../img/swiper2.jpg',
+            '../img/swiper3.jpg',
+          ],
+          viewNum:120,
+          likeNum:3,
+          commentNum:15,
+          isHot:true,
+        },
+        {
+          id:'2002',
+          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          imageList:[
+            '../img/swiper1.jpg',
+            '../img/swiper2.jpg',
+            '../img/swiper3.jpg',
+          ],
+          viewNum:120,
+          likeNum:3,
+          commentNum:15,
+          isHot:true,
+        },
+        {
+          id:'2003',
+          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          imageList:[
+            '../img/swiper1.jpg',
+            '../img/swiper2.jpg',
+          ],
+          viewNum:120,
+          likeNum:3,
+          commentNum:15
+        },
+      ],
     };
 
     methods = {
@@ -149,17 +235,33 @@
       onChange(e){
         let detail = e.detail;
         console.log("tap index",detail.index);
+        let t = this;
+        t.scrolling = true;
         if (detail.index == 0){
           this.flag = true;
-          let t = this;
+          this.flag2 = false;
           setTimeout(function() {
             wx.pageScrollTo({
               scrollTop: t.tab1ScrollTop,
               duration: 0
             });
-          },100);
+            setTimeout(function() {
+              t.scrolling = false;
+            },100);
+          },150);
         }else {
           this.flag = false;
+          this.flag2 = true;
+          console.log('tab2ScrollTop',t.tab2ScrollTop);
+          setTimeout(function() {
+            wx.pageScrollTo({
+              scrollTop: t.tab2ScrollTop,
+              duration: 0
+            });
+            setTimeout(function() {
+              t.scrolling = false;
+            },100);
+          },150);
         }
       }
     };
@@ -168,23 +270,25 @@
       if (e.scrollTop > this.scrollTop) {
         //向下滚动
         // console.log('向下 ')
-        if (e.scrollTop > 40){
+        if (e.scrollTop > 40  && !this.scrolling){
           // console.log('隐藏tabs');
           this.isHidden = true;
           this.offsetTop = -100;
-          this.$apply();
         }
       } else {
         //向上滚动
         // console.log('向上滚动 ')
         this.isHidden = false;
         this.offsetTop = 0;
-        this.$apply();
       }
       this.scrollTop = e.scrollTop;
       if (this.flag) {
         this.tab1ScrollTop = this.scrollTop;
       }
+      if (this.flag2) {
+        this.tab2ScrollTop = this.scrollTop;
+      }
+      this.$apply();
     }
 
     onLoad(options,data) {
@@ -196,7 +300,7 @@
       let t = this;
       wx.getSystemInfo({
         success(res) {
-          t.lineWidth = res.screenWidth / 2
+          t.lineWidth = res.screenWidth / 2;
         }
       })
     }

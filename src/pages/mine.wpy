@@ -4,10 +4,10 @@
   <view class="mine">
     <view class="personal-information">
       <view class="avatar-container">
-        <image src="../img/swiper1.jpg"/>
-        <text>Amanda</text>
+        <open-data class="avatar" type="userAvatarUrl"></open-data>
+        <open-data type="userNickName"></open-data>
       </view>
-      <image class="setting" src="../img/comment.png"/>
+      <image class="setting" src="../img/icon_setting.png"/>
     </view>
     <view class="personal-data shadow">
       <view class="common">
@@ -25,12 +25,132 @@
     </view>
     <view class="black-card shadow">
       <text class="name">海马黑卡</text>
-      <text class="apply">申请</text>
+      <text class="apply" hidden="{{personInfo.isApplyed}}">申请</text>
       <view class="money-view">
         <text>可用额度:</text>
         <text>{{money}}</text>
         <text> 元</text>
       </view>
+    </view>
+    <view class="my-order">
+      <view class="order-title">
+        <image src="../img/title_icon.png"/>
+        <text>我的订单</text>
+      </view>
+      <view class="order-menu">
+        <view class="common">
+          <image src="../img/icon_my_order.png"/>
+          <text>我的订单</text>
+        </view>
+        <view class="common">
+          <image src="../img/icon_pending_payment.png"/>
+          <text>待付款</text>
+        </view>
+        <view class="common">
+          <image src="../img/icon_refund_form.png"/>
+          <text>退款单</text>
+        </view>
+      </view>
+    </view>
+    <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 52rpx"></view>
+    <view class="my-discovery">
+      <van-tabs custom-class="custom-class" animated sticky color="#FFC207"
+                line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="{{ 0 }}"
+                bind:change="onChange">
+        <van-tab title="我的发现">
+          <view class="discovery-view">
+            <view class="discovery-container">
+              <view class="left-container content-container">
+                <block wx:key="item.id" wx:for="{{discoveryList}}">
+                  <view class="discovery-item">
+                    <view class="location">
+                      <image src="../img/location.png"/>
+                      <text>{{item.location}}</text>
+                    </view>
+                    <image class="thumb" src="{{item.image}}"/>
+                    <text class="desc">{{item.desc}}</text>
+                    <view class="info">
+                      <view class="avatar-container">
+                        <image src="{{item.avatar}}"/>
+                        <text>{{item.nickname}}</text>
+                      </view>
+                      <view class="like-container">
+                        <image src="../img/like.png"/>
+                        <text>{{item.viewNum}}</text>
+                      </view>
+                    </view>
+                  </view>
+                </block>
+              </view>
+              <view class="right-container content-container">
+                <block wx:key="item.id" wx:for="{{discoveryList}}">
+                  <view class="discovery-item">
+                    <view class="location">
+                      <image src="../img/location.png"/>
+                      <text>{{item.location}}</text>
+                    </view>
+                    <image class="thumb" src="{{item.image}}"/>
+                    <text class="desc">{{item.desc}}</text>
+                    <view class="info">
+                      <view class="avatar-container">
+                        <image src="{{item.avatar}}"/>
+                        <text>{{item.nickname}}</text>
+                      </view>
+                      <view class="like-container">
+                        <image src="../img/like.png"/>
+                        <text>{{item.viewNum}}</text>
+                      </view>
+                    </view>
+                  </view>
+                </block>
+              </view>
+            </view>
+          </view>
+        </van-tab>
+        <van-tab title="我的说说">
+          <view class="talk-about">
+            <block wx:key="item.id" wx:for="{{talkAboutList}}">
+              <view class="item-view">
+                <view class="avatar-container">
+                  <open-data class="avatar" type="userAvatarUrl"></open-data>
+                  <open-data type="userNickName"></open-data>
+                </view>
+                <text class="content">{{item.content}}</text>
+                <view class="image-container">
+                  <view class="image-list">
+                    <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
+                      <image src="{{imageItem}}"></image>
+                    </block>
+                  </view>
+                  <view class="operate-view">
+                    <view class="left" hidden="{{true}}">
+                      <text>查看全文</text>
+                    </view>
+                    <view class="right">
+                      <view class="common view-view">
+                        <image src="../img/like.png"/>
+                        <text>{{item.viewNum}}</text>
+                      </view>
+                      <view class="common like-view">
+                        <image src="../img/like.png"/>
+                        <text>{{item.likeNum}}</text>
+                      </view>
+                      <view class="common comment-view">
+                        <image src="../img/comment.png"/>
+                        <text>{{item.commentNum}}</text>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+                <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;"></view>
+                <view class="tag" wx:if="{{item.isHot}}">
+                  <text>热</text>
+                </view>
+              </view>
+            </block>
+          </view>
+        </van-tab>
+      </van-tabs>
     </view>
   </view>
 </template>
@@ -40,17 +160,163 @@
 
   export default class Mine extends wepy.page {
     config = {
-      navigationBarTitleText: '我的'
+      navigationBarTitleText: '我的',
+      "usingComponents": {
+        "van-tab": "../components/vant/tab/index",
+        "van-tabs": "../components/vant/tabs/index"
+      }
     };
     components = {};
 
     computed = {};
 
     data = {
-      money:'34000.00'
+      money:'34000.00',
+      scrollTop: 0,
+      tab1ScrollTop:0,
+      tab2ScrollTop:0,
+      flag1:true,
+      flag2:false,
+      lineWidth:188,
+      discoveryList: [
+        {
+          id: '1001',
+          image: '../img/swiper1.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1002',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1003',
+          image: '../img/swiper3.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1004',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1005',
+          image: '../img/swiper1.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+        {
+          id: '1006',
+          image: '../img/swiper2.jpg',
+          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          avatar: '../img/swiper1.jpg',
+          nickname: 'Amanda',
+          viewNum: '120',
+          location: '日本 东京'
+        },
+      ],
+      talkAboutList:[
+        {
+          id:'2001',
+          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          imageList:[
+            '../img/swiper1.jpg',
+            '../img/swiper2.jpg',
+            '../img/swiper3.jpg',
+            '../img/swiper2.jpg',
+            '../img/swiper3.jpg',
+          ],
+          viewNum:120,
+          likeNum:3,
+          commentNum:15,
+          isHot:true,
+        },
+        {
+          id:'2002',
+          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          imageList:[
+            '../img/swiper1.jpg',
+            '../img/swiper2.jpg',
+            '../img/swiper3.jpg',
+          ],
+          viewNum:120,
+          likeNum:3,
+          commentNum:15,
+          isHot:true,
+        },
+        {
+          id:'2003',
+          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          imageList:[
+            '../img/swiper1.jpg',
+            '../img/swiper2.jpg',
+          ],
+          viewNum:120,
+          likeNum:3,
+          commentNum:15
+        }
+      ],
+      personInfo:{
+        isApplyed:false
+      },
     };
 
-    methods = {};
+    methods = {
+      onChange(e){
+        let detail = e.detail;
+        console.log("tap index",detail.index);
+        let t = this;
+        if (detail.index == 0){
+          this.flag1 = true;
+          this.flag2 = false;
+          setTimeout(function() {
+            wx.pageScrollTo({
+              scrollTop: t.tab1ScrollTop,
+              duration: 0
+            });
+          },150);
+        }else {
+          this.flag2 = true;
+          this.flag1 = false;
+          setTimeout(function() {
+            wx.pageScrollTo({
+              scrollTop: t.tab2ScrollTop,
+              duration: 0
+            });
+          },150);
+        }
+      }
+    };
+
+    onPageScroll(e) {
+      this.scrollTop = e.scrollTop;
+      if (this.flag1) {
+        this.tab1ScrollTop = this.scrollTop;
+      }
+      if (this.flag2) {
+        this.tab2ScrollTop = this.scrollTop;
+      }
+      this.$apply();
+    }
 
     //格式化数据，小数部分不做处理，对整数部分进行千分位格式化的处理，如果有符号，正常保留
     formatCurrency(num) {
@@ -101,8 +367,15 @@
       }
       this.$wxpage.options = options;
 
-      this.money = this.formatCurrency(this.money)
+      this.money = this.formatCurrency(this.money);
       console.log(this.money);
+
+      let t = this;
+      wx.getSystemInfo({
+        success(res) {
+          t.lineWidth = res.screenWidth / 2;
+        }
+      })
     }
   }
 </script>
