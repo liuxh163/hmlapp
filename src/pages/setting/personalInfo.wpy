@@ -1,0 +1,66 @@
+<style lang="scss">
+  @import "../../css/base";
+  .avatar-class{
+    align-items: center;
+    .avatar{
+      width: px2rpx(53);
+      height: px2rpx(53);
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .van-cell__value{
+      color: #333333;
+      font-size: px2rpx(18);
+    }
+  }
+  .van-cell__title{
+    color: #333333;
+    font-size: px2rpx(18);
+  }
+</style>
+<template>
+  <view class="personal-info">
+    <van-cell-group>
+      <van-cell custom-class="avatar-class" title=" " value="更换头像" is-link>
+        <view slot="icon">
+          <image class="avatar" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546346331779&di=799d7249a061b743c65bb412b7231daa&imgtype=0&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20180928%2F16%2F1538124027-aMtYOyIRzC.jpeg"/>
+        </view>
+      </van-cell>
+      <van-cell title="用户名" is-link/>
+      <van-cell title="生日" is-link/>
+      <van-cell title="性别" is-link/>
+      <van-cell title="所在地区" is-link/>
+      <van-cell title="联系方式" is-link/>
+      <van-cell title="账号绑定" is-link/>
+    </van-cell-group>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  // 身份证OCR识别
+  // https://blog.csdn.net/J_CSDN19/article/details/80947102
+  // https://cloud.tencent.com/document/product/655/30541
+  export default class personalInfo extends wepy.page {
+    config = {
+      navigationBarTitleText: '个人信息',
+      "usingComponents": {
+        "van-cell": "../../components/vant/cell/index",
+        "van-cell-group": "../../components/vant/cell-group/index",
+      },
+    };
+    components = {};
+
+    data = {};
+
+    methods = {};
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>

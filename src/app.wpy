@@ -31,14 +31,16 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        'pages/mine',
+        'pages/setting/personalInfo',
         'pages/index',
         'pages/discovery',
-        // 'pages/mine',
+        'pages/mine',
         'pages/hmgold/healthGold',
         'pages/hmgold/productIntroduction',
         'pages/comments',
         'pages/medicalExamDetail',
+        'pages/setting/setting',
+        // 'pages/setting/personalInfo',
         'pages/webView',
       ],
       window: {
