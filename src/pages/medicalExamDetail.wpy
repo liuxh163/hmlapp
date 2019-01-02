@@ -45,12 +45,12 @@
       </view>
       <view class="operate-view">
         <view class="left">
-          <image src="../img/like.png"/>
+          <image src="../img/icon_share.png"/>
           <text>{{medicalExam.shareNum}}</text>
         </view>
         <view class="right">
           <view class="common view-view">
-            <image src="../img/like.png"/>
+            <image src="../img/icon_view.png"/>
             <text>{{medicalExam.viewNum}}</text>
           </view>
           <view class="common like-view">
@@ -75,10 +75,13 @@
     <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 30rpx;margin-bottom: 30rpx"></view>
     <text>这里是tab标签页</text>
     <view class="bottom-view">
-      <view class="customer-service">
-        <image src="../img/icon_escort_interpretation.png"/>
-        <text>在线客服</text>
-      </view>
+      <button id='contact' open-type="contact" size="mini" plain='true' hidden='{{true}}'></button>
+      <label for='contact'>
+        <view class="customer-service">
+          <image src="../img/icon_contcat.png"/>
+          <text>在线客服</text>
+        </view>
+      </label>
       <button>马上预定</button>
     </view>
   </view>

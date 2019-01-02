@@ -23,7 +23,7 @@
                       <text>{{item.nickname}}</text>
                     </view>
                     <view class="like-container">
-                      <image src="../img/like.png"/>
+                      <image src="../img/icon_view.png"/>
                       <text>{{item.viewNum}}</text>
                     </view>
                   </view>
@@ -45,7 +45,7 @@
                       <text>{{item.nickname}}</text>
                     </view>
                     <view class="like-container">
-                      <image src="../img/like.png"/>
+                      <image src="../img/icon_view.png"/>
                       <text>{{item.viewNum}}</text>
                     </view>
                   </view>
@@ -76,7 +76,7 @@
                   </view>
                   <view class="right">
                     <view class="common view-view">
-                      <image src="../img/like.png"/>
+                      <image src="../img/icon_view.png"/>
                       <text>{{item.viewNum}}</text>
                     </view>
                     <view class="common like-view">

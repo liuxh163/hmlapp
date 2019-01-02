@@ -7,7 +7,9 @@
         <open-data class="avatar" type="userAvatarUrl"></open-data>
         <open-data type="userNickName"></open-data>
       </view>
-      <image class="setting" src="../img/icon_setting.png"/>
+      <navigator url="setting/setting">
+        <image class="setting" src="../img/icon_setting.png"/>
+      </navigator>
     </view>
     <view class="personal-data shadow">
       <view class="common">
@@ -75,7 +77,7 @@
                         <text>{{item.nickname}}</text>
                       </view>
                       <view class="like-container">
-                        <image src="../img/like.png"/>
+                        <image src="../img/icon_view.png"/>
                         <text>{{item.viewNum}}</text>
                       </view>
                     </view>
@@ -97,7 +99,7 @@
                         <text>{{item.nickname}}</text>
                       </view>
                       <view class="like-container">
-                        <image src="../img/like.png"/>
+                        <image src="../img/icon_view.png"/>
                         <text>{{item.viewNum}}</text>
                       </view>
                     </view>
@@ -128,7 +130,7 @@
                     </view>
                     <view class="right">
                       <view class="common view-view">
-                        <image src="../img/like.png"/>
+                        <image src="../img/icon_view.png"/>
                         <text>{{item.viewNum}}</text>
                       </view>
                       <view class="common like-view">
@@ -304,6 +306,9 @@
             });
           },150);
         }
+      },
+      bindSettingTap(){
+
       }
     };
 
@@ -368,7 +373,6 @@
       this.$wxpage.options = options;
 
       this.money = this.formatCurrency(this.money);
-      console.log(this.money);
 
       let t = this;
       wx.getSystemInfo({

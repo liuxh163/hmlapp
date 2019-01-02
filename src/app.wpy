@@ -31,7 +31,6 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        'pages/setting/personalInfo',
         'pages/index',
         'pages/discovery',
         'pages/mine',
@@ -40,7 +39,7 @@
         'pages/comments',
         'pages/medicalExamDetail',
         'pages/setting/setting',
-        // 'pages/setting/personalInfo',
+        'pages/setting/personalInfo',
         'pages/webView',
       ],
       window: {

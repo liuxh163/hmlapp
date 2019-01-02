@@ -39,9 +39,6 @@
 <script>
   import wepy from 'wepy'
 
-  // 身份证OCR识别
-  // https://blog.csdn.net/J_CSDN19/article/details/80947102
-  // https://cloud.tencent.com/document/product/655/30541
   export default class personalInfo extends wepy.page {
     config = {
       navigationBarTitleText: '个人信息',
