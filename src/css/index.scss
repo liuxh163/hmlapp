@@ -97,8 +97,8 @@ page{
           color: #333333;
         }
         .title{
-          width: px2rpx(107);
-          height: px2rpx(29);
+          min-width: px2rpx(107);
+          min-height: px2rpx(29);
           line-height: px2rpx(29);
           border-bottom-right-radius: px2rpx(4);
           position: absolute;
@@ -135,6 +135,7 @@ page{
           height: px2rpx(13);
         }
         text{
+          font-weight: bold;
           margin-left: px2rpx(7);
           color: #333333;
           font-size: px2rpx(15);

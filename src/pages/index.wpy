@@ -26,13 +26,13 @@
     <view class="swiper-view">
       <swiper autoplay="true" previous-margin="45px" next-margin="45px"
               bindchange="bindchange" circular="true">
-        <block wx:key="{{item}}" wx:for="{{imgUrls}}">
-          <swiper-item @tap="bindSwiperItemTap">
+        <block wx:key="{{item.id}}" wx:for="{{nationList}}">
+          <swiper-item @tap="bindSwiperItemTap({{item}})">
             <view class="swiper-item">
               <view class="item-container {{index != currentIndex?'scale':''}}">
-                <text class="title">日本康养之旅</text>
-                <image src="{{item}}"/>
-                <text class="desc">日本康养的特点特色介绍</text>
+                <text class="title">{{item.title}}</text>
+                <image src="{{item.thumbImage}}"/>
+                <text class="desc">{{item.desc}}}</text>
               </view>
             </view>
           </swiper-item>
@@ -148,10 +148,25 @@
     mixins = [commonApi]
 
     data = {
-      imgUrls: [
-        '../img/swiper1.jpg',
-        '../img/swiper2.jpg',
-        '../img/swiper3.jpg'
+      nationList:[
+        {
+          id:'1001',
+          thumbImage:'../img/swiper1.jpg',
+          title:'日本康养之旅',
+          desc:'日本康养的特点特色介绍',
+        },
+        {
+          id:'1002',
+          thumbImage:'../img/swiper2.jpg',
+          title:'韩国康养之旅',
+          desc:'韩国康养的特点特色介绍',
+        },
+        {
+          id:'1003',
+          thumbImage:'../img/swiper3.jpg',
+          title:'泰国康养之旅',
+          desc:'泰国康养的特点特色介绍',
+        },
       ],
       currentIndex: 0,
       recommendList: [
@@ -231,8 +246,13 @@
     };
 
     methods = {
-      bindSwiperItemTap(){
-        this.$navigate("medicalExamDetail");
+      bindSwiperItemTap(item){
+        switch (item.id) {
+          case "1001":
+            console.log("跳转到日本体检");
+            this.$navigate("medicalExamDetail");
+            break;
+        }
       },
       bindTurnSearch() {
         wx.showToast({
@@ -250,10 +270,7 @@
             });
             break;
           case '2':
-            wx.showToast({
-              title: '跳转到档案影像',
-              icon: 'none'
-            });
+            this.$navigate("archivesImage");
             break;
           case '3':
             this.$navigate("hmgold/healthGold");

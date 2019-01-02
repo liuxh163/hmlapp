@@ -3,7 +3,7 @@
 <template>
   <view class="main discovery">
     <van-tabs custom-class="custom-class" animated sticky color="#FFC207"
-              line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" offset-top="{{offsetTop}}" active="{{ active }}"
+              line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" offset-top="{{offsetTop}}" active="{{ 0 }}"
               bind:change="onChange">
       <van-tab title="发现">
         <view class="discovery-view">

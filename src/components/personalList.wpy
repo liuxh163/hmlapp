@@ -1,0 +1,106 @@
+<style lang="scss">
+  @import "../css/base";
+  .personal-list{
+    margin-top: px2rpx(15);
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    padding-left: px2rpx(6);
+    .personal-item{
+      margin-left: px2rpx(9);
+      margin-bottom: px2rpx(10);
+      border: 1px solid #E3E3E3;
+      border-radius: px2rpx(4);
+      width: px2rpx(169);
+      position: relative;
+      .top{
+        image{
+          border-top-left-radius: px2rpx(4);
+          border-top-right-radius: px2rpx(4);
+          width: px2rpx(169);
+          height: px2rpx(168);
+        }
+        .tags{
+          position: absolute;
+          top: px2rpx(0);
+          left: px2rpx(6);
+          .van-tag{
+            margin-right: px2rpx(10);
+            background-color: rgba(0,0,0,0.26) !important;
+            color: white;
+            font-size: px2rpx(11);
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<template>
+  <view class="personal-list">
+    <block wx:key="item.id" wx:for="{{listData}}">
+      <view class="personal-item">
+        <view class="top">
+          <image src="{{item.thumbImage}}"/>
+          <view class="tags">
+            <van-tag wx:key="tagItem" wx:for-item="tagItem" wx:for="{{item.tags}}">{{tagItem}}</van-tag>
+          </view>
+          <view class="tag hot" wx:if="{{item.isHot}}">
+            <text>热</text>
+          </view>
+          <view class="tag recommend" wx:if="{{item.isRecommend}}">
+            <text>推荐</text>
+          </view>
+        </view>
+        <view class="bottom">
+          <view class="first">
+            <view class="left">
+              <text>{{item.name}}</text>
+            </view>
+            <view class="right">
+              <view class="common like-view">
+                <image src="../img/like.png"/>
+                <text>{{item.likeNum}}</text>
+              </view>
+              <view class="common comment-view">
+                <image src="../img/comment.png"/>
+                <text>{{item.commentNum}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="second">
+            <text>{{item.schoolName}}</text>
+            <image src="{{item.sex == '0'?'../img/icon_boy.svg':'../img/icon_girl.svg'}}"/>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</template>
+
+<script>
+  import wepy from "wepy"
+
+  export default class personalList extends wepy.component {
+    config = {
+      "usingComponents": {
+        "van-tag": "./vant/tag/index",
+      }
+    };
+
+    props = {
+      listData:{
+        type:Array,
+        default:[]
+      },
+    };
+    data = {
+
+    };
+    methods = {
+
+    };
+    onLoad(){
+    }
+  }
+</script>

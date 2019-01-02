@@ -1,0 +1,153 @@
+<style lang="scss" src="../css/servicePersonal.scss">
+</style>
+<template>
+  <view class="service-personal">
+    <image class="banner" src="../img/banner.png"></image>
+    <view class="tab-bar">
+      <view class="category" hidden="{{true}}">
+        <text>翻译人员</text>
+        <view class="right-triangle"></view>
+      </view>
+      <view class="tabs">
+        <van-tabs bind:disabled="bindDisabledTabClick" custom-class="custom-class" animated sticky color="#FFC207"
+                  line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="1"
+                  bind:change="onChange">
+          <van-tab disabled title="翻译人员"></van-tab>
+          <van-tab title="日本">
+            <personallist :listData="personalList"></personallist>
+          </van-tab>
+          <van-tab title="韩国">韩国</van-tab>
+          <van-tab title="泰国">泰国</van-tab>
+        </van-tabs>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import personalList from '../components/personalList'
+
+  export default class servicePersonal extends wepy.page {
+    config = {
+      navigationBarTitleText: '服务人员',
+      "usingComponents": {
+        "van-tab": "../components/vant/tab/index",
+        "van-tabs": "../components/vant/tabs/index",
+        "van-tag": "../components/vant/tag/index",
+      }
+    };
+    components = {
+      personallist:personalList
+    };
+
+    data = {
+      scrollTop: 0,
+      lineWidth:93,
+      personalList:[
+        {
+          id:'1001',
+          thumbImage:'../img/swiper1.jpg',
+          isRecommend:true,
+          isHot:false,
+          tags:['专业','专业'],
+          name:'张小可',
+          likeNum:3,
+          commentNum:15,
+          schoolName:'东京大学',
+          sex:'1',
+        },
+        {
+          id:'1002',
+          thumbImage:'../img/swiper2.jpg',
+          isRecommend:false,
+          isHot:true,
+          tags:['专业','专业'],
+          name:'张小可',
+          likeNum:3,
+          commentNum:15,
+          schoolName:'东京大学',
+          sex:'0',
+        },
+        {
+          id:'1003',
+          thumbImage:'../img/swiper3.jpg',
+          isRecommend:false,
+          isHot:false,
+          tags:['专业','专业'],
+          name:'张小可',
+          likeNum:3,
+          commentNum:15,
+          schoolName:'东京大学',
+          sex:'1',
+        },
+        {
+          id:'1004',
+          thumbImage:'../img/swiper1.jpg',
+          isRecommend:false,
+          isHot:false,
+          tags:['专业','专业'],
+          name:'张小可',
+          likeNum:3,
+          commentNum:15,
+          schoolName:'东京大学',
+          sex:'0',
+        },
+        {
+          id:'1005',
+          thumbImage:'../img/swiper2.jpg',
+          isRecommend:false,
+          isHot:false,
+          tags:['专业','专业'],
+          name:'张小可',
+          likeNum:3,
+          commentNum:15,
+          schoolName:'东京大学',
+          sex:'0',
+        },
+      ],
+    };
+
+    methods = {
+      bindDisabledTabClick(){
+        wx.showToast({
+          title: 'disabled',
+          icon: 'none'
+        });
+      }
+    };
+
+    onPageScroll(e) {
+      // if (e.scrollTop > this.scrollTop) {
+      //   //向下滚动
+      //   // console.log('向下 ')
+      //   if (e.scrollTop > 40  && !this.scrolling){
+      //     // console.log('隐藏tabs');
+      //     this.isHidden = true;
+      //     this.offsetTop = -100;
+      //   }
+      // } else {
+      //   //向上滚动
+      //   // console.log('向上滚动 ')
+      //   this.isHidden = false;
+      //   this.offsetTop = 0;
+      // }
+      this.scrollTop = e.scrollTop;
+      this.$apply();
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+
+      let t = this;
+      wx.getSystemInfo({
+        success(res) {
+          t.lineWidth = (res.screenWidth - 96) / 3;
+        }
+      })
+    }
+  }
+</script>

@@ -1,0 +1,111 @@
+<style lang="scss">
+  @import "../css/base";
+  .archives-image{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: px2rpx(68);
+    .banner{
+      width: 100%;
+      height: px2rpx(199);
+    }
+    .desc{
+      margin-top: px2rpx(5);
+      margin-left: px2rpx(20);
+      margin-right: px2rpx(16);
+      color: #333333;
+      font-size: px2rpx(15);
+    }
+    .title-view{
+      margin-top: px2rpx(15);
+      margin-left: px2rpx(15);
+      display: flex;
+      align-items: center;
+      image{
+        width: px2rpx(3);
+        height: px2rpx(13);
+      }
+      text{
+        font-weight: bold;
+        margin-left: px2rpx(7);
+        color: #333333;
+        font-size: px2rpx(15);
+      }
+    }
+    .sample-list{
+      margin-top: px2rpx(15);
+      display: flex;
+      flex-flow: row wrap;
+      align-content: flex-start;
+      padding-left: px2rpx(5);
+      image {
+        margin-left: px2rpx(10);
+        margin-bottom: px2rpx(10);
+        width: px2rpx(169);
+        height: px2rpx(186);
+        border-radius: px2rpx(4);
+      }
+    }
+    .btn-container{
+      background-color: white;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      .buy-btn{
+        background:rgba(254,159,5,1);
+        border-radius:px2rpx(4);
+        margin: px2rpx(10) px2rpx(15);
+        color: white;
+        font-size: px2rpx(19);
+      }
+    }
+  }
+</style>
+<template>
+  <view class="archives-image">
+    <image class="banner" src="../img/banner.png"></image>
+    <text class="desc">拥有德国最先进的博物馆级别艺术品扫描设备，像素在16亿像素级别，是世界迄今为止超高清的扫描设备，扫描出的效果超高清，并且每年数千张的扫描数据档案，可发送X光片,核磁共振CT片扫描，免去您的后顾之忧。
+    </text>
+    <view class="title-view">
+      <image src="../img/title_icon.png"/>
+      <text>样例</text>
+    </view>
+    <view class="sample-list">
+      <block wx:key="item" wx:for="{{imageList}}">
+        <image src="{{item}}"></image>
+      </block>
+    </view>
+    <view class="btn-container">
+      <button class="buy-btn">购买</button>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class archivesImage extends wepy.page {
+    config = {
+      navigationBarTitleText: '胶片影像'
+    };
+    components = {};
+
+    data = {
+      imageList:[
+        '../img/swiper1.jpg',
+        '../img/swiper2.jpg',
+        '../img/swiper3.jpg',
+        '../img/swiper1.jpg',
+      ],
+    };
+
+    methods = {};
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>
