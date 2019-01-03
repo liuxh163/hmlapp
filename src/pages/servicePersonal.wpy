@@ -16,8 +16,12 @@
           <van-tab title="日本">
             <personallist :listData="personalList"></personallist>
           </van-tab>
-          <van-tab title="韩国">韩国</van-tab>
-          <van-tab title="泰国">泰国</van-tab>
+          <van-tab title="韩国">
+            <personallist :listData="personalList"></personallist>
+          </van-tab>
+          <van-tab title="泰国">
+            <personallist :listData="personalList"></personallist>
+          </van-tab>
         </van-tabs>
       </view>
     </view>
@@ -96,7 +100,7 @@
         {
           id:'1005',
           thumbImage:'../img/swiper2.jpg',
-          isRecommend:false,
+          isRecommend:true,
           isHot:false,
           tags:['专业','专业'],
           name:'张小可',

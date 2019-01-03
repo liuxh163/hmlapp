@@ -13,6 +13,7 @@
       border-radius: px2rpx(4);
       width: px2rpx(169);
       position: relative;
+      overflow: hidden;
       .top{
         image{
           border-top-left-radius: px2rpx(4);
@@ -29,6 +30,92 @@
             background-color: rgba(0,0,0,0.26) !important;
             color: white;
             font-size: px2rpx(11);
+          }
+        }
+        .tag {
+          width: px2rpx(80);
+          height: px2rpx(20);
+          position: absolute;
+          top: 0;
+          right: px2rpx(-20);
+          transform: rotate(45deg);
+          text{
+            position: absolute;
+            right: px2rpx(26);
+            top: px2rpx(2);
+            font-size: px2rpx(11);
+            color: white;
+          }
+        }
+        .hot{
+          background-color: #FE585A;
+        }
+        .recommend{
+          background: linear-gradient(to right,#077AD8,#32A3FF);
+          text{
+            right: px2rpx(23);
+            top: px2rpx(2);
+          }
+        }
+      }
+      .bottom{
+        margin-bottom: px2rpx(10);
+        .first{
+          display: flex;
+          align-items: center;
+          .left{
+            margin-left: px2rpx(10);
+            text{
+              color: #333333;
+              font-size: px2rpx(12);
+              font-weight: bold;
+            }
+          }
+          .right{
+            margin-left: auto;
+            margin-right: px2rpx(10);
+            display: flex;
+            align-items: center;
+            .common {
+              display: flex;
+              align-items: center;
+            }
+            .like-view {
+              margin-left: px2rpx(15);
+              image {
+                width: px2rpx(12);
+                height: px2rpx(11);
+              }
+            }
+            .comment-view {
+              margin-left: px2rpx(15);
+              image {
+                width: px2rpx(12);
+                height: px2rpx(11);
+              }
+            }
+            text {
+              margin-left: px2rpx(7);
+              color: #999999;
+              font-size: px2rpx(11);
+            }
+          }
+        }
+        .second{
+          margin-top: px2rpx(5);
+          display: flex;
+          align-items: center;
+          text{
+            margin-left: px2rpx(10);
+            color: #333333;
+            font-size: px2rpx(12);
+            font-weight: bold;
+          }
+          image{
+            width: px2rpx(20);
+            height: px2rpx(20);
+            margin-left: auto;
+            margin-right: px2rpx(10);
           }
         }
       }
