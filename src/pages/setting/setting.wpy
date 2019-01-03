@@ -51,6 +51,10 @@
 
     methods = {};
 
+    toLogin(){
+      this.$navigate('login');
+    }
+
     onLoad(options, data) {
       if (!options.preload) {
         options.preload = data.preload;

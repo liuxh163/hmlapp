@@ -124,6 +124,10 @@
       this.$invoke('html2wxml', 'htmlParserNotice')
     }
 
+    toLogin(){
+      this.$navigate('login');
+    }
+
     onLoad(options, data) {
       if (!options.preload) {
         options.preload = data.preload;

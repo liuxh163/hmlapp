@@ -17,11 +17,11 @@ export default function request(config = {}) {
     // 替换项目请求的域名
     options.url = wepy.$instance.globalData.BASE_URL + options.url;
 
-    const token = wepy.getStorageSync('t_token');
-    let contentType = options.method ? options.method === "GET" ? "application/json" : "application/x-www-form-urlencoded" : "application/json";
+    const token = wepy.getStorageSync('accessToken');
+    let contentType = options.method ? options.method === "GET" ? "application/json" : "application/json" : "application/json";
     options.header = {
       'Content-Type': contentType,
-      'Wd-Token': `${token}`
+      'hmtoken': `${token}`
     };
     let showLoading = true;
     if (options.showLoading != undefined) {
@@ -46,10 +46,11 @@ export default function request(config = {}) {
       } else {
         if (r.statusCode === 401 && wepy.$instance.globalData.AuthErrorCount < 3) {
           // token失效，需要重新登录
+          wx.hideLoading();
           console.log("AuthErrorCount：" + wepy.$instance.globalData.AuthErrorCount);
           wepy.$instance.globalData.AuthErrorCount++;
           wepy.$instance.globalData.isReLogin = true;
-          wepy.$instance.checkOpenID();
+          wepy.$instance.toLogin();
         } else {
           wx.hideLoading();
           reject(r);

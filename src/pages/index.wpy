@@ -286,12 +286,8 @@
       }
     };
 
-    // 首页调用用户登录检查
-    login() {
-      this.$parent.checkOpenID(res => {
-        // 登录或注册成功
-        console.log("登录成功");
-      })
+    toLogin(){
+      this.$navigate('login');
     }
 
     onShow() {
@@ -299,7 +295,10 @@
     }
 
     onLoad() {
-      // this.login();
+      const token = wepy.getStorageSync('accessToken');
+      if (!token) {
+        this.$navigate('login');
+      }
     }
   }
 </script>

@@ -1,6 +1,5 @@
 let httpUrl = {
-  "register":"user/login/teacherregist",
-  "login":"user/login/teacherlogin",
-  "sendSmsCode":"user/sendCellphoneVcode",
+  "login":"/api/v1/user/login",
+  "sendSmsCode":"/api/v1/users/sendSms",
 };
 export {httpUrl}

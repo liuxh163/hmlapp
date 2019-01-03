@@ -31,7 +31,6 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        'pages/servicePersonal',
         'pages/index',
         'pages/discovery',
         'pages/mine',
@@ -42,7 +41,8 @@
         'pages/setting/setting',
         'pages/setting/personalInfo',
         'pages/archivesImage',
-        // 'pages/servicePersonal',
+        'pages/servicePersonal',
+        'pages/login',
         'pages/webView',
       ],
       window: {
@@ -84,7 +84,7 @@
       isReLogin: false,  // 是否是token过期重新登录
       isLogin: false,  // 是否登录成功
       // BASE_URL:"http://192.168.5.165:9020/test/", // 测试
-      BASE_URL: "http://192.168.1.198:9020/product/", // 生产
+      BASE_URL: "http://47.92.131.110:24651", // 生产
     };
 
     constructor() {
@@ -134,6 +134,24 @@
     // 小程序启动回调
     onLaunch() {
 
+    }
+
+    toLogin(){
+      console.log("跳转到登录");
+      let pages = getCurrentPages();
+      let prevPage = pages[pages.length - 2];  //上一个页面
+      if (prevPage){
+        console.log("prevPage",prevPage);
+        prevPage.toLogin();
+      }else {
+        prevPage = pages[pages.length - 1];  //上一个页面
+        if (prevPage){
+          console.log("prevPage",prevPage);
+          prevPage.toLogin();
+        }else {
+          console.log("上一个页面实例为空")
+        }
+      }
     }
 
     // 检查本地是否有openID

@@ -11,11 +11,9 @@ export default class commonApi extends wepy.mixin {
   // 发送短信验证码
   sendSmsCode_Mixin(phoneNumber,resolve,reject,showLoading = true){
     let data = {
-      "cellphone":phoneNumber,
-      "opt":"01",
-      "usertype":"06"
+      "telephone":phoneNumber
     };
-    this.sendRequest(httpUrl.sendSmsCode, 'GET', data, resolve, reject, showLoading);
+    this.sendRequest(httpUrl.sendSmsCode, 'POST', data, resolve, reject, showLoading);
   }
 
   // 发送请求，封装错误提示等冗余代码
@@ -27,19 +25,20 @@ export default class commonApi extends wepy.mixin {
       showLoading:showLoading,
       loadingMask:loadingMask,
     }).then((res) => {
-      if (res.data && res.data.isSuccess == "true") {
+      console.log("res",res);
+      if (res.data && res.data.success) {
         console.log("request success");
-        resolve && resolve(res.data.rows)
+        resolve && resolve(res.data.data)
       } else {
         console.error("request fail");
         let errData = {
           isError:false,
-          errCode:res.data.msgCode?res.data.msgCode:"-1",
+          errCode:res.data.errcode?res.data.errcode:"-1",
           msg:res.data.message
         };
         reject && reject(errData);
         let msg = "服务器繁忙，请稍后再试";
-        if (res.data && res.data.message) {
+        if (res.data.message) {
           console.error("exception：" + res.data.message);
           msg = res.data.message;
         }

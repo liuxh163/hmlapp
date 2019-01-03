@@ -208,6 +208,10 @@
       }
     };
 
+    toLogin(){
+      this.$navigate('login');
+    }
+
     onShow() {
 
     }
