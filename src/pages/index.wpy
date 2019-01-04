@@ -32,7 +32,7 @@
               <view class="item-container {{index != currentIndex?'scale':''}}">
                 <text class="title">{{item.title}}</text>
                 <image src="{{item.thumbImage}}"/>
-                <text class="desc">{{item.desc}}}</text>
+                <text class="desc">{{item.desc}}</text>
               </view>
             </view>
           </swiper-item>
@@ -47,14 +47,16 @@
           <text>精品推荐</text>
         </view>
         <view class="more">
-          <text>更多</text>
-          <image src="../img/more.png"/>
+          <navigator open-type="switchTab" url="discovery">
+            <text>更多</text>
+            <image src="../img/more.png"/>
+          </navigator>
         </view>
       </view>
       <block wx:key="item.id" wx:for="{{recommendList}}">
         <view class="recommend-item">
-          <image class="thumb" src="{{item.image}}"/>
-          <text class="desc">{{item.desc}}</text>
+          <image class="thumb" src="{{item.cover_path}}"/>
+          <text class="desc">{{item.slogan}}</text>
           <view class="tag">
             <text>即走</text>
             <text>推荐</text>
@@ -63,10 +65,10 @@
             <text class="price">¥ {{item.price}}</text>
             <view class="like-comment">
               <image src="../img/like.png"/>
-              <text>{{item.likeNum}}</text>
+              <text>{{item.praise_num}}</text>
               <view @tap="bindTurnComment({{item.id}})" class="comment-container">
                 <image class="comment-image" src="../img/comment.png"/>
-                <text>{{item.commentNum}}</text>
+                <text>{{item.comment_num}}</text>
               </view>
             </view>
           </view>
@@ -81,35 +83,37 @@
           <text>发现新鲜</text>
         </view>
         <view class="more">
-          <text>更多</text>
-          <image src="../img/more.png"/>
+          <navigator open-type="switchTab" url="discovery">
+            <text>更多</text>
+            <image src="../img/more.png"/>
+          </navigator>
         </view>
       </view>
       <view class="discovery-container">
         <view class="left-container content-container">
-          <block wx:key="item.id" wx:for="{{discoveryList}}">
+          <block wx:key="item.id" wx:for="{{discoveryListLeft}}">
             <view class="discovery-item">
               <view class="location">
                 <image src="../img/location.png"/>
                 <text>{{item.location}}</text>
               </view>
               <image class="thumb" src="{{item.image}}"/>
-              <text class="desc">{{item.desc}}</text>
+              <text class="desc">{{item.title}}</text>
               <view class="info">
                 <view class="avatar-container">
                   <image src="{{item.avatar}}"/>
-                  <text>{{item.nickname}}</text>
+                  <text>{{item.posterName}}</text>
                 </view>
                 <view class="like-container">
                   <image src="../img/like.png"/>
-                  <text>{{item.likeNum}}</text>
+                  <text>{{item.praise_num}}</text>
                 </view>
               </view>
             </view>
           </block>
         </view>
         <view class="right-container content-container">
-          <block wx:key="item.id" wx:for="{{discoveryList}}">
+          <block wx:key="item.id" wx:for="{{discoveryListRight}}">
             <view class="discovery-item">
               <view class="location">
                 <image src="../img/location.png"/>
@@ -120,11 +124,11 @@
               <view class="info">
                 <view class="avatar-container">
                   <image src="{{item.avatar}}"/>
-                  <text>{{item.nickname}}</text>
+                  <text>{{item.posterName}}</text>
                 </view>
                 <view class="like-container">
                   <image src="../img/like.png"/>
-                  <text>{{item.likeNum}}</text>
+                  <text>{{item.praise_num}}</text>
                 </view>
               </view>
             </view>
@@ -138,115 +142,104 @@
 <script>
   import wepy from 'wepy'
   import commonApi from '../mixins/commonApi'
+  import {httpUrl} from '../utils/httpUrl'
 
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '海马',
+      enablePullDownRefresh:true,
+      backgroundTextStyle:'dark'
     };
     components = {};
 
     mixins = [commonApi]
 
     data = {
-      nationList:[
+      nationList: [
         {
-          id:'1001',
-          thumbImage:'../img/swiper1.jpg',
-          title:'日本康养之旅',
-          desc:'日本康养的特点特色介绍',
+          id: '1001',
+          thumbImage: '../img/swiper1.jpg',
+          title: '日本康养之旅',
+          desc: '日本康养的特点特色介绍',
         },
         {
-          id:'1002',
-          thumbImage:'../img/swiper2.jpg',
-          title:'韩国康养之旅',
-          desc:'韩国康养的特点特色介绍',
+          id: '1002',
+          thumbImage: '../img/swiper2.jpg',
+          title: '韩国康养之旅',
+          desc: '韩国康养的特点特色介绍',
         },
         {
-          id:'1003',
-          thumbImage:'../img/swiper3.jpg',
-          title:'泰国康养之旅',
-          desc:'泰国康养的特点特色介绍',
+          id: '1003',
+          thumbImage: '../img/swiper3.jpg',
+          title: '泰国康养之旅',
+          desc: '泰国康养的特点特色介绍',
         },
       ],
       currentIndex: 0,
       recommendList: [
         {
           id: '1001',
-          image: '../img/swiper1.jpg',
-          desc: '联合大阪阪和医院特别推出高品质体检体检舒适行',
+          cover_path: '../img/swiper1.jpg',
+          slogan: '联合大阪阪和医院特别推出高品质体检体检舒适行',
           price: '4600',
-          commentNum: '15',
-          likeNum: '3'
+          comment_num: '15',
+          praise_num: '3'
         },
         {
           id: '1002',
-          image: '../img/swiper2.jpg',
-          desc: '联合大阪阪和医院特别推出高品质体检体检舒适行',
+          cover_path: '../img/swiper2.jpg',
+          slogan: '联合大阪阪和医院特别推出高品质体检体检舒适行',
           price: '4600',
-          commentNum: '15',
-          likeNum: '3'
+          comment_num: '15',
+          praise_num: '3'
         },
       ],
+      discoveryListLeft: [],
+      discoveryListRight: [],
       discoveryList: [
         {
           id: '1001',
           image: '../img/swiper1.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          likeNum: '3',
+          posterName: 'Amanda',
+          praise_num: '3',
           location: '日本 东京'
         },
         {
           id: '1002',
-          image: '../img/swiper2.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          image: '../img/swiper1.jpg',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          likeNum: '3',
+          posterName: 'Amanda',
+          praise_num: '3',
           location: '日本 东京'
         },
         {
           id: '1003',
-          image: '../img/swiper3.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          image: '../img/swiper2.jpg',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          likeNum: '3',
+          posterName: 'Amanda',
+          praise_num: '3',
           location: '日本 东京'
         },
         {
           id: '1004',
           image: '../img/swiper2.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          likeNum: '3',
+          posterName: 'Amanda',
+          praise_num: '3',
           location: '日本 东京'
-        },
-        {
-          id: '1005',
-          image: '../img/swiper1.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          likeNum: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1006',
-          image: '../img/swiper2.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          likeNum: '3',
-          location: '日本 东京'
-        },
-      ]
+        }
+      ],
+      postsReqOver:false,
+      productsReqOver:false,
     };
 
     methods = {
-      bindSwiperItemTap(item){
+      bindSwiperItemTap(item) {
         switch (item.id) {
           case "1001":
             console.log("跳转到日本体检");
@@ -280,14 +273,89 @@
       bindchange(e) {
         this.currentIndex = e.detail.current;
       },
-      bindTurnComment(id){
-        console.log('id',id);
+      bindTurnComment(id) {
+        console.log('id', id);
         this.$navigate("comments");
       }
     };
 
-    toLogin(){
+    analyticalDiscoveryData(data){
+      this.discoveryListLeft = [];
+      this.discoveryListRight = [];
+      for (let i =0;i < data.length;i++){
+        if (i % 2 === 0) {
+          this.discoveryListLeft.push(data[i]);
+        }else {
+          this.discoveryListRight.push(data[i]);
+        }
+      }
+      this.$apply();
+    }
+
+    // 获取发现新鲜数据
+    getPosts() {
+      let postData = {
+        "id": "topic1",
+        "pages": 1,
+        "pageNum": 4
+      };
+      this.postsReqOver = false;
+      this.sendRequest(httpUrl.getPosts, 'GET', postData, res => {
+        this.postsReqOver = true;
+        if (this.productsReqOver) {
+          wx.stopPullDownRefresh();
+        }
+        // if (res) {
+        //   this.discoveryList = res;
+        //   this.$apply();
+        // }
+        console.log("res", res);
+      },err =>{
+        this.postsReqOver = true;
+        if (this.productsReqOver) {
+          wx.stopPullDownRefresh();
+        }
+      })
+    }
+
+    // 获取推荐数据
+    getRecommendData(){
+      let data = {
+        "nation":"01",
+        "limit": 2,
+        "sort_type": "03"
+      };
+      this.productsReqOver = false;
+      this.sendRequest(httpUrl.getProducts, 'GET', data, res => {
+        this.productsReqOver = true;
+        if (this.postsReqOver) {
+          wx.stopPullDownRefresh();
+        }
+        // if (res) {
+        //   this.recommendList = res;
+        //   this.$apply();
+        // }
+        console.log("res", res);
+      },err =>{
+        this.productsReqOver = true;
+        if (this.postsReqOver) {
+          wx.stopPullDownRefresh();
+        }
+      })
+    }
+
+    initData(){
+      this.analyticalDiscoveryData(this.discoveryList);
+      this.getPosts();
+      this.getRecommendData();
+    }
+
+    toLogin() {
       this.$navigate('login');
+    }
+
+    onPullDownRefresh(){
+      this.initData();
     }
 
     onShow() {
@@ -298,6 +366,8 @@
       const token = wepy.getStorageSync('accessToken');
       if (!token) {
         this.$navigate('login');
+      } else {
+        this.initData()
       }
     }
   }

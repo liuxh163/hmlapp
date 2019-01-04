@@ -9,44 +9,44 @@
         <view class="discovery-view">
           <view class="discovery-container">
             <view class="left-container content-container">
-              <block wx:key="item.id" wx:for="{{discoveryList}}">
+              <block wx:key="item.id" wx:for="{{discoveryListLeft}}">
                 <view class="discovery-item">
                   <view class="location">
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>
                   </view>
                   <image class="thumb" src="{{item.image}}"/>
-                  <text class="desc">{{item.desc}}</text>
+                  <text class="desc">{{item.title}}</text>
                   <view class="info">
                     <view class="avatar-container">
                       <image src="{{item.avatar}}"/>
-                      <text>{{item.nickname}}</text>
+                      <text>{{item.posterName}}</text>
                     </view>
                     <view class="like-container">
                       <image src="../img/icon_view.png"/>
-                      <text>{{item.viewNum}}</text>
+                      <text>{{item.view_num}}</text>
                     </view>
                   </view>
                 </view>
               </block>
             </view>
             <view class="right-container content-container">
-              <block wx:key="item.id" wx:for="{{discoveryList}}">
+              <block wx:key="item.id" wx:for="{{discoveryListRight}}">
                 <view class="discovery-item">
                   <view class="location">
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>
                   </view>
                   <image class="thumb" src="{{item.image}}"/>
-                  <text class="desc">{{item.desc}}</text>
+                  <text class="desc">{{item.title}}</text>
                   <view class="info">
                     <view class="avatar-container">
                       <image src="{{item.avatar}}"/>
-                      <text>{{item.nickname}}</text>
+                      <text>{{item.posterName}}</text>
                     </view>
                     <view class="like-container">
                       <image src="../img/icon_view.png"/>
-                      <text>{{item.viewNum}}</text>
+                      <text>{{item.view_num}}</text>
                     </view>
                   </view>
                 </view>
@@ -126,61 +126,63 @@
       lineWidth:188,
       flag:true,
       scrolling:false,
+      discoveryListLeft: [],
+      discoveryListRight: [],
       discoveryList: [
         {
           id: '1001',
           image: '../img/swiper1.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          viewNum: '120',
+          posterName: 'Amanda',
+          view_num: '3',
           location: '日本 东京'
         },
         {
           id: '1002',
-          image: '../img/swiper2.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          image: '../img/swiper1.jpg',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          viewNum: '120',
+          posterName: 'Amanda',
+          view_num: '3',
           location: '日本 东京'
         },
         {
           id: '1003',
-          image: '../img/swiper3.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          image: '../img/swiper2.jpg',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          viewNum: '120',
+          posterName: 'Amanda',
+          view_num: '3',
           location: '日本 东京'
         },
         {
           id: '1004',
           image: '../img/swiper2.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          viewNum: '120',
+          posterName: 'Amanda',
+          view_num: '3',
           location: '日本 东京'
         },
         {
           id: '1005',
-          image: '../img/swiper1.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          image: '../img/swiper2.jpg',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          viewNum: '120',
+          posterName: 'Amanda',
+          view_num: '3',
           location: '日本 东京'
         },
         {
           id: '1006',
           image: '../img/swiper2.jpg',
-          desc: '东京健康体检之旅开始啦健康体检之旅开始啦',
+          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
-          nickname: 'Amanda',
-          viewNum: '120',
+          posterName: 'Amanda',
+          view_num: '3',
           location: '日本 东京'
-        },
+        }
       ],
       talkAboutList:[
         {
@@ -291,6 +293,19 @@
       this.$apply();
     }
 
+    analyticalDiscoveryData(data){
+      this.discoveryListLeft = [];
+      this.discoveryListRight = [];
+      for (let i =0;i < data.length;i++){
+        if (i % 2 === 0) {
+          this.discoveryListLeft.push(data[i]);
+        }else {
+          this.discoveryListRight.push(data[i]);
+        }
+      }
+      this.$apply();
+    }
+
     toLogin(){
       this.$navigate('login');
     }
@@ -306,7 +321,9 @@
         success(res) {
           t.lineWidth = res.screenWidth / 2;
         }
-      })
+      });
+
+      this.analyticalDiscoveryData(this.discoveryList);
     }
   }
 </script>

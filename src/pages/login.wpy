@@ -200,7 +200,7 @@
           },err =>{
             this.loginBtnLoading = false;
             this.$apply();
-          })
+          },false)
         }
       }
     };
