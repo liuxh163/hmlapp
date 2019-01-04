@@ -275,7 +275,7 @@
       },
       bindTurnComment(id) {
         console.log('id', id);
-        this.$navigate("comments");
+        this.$navigate("discoverydetail/comments");
       }
     };
 

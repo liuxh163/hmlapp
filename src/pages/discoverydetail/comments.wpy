@@ -1,4 +1,4 @@
-<style lang="scss" src="../css/comments.scss">
+<style lang="scss" src="../../css/comments.scss">
 </style>
 <template>
   <view class="main">
@@ -15,7 +15,7 @@
                 <text>{{item.date}}</text>
               </view>
               <view @tap="bindLike({{item}})" class="right">
-                <image src="{{item.isLiked == 'true'?'../img/search.png':'../img/like.png'}}"/>
+                <image src="{{item.isLiked == 'true'?'../../img/search.png':'../../img/like.png'}}"/>
                 <text class="{{item.isLiked == 'true'?'liked':''}}">{{item.likeNum}}</text>
               </view>
             </view>
@@ -44,7 +44,7 @@
 
 <script>
   import wepy from 'wepy'
-  import commonApi from '../mixins/commonApi'
+  import commonApi from '../../mixins/commonApi'
 
   export default class Comments extends wepy.page {
     config = {
@@ -59,7 +59,7 @@
       commentList: [
         {
           id: '1001',
-          avatar: '../img/swiper1.jpg',
+          avatar: '../../img/swiper1.jpg',
           nickname: 'Amanda',
           date: '12-23',
           commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
@@ -69,7 +69,7 @@
         },
         {
           id: '1002',
-          avatar: '../img/swiper1.jpg',
+          avatar: '../../img/swiper1.jpg',
           nickname: 'Amanda',
           date: '12-23',
           commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
@@ -98,7 +98,7 @@
         },
         {
           id: '1003',
-          avatar: '../img/swiper1.jpg',
+          avatar: '../../img/swiper1.jpg',
           nickname: 'Amanda',
           date: '12-23',
           commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
@@ -127,7 +127,7 @@
         },
         {
           id: '1004',
-          avatar: '../img/swiper1.jpg',
+          avatar: '../../img/swiper1.jpg',
           nickname: 'Amanda',
           date: '12-23',
           commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
@@ -156,7 +156,7 @@
         },
         {
           id: '1005',
-          avatar: '../img/swiper1.jpg',
+          avatar: '../../img/swiper1.jpg',
           nickname: 'Amanda',
           date: '12-23',
           commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
@@ -209,7 +209,7 @@
     };
 
     toLogin(){
-      this.$navigate('login');
+      this.$navigate('../login');
     }
 
     onShow() {

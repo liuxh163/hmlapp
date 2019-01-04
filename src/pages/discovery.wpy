@@ -60,8 +60,8 @@
           <block wx:key="item.id" wx:for="{{talkAboutList}}">
             <view class="item-view">
               <view class="avatar-container">
-                <open-data class="avatar" type="userAvatarUrl"></open-data>
-                <open-data type="userNickName"></open-data>
+                <image class="avatar" src="../img/swiper1.jpg"></image>
+                <text>{{item.posterName}}</text>
               </view>
               <text class="content">{{item.content}}</text>
               <view class="image-container">
@@ -188,6 +188,7 @@
         {
           id:'2001',
           content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          posterName:'Amanda',
           imageList:[
             '../img/swiper1.jpg',
             '../img/swiper2.jpg',
@@ -203,6 +204,7 @@
         {
           id:'2002',
           content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          posterName:'Amanda',
           imageList:[
             '../img/swiper1.jpg',
             '../img/swiper2.jpg',
@@ -216,6 +218,7 @@
         {
           id:'2003',
           content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
+          posterName:'Amanda',
           imageList:[
             '../img/swiper1.jpg',
             '../img/swiper2.jpg',

@@ -1,0 +1,153 @@
+//@import "base";
+@import "comments";
+
+.talk-about-detail {
+  display: flex;
+  flex-direction: column;
+  .detail-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .avatar-container {
+      margin-top: px2rpx(11);
+      margin-left: px2rpx(15);
+      display: flex;
+      align-items: center;
+      image {
+        width: px2rpx(22);
+        height: px2rpx(22);
+        overflow: hidden;
+        border-radius: 50%;
+      }
+      text {
+        margin-left: px2rpx(8);
+        color: #999999;
+        font-size: px2rpx(12);
+      }
+    }
+    .content {
+      margin: px2rpx(10) px2rpx(15);
+      color: #333333;
+      font-size: px2rpx(12);
+    }
+    .image-container {
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .image-list {
+      display: flex;
+      flex-flow: row wrap;
+      align-content: flex-start;
+      padding-left: px2rpx(4);
+      image {
+        margin-left: px2rpx(10);
+        margin-bottom: px2rpx(10);
+        width: px2rpx(112);
+        height: px2rpx(81);
+        border-radius: px2rpx(4);
+      }
+    }
+    .tag {
+      z-index: -1;
+      background-color: #FE585A;
+      width: px2rpx(80);
+      height: px2rpx(20);
+      position: absolute;
+      top: 0;
+      right: px2rpx(-20);
+      transform: rotate(45deg);
+      text {
+        position: absolute;
+        right: px2rpx(26);
+        top: px2rpx(2);
+        font-size: px2rpx(11);
+        color: white;
+      }
+    }
+    .like-list {
+      background-color: #F2F2F2;
+      margin-left: px2rpx(13);
+      margin-right: px2rpx(13);
+      border-radius: px2rpx(4);
+      padding: px2rpx(7) px2rpx(10);
+      margin-bottom: px2rpx(15);
+      image {
+        width: px2rpx(12);
+        height: px2rpx(11);
+        margin-right: px2rpx(8);
+      }
+      text {
+        color: #333333;
+        font-size: px2rpx(11);
+      }
+    }
+  }
+  .comment-title {
+    padding-left: px2rpx(15);
+    margin-top: px2rpx(15);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #F2F2F2;
+    padding-bottom: px2rpx(15);
+    image {
+      width: px2rpx(3);
+      height: px2rpx(13);
+    }
+    text {
+      font-weight: bold;
+      margin-left: px2rpx(7);
+      color: #333333;
+      font-size: px2rpx(15);
+    }
+  }
+  .main {
+    .send-comment {
+      input {
+        flex: 1;
+      }
+      text {
+        margin-right: px2rpx(12);
+      }
+      .operate-view {
+        display: flex;
+        align-items: center;
+        margin-left: px2rpx(15);
+        margin-right: px2rpx(20);
+        .common {
+          display: flex;
+          align-items: center;
+          text{
+            font-weight: 400;
+          }
+        }
+        .view-view {
+          image {
+            width: px2rpx(12);
+            height: px2rpx(12);
+          }
+        }
+        .like-view {
+          margin-left: px2rpx(15);
+          image {
+            width: px2rpx(12);
+            height: px2rpx(11);
+          }
+        }
+        .comment-view {
+          margin-left: px2rpx(15);
+          image {
+            width: px2rpx(12);
+            height: px2rpx(11);
+          }
+        }
+        text {
+          margin-left: px2rpx(7);
+          color: #999999;
+          font-size: px2rpx(11);
+        }
+      }
+    }
+  }
+}
