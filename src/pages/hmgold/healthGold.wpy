@@ -87,7 +87,7 @@
     };
 
     toLogin(){
-      this.$navigate('login');
+      this.$navigate('../login');
     }
 
     onShow() {

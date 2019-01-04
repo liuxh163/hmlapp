@@ -22,7 +22,7 @@
     <button id='feedback' open-type="feedback" size="mini" plain='true' hidden='{{true}}'></button>
     <van-cell-group>
       <van-cell title="个人信息" url="personalInfo" is-link/>
-      <van-cell title="清理缓存" is-link/>
+      <van-cell title="清理缓存" bind:click="clearCache" is-link/>
       <van-cell title="关于" is-link/>
       <van-cell title="我的积分" is-link/>
       <label for='feedback'>
@@ -30,7 +30,7 @@
       </label>
       <van-cell title="账号绑定" is-link/>
     </van-cell-group>
-    <button class="exit">退出登录</button>
+    <button @tap="exitLogin" class="exit">退出登录</button>
   </view>
 </template>
 
@@ -49,10 +49,28 @@
 
     data = {};
 
-    methods = {};
+    methods = {
+      clearCache(){
+        wx.showLoading({
+          title: '正在清理...',
+        });
+        setTimeout(function () {
+          wx.hideLoading();
+          wx.showToast({
+            title: '清理成功',
+          });
+        }, 1500)
+      },
+      exitLogin(){
+        wx.removeStorageSync('accessToken');
+        wx.reLaunch({
+          url: '../login'
+        })
+      }
+    };
 
     toLogin(){
-      this.$navigate('login');
+      this.$navigate('../login');
     }
 
     onLoad(options, data) {

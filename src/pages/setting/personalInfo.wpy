@@ -27,9 +27,15 @@
         </view>
       </van-cell>
       <van-cell title="用户名" is-link/>
-      <van-cell title="生日" is-link/>
-      <van-cell title="性别" is-link/>
-      <van-cell title="所在地区" is-link/>
+      <picker mode="date" value="{{date}}" end="{{endDate}}" bindchange="bindDateChange">
+        <van-cell title="生日" value="{{date}}" is-link/>
+      </picker>
+      <picker bindchange="bindSexChange" value="{{sexSelectIndex == -1?0:sexSelectIndex}}" range="{{sexArray}}">
+        <van-cell title="性别" value="{{sexSelectIndex == -1?'':sexArray[sexSelectIndex]}}" is-link/>
+      </picker>
+      <picker mode="region" value="{{region}}" bindchange="bindRegionChange">
+        <van-cell title="所在地区" value="{{region[0]}}{{region[1]}}{{region[2]}}" is-link/>
+      </picker>
       <van-cell title="联系方式" is-link/>
       <van-cell title="账号绑定" is-link/>
     </van-cell-group>
@@ -38,6 +44,7 @@
 
 <script>
   import wepy from 'wepy'
+  import utils from '../../mixins/utils'
 
   export default class personalInfo extends wepy.page {
     config = {
@@ -49,12 +56,47 @@
     };
     components = {};
 
-    data = {};
+    mixins = [utils];
 
-    methods = {};
+    data = {
+      MODIFY_TYPE_AVATAR:0,
+      MODIFY_TYPE_NAME:1,
+      MODIFY_TYPE_BIRTHDAY:2,
+      MODIFY_TYPE_SEX:3,
+      MODIFY_TYPE_REGION:4,
+      MODIFY_TYPE_PHONE:5,
+      MODIFY_TYPE_ACCOUNT:6,
+      date:'',
+      endDate:'',
+      sexArray:["男","女"],
+      sexSelectIndex:-1,
+      region: ["","",""],
+    };
+
+    methods = {
+      bindDateChange(e){
+        this.date = e.detail.value;
+      },
+      bindSexChange(e){
+        this.sexSelectIndex = e.detail.value;
+      },
+      bindRegionChange(e){
+        let regionValue = this.convertArrayByComma(e.detail.value);
+        let regionCode = this.convertArrayByComma(e.detail.code);
+
+        if (regionValue && (!e.detail.code || e.detail.code.length == 0)){
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          });
+          return;
+        }
+        this.region = e.detail.value;
+      },
+    };
 
     toLogin(){
-      this.$navigate('login');
+      this.$navigate('../login');
     }
 
     onLoad(options, data) {
@@ -62,6 +104,8 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      this.endDate = this.formatTime(new Date());
     }
   }
 </script>

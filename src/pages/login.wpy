@@ -185,13 +185,8 @@
               console.log("prevPage",prevPage);
               prevPage.onLoad(prevPage.options);
             }else {
-              prevPage = pages[pages.length - 1];  //上一个页面
-              if (prevPage){
-                console.log("prevPage",prevPage);
-                prevPage.onLoad(prevPage.options);
-              }else {
-                console.log("上一个页面实例为空")
-              }
+              console.log("上一个页面实例为空,跳转到index");
+              t.$redirect("index");
             }
             setTimeout(function () {
               wx.navigateBack();
