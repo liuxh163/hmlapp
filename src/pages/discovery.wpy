@@ -58,7 +58,7 @@
       <van-tab title="说说">
         <view class="talk-about">
           <block wx:key="item.id" wx:for="{{talkAboutList}}">
-            <view class="item-view">
+            <view class="item-view" @tap="bindTalkAboutItem({{item.id}})">
               <view class="avatar-container">
                 <image class="avatar" src="../img/swiper1.jpg"></image>
                 <text>{{item.posterName}}</text>
@@ -231,6 +231,10 @@
     };
 
     methods = {
+      bindTalkAboutItem(id){
+        console.log("id",id);
+        this.$navigate("discoverydetail/talkAboutDetail?id=" + id);
+      },
       bindAddTap(){
         wx.showToast({
           title: 'add',

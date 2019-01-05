@@ -72,6 +72,43 @@
   .content{
     margin-top: px2rpx(70);
     padding-bottom: px2rpx(70);
+    .step2{
+      display: flex;
+      flex-direction: column;
+      .title{
+        display: flex;
+        align-items: center;
+        margin-left: px2rpx(15);
+        margin-top: px2rpx(10);
+        .title-icon{
+          width: px2rpx(4);
+          height: px2rpx(22);
+          background-color: #FFC207;
+        }
+        text{
+          margin-left: px2rpx(10);
+          color: #333333;
+          font-size: px2rpx(15);
+        }
+      }
+      .desc{
+        margin-top: px2rpx(-15);
+        margin-left: px2rpx(15);
+        margin-right: px2rpx(15);
+        line-height: px2rpx(25);
+        color: #000000;
+        font-size: px2rpx(13);
+      }
+      .title2{
+        margin-top: px2rpx(20);
+      }
+      .desc-image{
+        margin-top: px2rpx(18);
+        width: px2rpx(328);
+        height: px2rpx(125);
+        align-self: center;
+      }
+    }
   }
   .next-btn-container{
     position: fixed;

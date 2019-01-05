@@ -2,7 +2,7 @@ import wepy from 'wepy'
 
 export default class utils extends wepy.mixin {
   // 正则验证手机号格式
-  checkPhoneNumber(phoneNumber) {
+  checkPhoneNumber(phoneNumber,isShowToast = true) {
     if (!phoneNumber) {
       wx.showToast({
         title: '请输入手机号',
@@ -12,10 +12,12 @@ export default class utils extends wepy.mixin {
     }
     let reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
     if (!reg.test(phoneNumber)) {
-      wx.showToast({
-        title: '手机号格式不正确',
-        icon: 'none'
-      });
+      if (isShowToast) {
+        wx.showToast({
+          title: '手机号格式不正确',
+          icon: 'none'
+        });
+      }
       return false;
     }
     return true;

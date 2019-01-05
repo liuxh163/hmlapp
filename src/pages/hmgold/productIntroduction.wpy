@@ -3,9 +3,10 @@
 <style lang="scss">
   @import '../../wxparse/wxParse.wxss';
   @import "../../css/base";
-  .wxParse-div{
-    .text{
-      .wxParse-inline{
+
+  .wxParse-div {
+    .text {
+      .wxParse-inline {
         margin: px2rpx(20);
         display: block;
         color: #333333;
@@ -13,11 +14,40 @@
       }
     }
   }
-  .wxParse-img{
+
+  .wxParse-img {
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
+
+  .van-cell__title {
+    font-size: px2rpx(18);
+    color: #333333;
+  }
+
+  .van-cell__value {
+    color: #333333 !important;
+    font-size: px2rpx(14);
+  }
+  .van-cell__label{
+    color: #f44 !important;
+    text-align: right !important;
+    margin-right: px2rpx(-20);
+  }
+
+  .van-field__body {
+    input {
+      text-align: right;
+    }
+    textarea {
+      text-align: right;
+    }
+  }
+  .van-field__error-message{
+    text-align: right !important;
+  }
+
 </style>
 <template>
   <view class="main">
@@ -42,21 +72,55 @@
         <view class="line-selected" style="left:{{lineSelectedLeft}}"></view>
       </view>
     </view>
-    <view class="content">
-      <view class="panel" wx:if="{{currentStep == 1}}">
-        <import src="../../wxparse/wxParse.wxml"/>
-        <html2wxml :parserName="name" :parserContent.sync="htmlContent"/>
+    <form bindsubmit="formSubmit">
+      <view class="content">
+        <view class="panel" wx:if="{{currentStep == 1}}">
+          <import src="../../wxparse/wxParse.wxml"/>
+          <html2wxml :parserName="name" :parserContent.sync="htmlContent"/>
+        </view>
+        <view class="panel step2" wx:if="{{currentStep == 2}}">
+          <view class="title">
+            <view class="title-icon"></view>
+            <text>分期与利率</text>
+          </view>
+          <text class="desc">
+            医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说 明及整改措施 (4500
+            XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
+          </text>
+          <view class="title title2">
+            <view class="title-icon"></view>
+            <text>使用政策</text>
+          </view>
+          <text class="desc">
+            医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说 明及整改措施 (4500
+            XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
+          </text>
+          <image class="desc-image" src="../../img/swiper1.jpg"/>
+        </view>
+        <view class="panel step3" wx:if="{{currentStep == 3}}">
+          <van-field name="name" id="name" bind:input="bindInput" maxlength="10" label="真实姓名" placeholder="请输入姓名"
+                     error-message="{{errMsg.name}}"/>
+          <picker name="sex" bindchange="bindSexChange" value="{{sexSelectIndex == -1?0:sexSelectIndex}}"
+                  range="{{sexArray}}">
+            <van-cell title="性别" value="{{sexSelectIndex == -1?'':sexArray[sexSelectIndex]}}" label="{{errMsg.sex}}" is-link/>
+          </picker>
+          <van-field name="wechat_number" id="wechat_number" bind:input="bindInput" maxlength="50" label="微信号"
+                     placeholder="请输入微信号" error-message="{{errMsg.wechat_number}}"/>
+          <van-field name="alipay_number" id="alipay_number" bind:input="bindInput" maxlength="50" label="支付宝号" placeholder="请输入支付宝号"
+                     error-message="{{errMsg.alipay_number}}"/>
+          <van-field name="phone" id="phone" bind:input="bindInput" maxlength="11" label="手机号" placeholder="请输入手机号" type="number"
+                     error-message="{{errMsg.phone}}"/>
+          <picker name="region" mode="region" value="{{region}}" bindchange="bindRegionChange">
+            <van-cell title="所在地区" value="{{region[0]}}{{region[1]}}{{region[2]}}" label="{{errMsg.region}}" is-link/>
+          </picker>
+          <van-field name="address" id="address" bind:input="bindInput" maxlength="100" label="详细地址" placeholder="请输入详细地址"
+                     error-message="{{errMsg.address}}"/>
+        </view>
       </view>
-      <view class="panel" wx:if="{{currentStep == 2}}">
-        拿多少
+      <view class="next-btn-container">
+        <button form-type="submit" class="next-btn" @tap="bindNextTap">{{currentStep == 3?'申请':'下一步'}}</button>
       </view>
-      <view class="panel" wx:if="{{currentStep == 3}}">
-        怎么拿
-      </view>
-    </view>
-    <view class="next-btn-container">
-      <button class="next-btn" @tap="bindNextTap">{{currentStep == 3?'申请':'下一步'}}</button>
-    </view>
+    </form>
   </view>
 </template>
 
@@ -68,6 +132,10 @@
   export default class productIntroduction extends wepy.page {
     config = {
       navigationBarTitleText: '海马金',
+      "usingComponents": {
+        "van-field": "../../components/vant/field/index",
+        "van-cell": "../../components/vant/cell/index",
+      }
     };
     components = {
       html2wxml: html2wxml,
@@ -76,13 +144,25 @@
     mixins = [utils]
 
     data = {
-      name:'parse1',
-      currentStep:1,
-      lineSelectedLeft:'0',
-      htmlContent:'',
+      name: 'parse1',
+      currentStep: 1,
+      lineSelectedLeft: '0',
+      htmlContent: '',
       remoteData: "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>" +
-        "<img src='../../img/swiper1.jpg'><img src='../../img/swiper2.jpg'><img src='../../img/swiper3.jpg'>" +
-        "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>",
+          "<img src='../../img/swiper1.jpg'><img src='../../img/swiper2.jpg'><img src='../../img/swiper3.jpg'>" +
+          "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>",
+      sexArray: ["男", "女"],
+      sexSelectIndex: -1,
+      region: ["", "", ""],
+      errMsg:{
+        name:'',
+        sex:'',
+        wechat_number:'',
+        alipay_number:'',
+        phone:'',
+        region:'',
+        address:'',
+      }
     };
 
     watch = {
@@ -102,29 +182,120 @@
     };
 
     methods = {
-      bindTabBtnTap(stepIndex){
+      formSubmit(e) {
+        if (this.currentStep == 3) {
+          let value = e.detail.value;
+          console.log("value", value);
+          let isSuccess = false;
+          this.errMsg.name='';
+          this.errMsg.sex='';
+          this.errMsg.wechat_number='';
+          this.errMsg.alipay_number='';
+          this.errMsg.phone='';
+          this.errMsg.region='';
+          this.errMsg.address='';
+          let name = value.name;
+          let sex = this.sexSelectIndex;
+          let wechat_number = value.wechat_number;
+          let alipay_number = value.alipay_number;
+          let phone = value.phone;
+          let region = value.region;
+          let address = value.address;
+          let reg = new RegExp( ',' , "g" );
+          let regionString = region.toString().replace(reg,"");
+          if (name && sex !== -1 && wechat_number && wechat_number && alipay_number && phone && regionString && address){
+            if (this.checkPhoneNumber(phone,false)){
+              isSuccess = true;
+            }else{
+              this.errMsg.phone='手机号格式不正确';
+            }
+          }else {
+            if (!name) {
+              this.errMsg.name='请输入姓名';
+            }
+            if (sex === -1) {
+              this.errMsg.sex='请选择性别';
+            }
+            if (!wechat_number){
+              this.errMsg.wechat_number='请输入微信号';
+            }
+            if (!alipay_number) {
+              this.errMsg.alipay_number='请输入支付宝号';
+            }
+            if (!phone) {
+              this.errMsg.phone='请输入手机号';
+            }
+            if (!regionString) {
+              this.errMsg.region='请选择所在地区';
+            }
+            if (!address) {
+              this.errMsg.address='请输入详细地址';
+            }
+          }
+          if (isSuccess) {
+            wx.showToast({
+              title: '调用提交申请接口',
+              icon: 'none'
+            });
+          }
+        }
+      },
+      bindInput(e){
+        // console.log("bindInput", e);
+        switch (e.currentTarget.id) {
+          case "name":
+            this.errMsg.name='';
+            break;
+          case "wechat_number":
+            this.errMsg.wechat_number='';
+            break;
+          case "alipay_number":
+            this.errMsg.alipay_number='';
+            break;
+          case "phone":
+            this.errMsg.phone='';
+            break;
+          case "address":
+            this.errMsg.address='';
+            break;
+        }
+      },
+      bindSexChange(e) {
+        this.sexSelectIndex = e.detail.value;
+        this.errMsg.sex='';
+      },
+      bindRegionChange(e) {
+        let regionValue = this.convertArrayByComma(e.detail.value);
+        let regionCode = this.convertArrayByComma(e.detail.code);
+
+        if (regionValue && (!e.detail.code || e.detail.code.length == 0)) {
+          wx.showModal({
+            title: '提示',
+            content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
+          });
+          return;
+        }
+        this.region = e.detail.value;
+        this.errMsg.region='';
+      },
+      bindTabBtnTap(stepIndex) {
         this.currentStep = stepIndex;
       },
-      bindNextTap(){
+      bindNextTap() {
         if (this.currentStep < 3) {
           this.currentStep++;
-        }else {
-          wx.showToast({
-            title: '提交申请',
-            icon: 'none'
-          });
         }
       }
     };
 
-    parseHtml(){
+    parseHtml() {
       this.htmlContent = this.remoteData;
       this.$apply();
       //调用通知接口通知组件更新数据
       this.$invoke('html2wxml', 'htmlParserNotice')
     }
 
-    toLogin(){
+    toLogin() {
       this.$navigate('../login');
     }
 

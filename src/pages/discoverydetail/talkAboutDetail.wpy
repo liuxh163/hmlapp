@@ -272,6 +272,8 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      console.log("id",options.id);
     }
   }
 </script>
