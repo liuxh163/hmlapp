@@ -14,13 +14,13 @@
                   bind:change="onChange">
           <van-tab disabled title="翻译人员"></van-tab>
           <van-tab title="日本">
-            <personallist :listData="personalList"></personallist>
+            <personallist :listData.sync="personalList"></personallist>
           </van-tab>
           <van-tab title="韩国">
-            <personallist :listData="personalList"></personallist>
+            <personallist :listData.sync="personalList"></personallist>
           </van-tab>
           <van-tab title="泰国">
-            <personallist :listData="personalList"></personallist>
+            <personallist :listData.sync="personalList"></personallist>
           </van-tab>
         </van-tabs>
       </view>

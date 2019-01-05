@@ -41,6 +41,7 @@
         'pages/setting/setting',
         'pages/setting/personalInfo',
         'pages/archivesImage',
+        'pages/flimServiceBuy',
         'pages/servicePersonal',
         'pages/login',
         'pages/discoverydetail/talkAboutDetail',

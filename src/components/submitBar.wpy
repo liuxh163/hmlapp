@@ -1,0 +1,144 @@
+<style lang="scss">
+  @import "../css/base";
+  .submit-bar{
+    height: px2rpx(60);
+    display: flex;
+    .buy-list{
+      width: px2rpx(70);
+      background-color: #333333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: px2rpx(16);
+      image{
+        width: px2rpx(22);
+        height: px2rpx(20);
+      }
+      text{
+        margin-top: px2rpx(-20);
+        background-color: #FE9F05;
+        border-radius: 50%;
+        overflow: hidden;
+        width: px2rpx(16);
+        height: px2rpx(16);
+        color: white;
+        font-size: px2rpx(11);
+        text-align: center;
+      }
+    }
+    .summation{
+      background-color: #666666;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      .summation-text{
+        margin-top: px2rpx(17);
+        color: white;
+        font-size: px2rpx(12);
+        font-weight: 500;
+      }
+      .price{
+        margin-top: px2rpx(10);
+        display: flex;
+        flex-direction: column;
+        .rmb{
+          text:first-child{
+            color: white;
+            font-size: px2rpx(12);
+            font-weight: 500;
+          }
+          text:nth-child(2){
+            color: white;
+            font-size: px2rpx(18);
+            font-weight: 500;
+          }
+        }
+        .jpy-text{
+          color: #CCCCCC;
+          font-weight: 500;
+          font-size: px2rpx(11);
+        }
+      }
+    }
+    button{
+      width: px2rpx(121);
+      background-color: #FE9F05;
+      color: white;
+      font-size: px2rpx(19);
+      line-height: px2rpx(60);
+      border-radius: 0;
+    }
+  }
+</style>
+
+<template>
+  <view class="submit-bar">
+    <view class="buy-list" style="padding-left:{{buyListCount === 0?'0':'32rpx'}}">
+      <image src="../img/icon_menu.svg"/>
+      <text wx:if="{{buyListCount !== 0}}">{{buyListCount}}</text>
+    </view>
+    <view class="summation">
+      <text class="summation-text">合计：</text>
+      <view class="price">
+        <view class="rmb">
+          <text>￥ </text>
+          <text>{{priceRMB}} 元</text>
+        </view>
+        <text class="jpy-text">JPY {{priceJPY}}</text>
+      </view>
+    </view>
+    <button disabled="{{submitBtnLoading}}" loading="{{submitBtnLoading}}" form-type="submit">支付</button>
+  </view>
+</template>
+
+<script>
+  import wepy from "wepy"
+  import utils from '../mixins/utils'
+
+  export default class submitBar extends wepy.component {
+    config = {};
+
+    props = {
+      submitBtnLoading: {
+        type:Boolean,
+        default:false
+      },
+      buyListCount:{
+        type: Number,
+        default: 0
+      },
+      priceRMB:{
+        type:String,
+        default:'0'
+      },
+      priceJPY:{
+        type:String,
+        default:'0'
+      }
+    };
+    data = {
+
+    };
+
+    mixins = [utils];
+
+    watch = {
+      priceRMB(newValue, oldValue){
+        this.priceRMB = this.formatCurrency(newValue);
+      },
+      priceJPY(newValue, oldValue){
+        this.priceJPY = this.formatCurrency(newValue);
+      },
+    };
+
+    methods = {
+
+    };
+
+    onLoad(){
+      this.priceRMB = this.formatCurrency(this.priceRMB);
+      this.priceJPY = this.formatCurrency(this.priceJPY);
+      this.$apply();
+    }
+  }
+</script>
