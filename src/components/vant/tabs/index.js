@@ -57,6 +57,10 @@ VantComponent({
     scrollTop: {
       type: Number,
       value: 0
+    },
+    canChangeTab:{
+      type:Boolean,
+      value:true,
     }
   },
   data: {
@@ -120,6 +124,7 @@ VantComponent({
         this.set({
           active: active
         });
+        //
         this.setActiveTab();
       }
     },
@@ -176,7 +181,6 @@ VantComponent({
     },
     setActiveTab: function setActiveTab() {
       var _this3 = this;
-
       this.child.forEach(function (item, index) {
         var data = {
           active: index === _this3.data.active
@@ -187,15 +191,23 @@ VantComponent({
         }
 
         if (data.active !== item.data.active) {
-          item.set(data);
+          if (_this3.data.canChangeTab){
+            item.set(data);
+          }else {
+            if (_this3.data.active === 0){
+              item.set(data);
+            }
+          }
         }
       });
       this.set({}, function () {
         _this3.setLine();
 
-        _this3.setTrack();
+        if (_this3.data.canChangeTab){
+          _this3.setTrack();
 
-        _this3.scrollIntoView();
+          _this3.scrollIntoView();
+        }
       });
     },
     // scroll active tab into view

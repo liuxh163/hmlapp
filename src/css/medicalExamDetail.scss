@@ -262,3 +262,77 @@
     background-color: #ea9705;
   }
 }
+
+.custom-class{
+  .van-tab{
+    color: #333333 !important;
+    font-size: px2rpx(14) !important;
+    flex: 1 !important;
+  }
+  .van-tab--active{
+    color: #F19F00 !important;
+  }
+  .van-hairline--top-bottom::after{
+    border-top-width: 0 !important;
+  }
+  .van-hairline--top-bottom::after{
+    border-bottom-width: px2rpx(4) !important;
+    border-bottom-color: #E3E3E3 !important;
+  }
+  .van-tabs__wrap{
+    //position: fixed !important;
+  }
+}
+
+.scroll-view-tab{
+  position: relative;
+  height: 100%;
+  .common{
+    display: flex;
+    flex-direction: column;
+  }
+  .view1{
+    image{
+      width: 100%;
+      height: px2rpx(201);
+    }
+  }
+  .view2{
+    .content{
+      display: flex;
+      flex-direction: column;
+      margin-left: px2rpx(15);
+      margin-right: px2rpx(15);
+      margin-bottom: px2rpx(15);
+      text:first-child{
+        color: #000000;
+        font-size: px2rpx(13);
+      }
+      navigator{
+        margin-top: px2rpx(15);
+        margin-left: auto;
+        color: #FE9F05;
+        font-size: px2rpx(12);
+      }
+    }
+  }
+  .title-view{
+    display: flex;
+    align-items: center;
+    margin-top: px2rpx(20);
+    border-bottom: 1px solid #E6E6E6;
+    padding-bottom: px2rpx(13);
+    width: 100%;
+    .title-icon{
+      margin-left: px2rpx(14);
+      width: px2rpx(4);
+      height: px2rpx(22);
+      background-color: #FFC207;
+    }
+    text{
+      margin-left: px2rpx(7);
+      color: #333333;
+      font-size: px2rpx(15);
+    }
+  }
+}

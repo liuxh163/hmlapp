@@ -73,7 +73,41 @@
       </view>
     </view>
     <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 30rpx;margin-bottom: 30rpx"></view>
-    <text>这里是tab标签页</text>
+    <view class="tabs">
+      <van-tabs custom-class="custom-class" animated sticky color="#FFC207"
+                line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="0"
+                canChangeTab="{{false}}" bind:change="onChange">
+        <van-tab title="行程亮点">
+          <scroll-view class="scroll-view-tab" scroll-into-view="{{toView}}" scroll-y="{{true}}"
+                       scroll-with-animation="{{true}}" >
+            <view class="view1" id="viewf">
+              <image src="../img/swiper1.jpg"/>
+              <image src="../img/swiper2.jpg"/>
+            </view>
+            <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 14rpx"></view>
+            <view class="common view2" id="views">
+              <view class="title-view">
+                <view class="title-icon"></view>
+                <text>体检介绍</text>
+              </view>
+              <view class="content">
+                <text>
+                  医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
+                </text>
+                <navigator url="login">
+                  更多内容 >
+                </navigator>
+              </view>
+            </view>
+          </scroll-view>
+        </van-tab>
+        <van-tab title="体检介绍"></van-tab>
+        <van-tab title="轻松行程"></van-tab>
+        <van-tab title="费用说明"></van-tab>
+        <van-tab title="预订须知"></van-tab>
+      </van-tabs>
+    </view>
+    <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 10rpx"></view>
     <view class="bottom-view">
       <button id='contact' open-type="contact" size="mini" plain='true' hidden='{{true}}'></button>
       <label for='contact'>
@@ -95,6 +129,8 @@
       navigationBarTitleText: '体检详情',
       "usingComponents": {
         "van-tag": "../components/vant/tag/index",
+        "van-tab": "../components/vant/tab/index",
+        "van-tabs": "../components/vant/tabs/index",
       }
     };
     components = {};
@@ -134,6 +170,9 @@
           }
         ]
       },
+      scrollTop: 0,
+      lineWidth:93,
+      toView: 'ss',
     };
 
     methods = {
@@ -143,7 +182,33 @@
       bindViewReply(id){
 
       },
+      onChange(e){
+        let detail = e.detail;
+        console.log("tap index",detail.index);
+        if (detail.index === 1){
+          this.toView = 'views';
+        }
+      }
     };
+
+    onPageScroll(e) {
+      // if (e.scrollTop > this.scrollTop) {
+      //   //向下滚动
+      //   // console.log('向下 ')
+      //   if (e.scrollTop > 40  && !this.scrolling){
+      //     // console.log('隐藏tabs');
+      //     this.isHidden = true;
+      //     this.offsetTop = -100;
+      //   }
+      // } else {
+      //   //向上滚动
+      //   // console.log('向上滚动 ')
+      //   this.isHidden = false;
+      //   this.offsetTop = 0;
+      // }
+      this.scrollTop = e.scrollTop;
+      this.$apply();
+    }
 
     toLogin(){
       this.$navigate('login');
@@ -154,6 +219,13 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      let t = this;
+      wx.getSystemInfo({
+        success(res) {
+          t.lineWidth = res.screenWidth / 5;
+        }
+      })
     }
   }
 </script>

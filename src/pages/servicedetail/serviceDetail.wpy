@@ -172,7 +172,9 @@
       </view>
     </view>
     <view class="reservation-btn">
-      预约
+      <navigator url="translationReservation">
+        预约
+      </navigator>
     </view>
   </view>
 </template>
