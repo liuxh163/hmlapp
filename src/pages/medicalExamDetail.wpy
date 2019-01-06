@@ -78,14 +78,13 @@
                 line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="0"
                 canChangeTab="{{false}}" bind:change="onChange">
         <van-tab title="行程亮点">
-          <scroll-view class="scroll-view-tab" scroll-into-view="{{toView}}" scroll-y="{{true}}"
-                       scroll-with-animation="{{true}}" >
-            <view class="view1" id="viewf">
+          <view class="scroll-view-tab">
+            <view class="view1" id="view1">
               <image src="../img/swiper1.jpg"/>
               <image src="../img/swiper2.jpg"/>
             </view>
             <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 14rpx"></view>
-            <view class="common view2" id="views">
+            <view class="common view2" id="view2">
               <view class="title-view">
                 <view class="title-icon"></view>
                 <text>体检介绍</text>
@@ -99,7 +98,19 @@
                 </navigator>
               </view>
             </view>
-          </scroll-view>
+            <view class="view1" id="view3">
+              <image src="../img/swiper1.jpg"/>
+              <image src="../img/swiper2.jpg"/>
+            </view>
+            <view class="view1" id="view4">
+              <image src="../img/swiper1.jpg"/>
+              <image src="../img/swiper2.jpg"/>
+            </view>
+            <view class="view1" id="view5">
+              <image src="../img/swiper1.jpg"/>
+              <image src="../img/swiper2.jpg"/>
+            </view>
+          </view>
         </van-tab>
         <van-tab title="体检介绍"></van-tab>
         <van-tab title="轻松行程"></van-tab>
@@ -173,6 +184,7 @@
       scrollTop: 0,
       lineWidth:93,
       toView: 'ss',
+      scrollTop2:0,
     };
 
     methods = {
@@ -186,7 +198,25 @@
         let detail = e.detail;
         console.log("tap index",detail.index);
         if (detail.index === 1){
-          this.toView = 'views';
+          this.toView = 'view2';
+          let _this = this;
+          var query = wx.createSelectorQuery()
+          query.select('#view2').boundingClientRect()
+          query.selectViewport().scrollOffset()
+          query.exec(function(res){
+            // if (res[0].top <= 0) {
+            //   _this.setData({
+            //     "scrollCls": 'fixedCls'
+            //   })
+            // } else if (res[0].top > 0) {
+            //   _this.setData({
+            //     "scrollCls": ''
+            //   })
+            // }
+            console.log(res);
+            // res[0].top       // #the-id节点的上边界坐标
+            // res[1].scrollTop // 显示区域的竖直滚动位置
+          })
         }
       }
     };
