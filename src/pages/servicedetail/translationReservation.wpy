@@ -1,0 +1,436 @@
+<style lang="scss">
+  @import "../../css/base";
+
+  .van-cell__title {
+    font-size: px2rpx(18);
+    color: #333333;
+    align-self: flex-start;
+    margin-top: px2rpx(4);
+  }
+
+  .van-cell__value {
+    color: #333333 !important;
+    font-size: px2rpx(14);
+  }
+  .van-cell__label{
+    color: #f44 !important;
+    text-align: right !important;
+    margin-right: px2rpx(-20);
+  }
+
+  .van-field__body {
+    input {
+      text-align: right;
+    }
+    textarea {
+      text-align: right;
+    }
+  }
+  .van-field__error-message{
+    text-align: right !important;
+  }
+
+  .van-stepper__minus::after, .van-stepper__minus::before,
+  .van-stepper__plus::after, .van-stepper__plus::before{
+    background-color: white !important;
+  }
+
+  .van-stepper__minus--disabled::after,.van-stepper__minus--disabled::before,
+  .van-stepper__plus--disabled::after,.van-stepper__plus--disabled::before {
+    background-color:#c9c9c9 !important;
+  }
+
+  .translation-reservation{
+    .submit-bar{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    .title-icon{
+      width: px2rpx(3);
+      height: px2rpx(13);
+    }
+    .title-text{
+      font-size: px2rpx(13);
+      margin-top: px2rpx(-1);
+      color: #FE9F05;
+      font-weight: bold;
+      margin-left: px2rpx(7);
+    }
+    .van-cell{
+      align-items: center;
+    }
+    .value-class{
+      flex: 2;
+    }
+    .right-value{
+      display: flex;
+      align-items: center;
+      align-self: flex-end;
+      justify-content: flex-end;
+      .minus-plus-class{
+        background-color: #FFC207;
+        width: px2rpx(18);
+        height: px2rpx(18);
+        color: white;
+        border-width: 0;
+        border-radius: px2rpx(2);
+      }
+      .minus-plus-class:active{
+        background-color: #dfac07;
+      }
+      .input-class{
+        border-width: 0;
+      }
+      .unit-price{
+        align-self: flex-start;
+        margin-top: px2rpx(4);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text:nth-child(1){
+          color: #333333;
+          font-size: px2rpx(12);
+        }
+        text:nth-child(2){
+          color: #999999;
+          font-size: px2rpx(12);
+          line-height: px2rpx(12);
+        }
+      }
+      .stepper{
+        margin-left: px2rpx(55);
+        display: flex;
+        flex-direction: column;
+        .word-count{
+          color: #CCCCCC;
+          font-size: px2rpx(13);
+        }
+      }
+    }
+    .interpreter-container{
+      display: flex;
+      flex-direction: column;
+      align-self: flex-end;
+      justify-content: flex-end;
+      picker{
+        width: 100%;
+        display: flex;
+        text:first-child{
+          color: #999999;
+          font-size: px2rpx(12);
+        }
+        text:nth-child(2){
+          margin-left: px2rpx(34);
+          color: #333333;
+          font-size: px2rpx(13);
+        }
+      }
+      .date{
+        margin-top: px2rpx(15);
+        min-width: px2rpx(208);
+        margin-right: 0;
+        display: flex;
+        align-items: center;
+        align-self: flex-end;
+        justify-content: flex-end;
+      }
+      .unit-price-container{
+        display: flex;
+        align-items: center;
+        align-self: flex-end;
+        justify-content: flex-end;
+      }
+    }
+    .bottom-border{
+      border-bottom: 0.5px solid #eee;
+      padding-bottom: px2rpx(10);
+    }
+    .notice{
+      display: flex;
+      align-items: flex-start;
+      margin-left: px2rpx(15);
+      .circle{
+        margin-top: px2rpx(4);
+        display: block;
+        width: px2rpx(4);
+        height: px2rpx(4);
+        background-color: #CCCCCC;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+      text{
+        flex: 1;
+        margin-left: px2rpx(3);
+        margin-right: px2rpx(15);
+        color: #999999;
+        font-size: px2rpx(12);
+        line-height: px2rpx(18);
+      }
+    }
+    .terms-service-container{
+      margin-top: px2rpx(20);
+      display: flex;
+      align-items: center;
+      .van-checkbox__icon--round{
+        border-radius: px2rpx(2);
+        transform: scale(.8);
+      }
+      .van-checkbox__label{
+        line-height: 0 !important;
+      }
+      .van-checkbox__icon{
+        border-color: #FFC207;
+      }
+      .van-checkbox{
+        line-height: 0;
+        margin-left: px2rpx(15);
+        margin-right: px2rpx(8);
+      }
+      text:nth-child(2){
+        font-size: px2rpx(13);
+        line-height: px2rpx(13);
+        color: #999999;
+      }
+      .term-service-text{
+        margin-left: px2rpx(4);
+        font-size: px2rpx(13);
+        line-height: px2rpx(13);
+        color: #FE9F05;
+      }
+    }
+    .term-service-err-msg{
+      margin-left: px2rpx(15);
+      margin-top: px2rpx(5);
+      font-size: px2rpx(12);
+      line-height: px2rpx(12);
+      color: #F44;
+    }
+  }
+</style>
+<template>
+  <view class="translation-reservation">
+    <form bindsubmit="formSubmit">
+      <van-cell custom-class="title" title-class="title-text" title="翻译模式">
+        <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
+      </van-cell>
+      <van-cell title="文字翻译" value-class="value-class" label="{{errMsg.x_ray}}">
+        <view class="right-value" slot="">
+          <view class="unit-price">
+            <text>¥ 150/千字</text>
+          </view>
+          <view class="stepper">
+            <van-stepper id="text" name="text" minus-class="minus-plus-class" plus-class="minus-plus-class" input-class="input-class"
+                         value="{{ 0 }}" min="0" bind:change="onChange" />
+            <text class="word-count">{{wordCount}}字</text>
+          </view>
+        </view>
+      </van-cell>
+      <text wx:if="{{errMsg.translationMode}}" class="term-service-err-msg">{{errMsg.translationMode}}</text>
+      <van-cell title="陪同翻译" value-class="value-class" label="{{errMsg.nuclear_magnetic_ct}}">
+        <view class="right-value interpreter-container" slot="">
+          <view class="unit-price-container bottom-border">
+            <view class="unit-price">
+              <text>¥ 1000/人／天</text>
+            </view>
+            <view class="stepper">
+              <van-stepper id="interpreter" name="interpreter" minus-class="minus-plus-class" plus-class="minus-plus-class" input-class="input-class"
+                           value="{{ 0 }}" min="0" bind:change="onChange" />
+            </view>
+          </view>
+          <view class="date bottom-border">
+            <picker id="startDate" mode="date" value="{{startDate}}" bindchange="bindDateChange">
+              <text>请选择起始日期</text>
+              <text>{{startDate}}</text>
+              <text wx:if="{{errMsg.startDate}}" class="term-service-err-msg">{{errMsg.startDate}}</text>
+            </picker>
+          </view>
+          <view class="date">
+            <picker id="endDate" start="{{endStartDate}}" mode="date" value="{{endDate}}" bindchange="bindDateChange">
+              <text>请选择截止日期</text>
+              <text>{{endDate}}</text>
+              <text wx:if="{{errMsg.endDate}}" class="term-service-err-msg">{{errMsg.endDate}}</text>
+            </picker>
+          </view>
+        </view>
+      </van-cell>
+      <van-cell title-class="title-text" title="须知" border="{{false}}">
+        <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
+      </van-cell>
+      <view class="notice">
+        <view class="circle"></view>
+        <text>不接受hpv一秒注射者：某某情况文字表示某某情况文字表示某某情况文字表示,某某情况文字表示某某情况文字表示某某情况文字表示。</text>
+      </view>
+
+      <view class="terms-service-container">
+        <van-checkbox name="terms_service" checked-color="#FFC207" value="{{ checked }}" bind:change="onCheckBoxChange"></van-checkbox>
+        <text>您已经阅读并同意</text>
+        <navigator class="term-service-text" url="archivesImage">
+          服务条款
+        </navigator>
+      </view>
+      <text wx:if="{{errMsg.termService}}" class="term-service-err-msg">{{errMsg.termService}}</text>
+
+      <submitbar :priceRMB.sync="priceRMB" :priceJPY.sync="priceJPY" :buyListCount.sync="buyListCount"></submitbar>
+    </form>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import utils from '../../mixins/utils'
+  import submitBar from '../../components/submitBar'
+
+  export default class translationReservation extends wepy.page {
+    config = {
+      navigationBarTitleText: '翻译预约',
+      "usingComponents": {
+        "van-cell": "../../components/vant/cell/index",
+        "van-stepper": "../../components/vant/stepper/index",
+        "van-checkbox": "../../components/vant/checkbox/index",
+        "van-checkbox-group": "../../components/vant/checkbox-group/index"
+      }
+    };
+    components = {
+      submitbar:submitBar
+    };
+
+    mixins = [utils];
+
+    data = {
+      startDate:'',
+      endDate:'',
+      endStartDate:'',
+      checked:false,
+      priceRMB:'23400',
+      priceJPY:'293900',
+      buyListCount:5,
+      wordCount:0,
+      interpreterCount:0,
+      errMsg:{
+        translationMode:'',
+        termService:'',
+        startDate:'',
+        endDate:'',
+      }
+    };
+
+    watch = {
+    };
+
+    methods = {
+      bindDateChange(e){
+        // console.log('e', e);
+        if (e.currentTarget.id == 'startDate') {
+          this.startDate = e.detail.value;
+          this.errMsg.startDate = '';
+          this.endStartDate = this.addDate(this.startDate);
+          console.log(this.endStartDate);
+        }else {
+          this.endDate = e.detail.value;
+          this.errMsg.endDate = '';
+        }
+
+      },
+      onChange(e){
+        // console.log('e',e);
+        if (e.currentTarget.id == 'interpreter') {
+          this.interpreterCount = e.detail;
+        }else {
+          this.wordCount = e.detail * 1000;
+        }
+        this.errMsg.translationMode = '';
+      },
+      onCheckBoxChange(e){
+        this.checked = e.detail;
+        this.errMsg.termService = '';
+      },
+      formSubmit(e) {
+        let value = e.detail.value;
+        console.log("value", value);
+        let isSuccess = false;
+        this.errMsg.translationMode='';
+        this.errMsg.termService='';
+        this.errMsg.startDate='';
+        this.errMsg.endDate='';
+        if (this.startDate && this.endDate && (value.text !== 0 || value.interpreter !== 0) && this.checked){
+          if (this.startDate == this.endDate){
+            this.errMsg.endDate='截止日期';
+          }else {
+            isSuccess = true;
+          }
+        }else {
+          if (!this.startDate) {
+            this.errMsg.startDate='请选择起始日期';
+          }
+          if (!this.endDate) {
+            this.errMsg.endDate='请选择截止日期';
+          }
+          if (value.text === 0 && value.interpreter === 0) {
+            this.errMsg.translationMode='请至少选择一种翻译模式';
+          }
+          if (!this.checked) {
+            this.errMsg.termService='请阅读并同意服务条款';
+          }
+        }
+        if (isSuccess) {
+          wx.showToast({
+            title: '调用支付接口',
+            icon: 'none'
+          });
+        }
+      },
+    };
+
+    // 日期，在原有日期基础上，增加days天数，默认增加1天
+    addDate(date, days) {
+      if (days == undefined || days == '') {
+        days = 1;
+      }
+      var date = new Date(date);
+      date.setDate(date.getDate() + days);
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      return date.getFullYear() + '-' + this.getFormatDate(month) + '-' + this.getFormatDate(day);
+    }
+
+    // 日期月份/天的显示，如果是1位数，则在前面加上'0'
+    getFormatDate(arg) {
+      if (arg == undefined || arg == '') {
+        return '';
+      }
+
+      var re = arg + '';
+      if (re.length < 2) {
+        re = '0' + re;
+      }
+
+      return re;
+    }
+
+    //两个时间相差天数 兼容firefox chrome
+    datedifference(sDate1, sDate2) {    //sDate1和sDate2是2006-12-18格式
+      var dateSpan,
+        tempDate,
+        iDays;
+      sDate1 = Date.parse(sDate1);
+      sDate2 = Date.parse(sDate2);
+      dateSpan = sDate2 - sDate1;
+      dateSpan = Math.abs(dateSpan);
+      iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+      return iDays
+    };
+
+    toLogin() {
+      this.$navigate('../login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>

@@ -40,7 +40,7 @@
 
   .flim-service-buy{
     .submit-bar{
-      position: absolute;
+      position: fixed;
       left: 0;
       right: 0;
       bottom: 0;
@@ -219,8 +219,6 @@
 
     data = {
       checked:false,
-      sexArray: ["男", "女"],
-      sexSelectIndex: -1,
       region: ["", "", ""],
       priceRMB:'23400',
       priceJPY:'293900',
@@ -236,19 +234,6 @@
     };
 
     watch = {
-      currentStep(newValue, oldValue) {
-        switch (newValue) {
-          case 1:
-            this.lineSelectedLeft = this.px2rpx(0);
-            break;
-          case 2:
-            this.lineSelectedLeft = this.px2rpx(126);
-            break;
-          case 3:
-            this.lineSelectedLeft = this.px2rpx(126 * 2);
-            break;
-        }
-      }
     };
 
     methods = {
@@ -321,10 +306,6 @@
             break;
         }
       },
-      bindSexChange(e) {
-        this.sexSelectIndex = e.detail.value;
-        this.errMsg.sex='';
-      },
       bindRegionChange(e) {
         let regionValue = this.convertArrayByComma(e.detail.value);
         let regionCode = this.convertArrayByComma(e.detail.code);
@@ -339,14 +320,6 @@
         this.region = e.detail.value;
         this.errMsg.region='';
       },
-      bindTabBtnTap(stepIndex) {
-        this.currentStep = stepIndex;
-      },
-      bindNextTap() {
-        if (this.currentStep < 3) {
-          this.currentStep++;
-        }
-      }
     };
 
     toLogin() {

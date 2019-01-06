@@ -257,10 +257,7 @@
         console.log(type);
         switch (type) {
           case '1':
-            wx.showToast({
-              title: '跳转到陪同翻译',
-              icon: 'none'
-            });
+            this.$navigate("servicePersonal");
             break;
           case '2':
             this.$navigate("archivesImage");

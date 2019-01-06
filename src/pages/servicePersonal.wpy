@@ -118,6 +118,12 @@
           title: 'disabled',
           icon: 'none'
         });
+      },
+    };
+
+    events = {
+      'itemTap':(item,$event) =>{
+        this.$navigate('servicedetail/serviceDetail?id=' + item.id);
       }
     };
 

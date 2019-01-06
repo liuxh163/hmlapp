@@ -1,0 +1,210 @@
+<style lang="scss">
+  @import "../../css/base";
+  .personal-detail{
+    .personal-information {
+      position: relative;
+      width: 100%;
+      height: px2rpx(135);
+      background: linear-gradient(20deg, #FFC207, #FFE698);
+      .avatar-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        image {
+          margin-top: px2rpx(16);
+          width: px2rpx(53);
+          height: px2rpx(53);
+          overflow: hidden;
+          border-radius: 50%;
+          border: 2px solid white;
+        }
+        text {
+          margin-top: px2rpx(8);
+          color: #333333;
+          font-size: px2rpx(18);
+          display: block;
+        }
+      }
+    }
+    .personal-data {
+      position: relative;
+      background-color: white;
+      margin-top: px2rpx(-20);
+      margin-left: auto;
+      margin-right: auto;
+      width: px2rpx(345);
+      height: px2rpx(73);
+      border-radius: px2rpx(4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .common {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text:first-child {
+          font-weight: bold;
+          color: #333333;
+          font-size: px2rpx(16);
+        }
+        text:nth-child(2) {
+          margin-top: px2rpx(9);
+          color: #999999;
+          font-size: px2rpx(12);
+        }
+        .rate-icon{
+          margin-top: px2rpx(-3);
+        }
+      }
+      .common:nth-child(2) {
+        margin-left: px2rpx(77);
+      }
+      .common:nth-child(3) {
+        margin-left: px2rpx(77);
+      }
+    }
+    .content-container{
+      margin-bottom: px2rpx(25);
+      .title-view{
+        display: flex;
+        align-items: center;
+        margin-left: px2rpx(14);
+        margin-top: px2rpx(20);
+        .title-icon{
+          width: px2rpx(4);
+          height: px2rpx(22);
+          background-color: #FFC207;
+        }
+        text{
+          margin-left: px2rpx(7);
+          color: #333333;
+          font-size: px2rpx(17);
+        }
+      }
+      .content{
+        margin-top: px2rpx(10);
+        margin-left: px2rpx(15);
+        margin-right: px2rpx(15);
+        color: #333333;
+        font-size: px2rpx(13);
+        text-indent: px2rpx(20);
+      }
+    }
+    .reservation-btn{
+      position: fixed;
+      right: px2rpx(18);
+      bottom: px2rpx(23);
+      background-color: RGBA(254, 178, 55, 0.8);
+      border: px2rpx(2) solid white;
+      border-radius: 50%;
+      overflow: hidden;
+      width: px2rpx(56);
+      height: px2rpx(56);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: px2rpx(18);
+    }
+    .reservation-btn:active{
+      background-color: RGBA(254, 178, 55, 1);
+    }
+  }
+</style>
+<template>
+  <view class="personal-detail">
+    <view class="personal-information">
+      <view class="avatar-container">
+        <image class="avatar" src="../../img/swiper1.jpg"></image>
+        <text>地接一号</text>
+      </view>
+    </view>
+    <view class="personal-data shadow">
+      <view class="common">
+        <text>545</text>
+        <text>点赞</text>
+      </view>
+      <view class="common">
+        <text>123</text>
+        <text>好评</text>
+      </view>
+      <view class="common">
+        <van-rate custom-class="rate-icon" value="{{ rateValue }}" count="3" size="13" />
+        <text>评级</text>
+      </view>
+    </view>
+    <view class="content-container">
+      <view class="content-item">
+        <view class="title-view">
+          <view class="title-icon"></view>
+          <text>自我介绍</text>
+        </view>
+        <view class="content">
+          图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图。
+        </view>
+      </view>
+      <view class="content-item">
+        <view class="title-view">
+          <view class="title-icon"></view>
+          <text>服务内容</text>
+        </view>
+        <view class="content">
+          图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图。
+        </view>
+      </view>
+      <view class="content-item">
+        <view class="title-view">
+          <view class="title-icon"></view>
+          <text>车型</text>
+        </view>
+        <view class="content">
+          图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图。
+        </view>
+      </view>
+      <view class="content-item">
+        <view class="title-view">
+          <view class="title-icon"></view>
+          <text>价格</text>
+        </view>
+        <view class="content">
+          图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图。
+        </view>
+      </view>
+    </view>
+    <view class="reservation-btn">
+      预约
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class serviceDetail extends wepy.page {
+    config = {
+      navigationBarTitleText: '地接服务',
+      "usingComponents": {
+        "van-rate": "../../components/vant/rate/index",
+      }
+    };
+    components = {};
+
+    data = {
+      rateValue:'3'
+    };
+
+    methods = {};
+
+    toLogin(){
+      this.$navigate('../login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+
+    }
+  }
+</script>
