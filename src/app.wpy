@@ -31,6 +31,7 @@
   export default class extends wepy.app {
     config = {
       pages: [
+        'pages/takePhoto',
         'pages/index',
         'pages/discovery',
         'pages/mine',
@@ -48,6 +49,7 @@
         'pages/servicedetail/translationReservation',
         'pages/login',
         'pages/discoverydetail/talkAboutDetail',
+        // 'pages/takePhoto',
         'pages/webView',
       ],
       window: {

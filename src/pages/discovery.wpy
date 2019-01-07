@@ -236,10 +236,7 @@
         this.$navigate("discoverydetail/talkAboutDetail?id=" + id);
       },
       bindAddTap(){
-        wx.showToast({
-          title: 'add',
-          icon: 'none'
-        });
+        this.$navigate("takePhoto");
       },
       onChange(e){
         let detail = e.detail;

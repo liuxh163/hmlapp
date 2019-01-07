@@ -1,0 +1,194 @@
+<style lang="scss">
+  @import "../css/base";
+  .camera{
+    width: 100%;
+    .close-image{
+      width: px2rpx(51);
+      height: px2rpx(51);
+      margin-top: px2rpx(30);
+      margin-left: px2rpx(20);
+    }
+  }
+  .bottom-view{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    .common{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .common:active{
+      opacity: 0.8;
+    }
+    .album-view{
+      margin-bottom: px2rpx(22);
+      image{
+        width: px2rpx(25);
+        height: px2rpx(25);
+        margin-bottom: px2rpx(12);
+      }
+      text{
+        color: #999999;
+        font-size: px2rpx(13);
+        line-height: px2rpx(13);
+      }
+    }
+    .take-photo-view{
+      height: 100%;
+      margin-top: px2rpx(18);
+      margin-left: px2rpx(76);
+      margin-right: px2rpx(76);
+      .circle{
+        margin-bottom: px2rpx(21);
+        width: px2rpx(70);
+        height: px2rpx(70);
+        border-radius: 50%;
+        overflow: hidden;
+        border: px2rpx(2) solid #FFC207;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        view{
+          width: px2rpx(62);
+          height: px2rpx(62);
+          background-color: #FFDA6A;
+          border-radius: 50%;
+          overflow: hidden;
+        }
+      }
+      text{
+        font-weight: bold;
+        justify-self: flex-end;
+        color: #000000;
+        font-size: px2rpx(13);
+        padding-left: px2rpx(5);
+        padding-right: px2rpx(5);
+        padding-bottom: px2rpx(10);
+        border-bottom: px2rpx(3) solid #FFC207;
+      }
+    }
+  }
+  .preview-image{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+  }
+</style>
+<template>
+  <view class="take-photo-container">
+    <camera class="camera" style="height: 534px" device-position="back" flash="off" binderror="error">
+      <cover-image @tap="bindBack" class="close-image" src="../img/close.png" />
+    </camera>
+    <view class="bottom-view">
+      <view @tap="takeAlbum" class="common album-view">
+        <image src="../img/album.png"></image>
+        <text>相册</text>
+      </view>
+      <view @tap="takePhoto" class="common take-photo-view">
+        <view class="circle">
+          <view></view>
+        </view>
+        <text>拍照</text>
+      </view>
+      <view @tap="takeVideo" class="common album-view">
+        <image src="../img/video.png"></image>
+        <text>视频</text>
+      </view>
+    </view>
+
+    <cover-image @tap="next" mode="aspectFill" wx:if="{{showPreviewImage}}" class="preview-image" src="{{photoImageSrc}}" />
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class takePhoto extends wepy.page {
+    config = {
+      navigationBarTitleText: '拍照',
+      navigationStyle: 'custom',
+      navigationBarTextStyle: "white",
+    };
+    components = {};
+
+    data = {
+      showPreviewImage:false,
+      photoImageSrc:'',
+      cameraHeight:'534'
+    };
+
+    methods = {
+      next(){
+        this.showPreviewImage = false;
+      },
+      takeAlbum(){
+        wx.chooseImage({
+          count: 1,
+          sizeType: ['original', 'compressed'],
+          sourceType: ['album'],
+          success(res) {
+            // tempFilePath可以作为img标签的src属性显示图片
+            const tempFilePaths = res.tempFilePaths;
+            console.log("tempFilePaths",tempFilePaths);
+          }
+        })
+      },
+      takePhoto() {
+        console.log("takePhoto");
+        const ctx = wx.createCameraContext();
+        ctx.takePhoto({
+          success: (res) => {
+            this.photoImageSrc = res.tempImagePath;
+            this.showPreviewImage = true;
+            this.$apply();
+          }
+        })
+      },
+      takeVideo(){
+        wx.chooseVideo({
+          sourceType: ['album', 'camera'],
+          maxDuration: 60,
+          camera: 'back',
+          success(res) {
+            console.log(res.tempFilePath)
+          }
+        })
+      },
+      error(e){
+        console.log("error",e);
+      },
+      bindBack(){
+        wx.navigateBack();
+      }
+    };
+
+    toLogin() {
+      this.$navigate('login');
+    }
+
+    onShow(){
+      this.cameraHeight = wx.getSystemInfoSync().windowHeight - 145;
+      console.log("onShow height",this.cameraHeight);
+    }
+
+    // onReady(){
+    //   this.cameraHeight = wx.getSystemInfoSync().windowHeight - 145;
+    //   console.log("onReady height",this.cameraHeight);
+    // }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>
