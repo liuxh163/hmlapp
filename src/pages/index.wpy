@@ -87,7 +87,7 @@
               </view>
             </view>
             <view class="right">
-              <text class="offer-introduction">可根据实际款项进行分期,最低3000即走下订单,每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>
+              <text class="offer-introduction">可根据实际款项进行分期,最低</text><text class="offer-introduction price">3000</text><text class="offer-introduction">即走下订单,每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>
             </view>
           </view>
         </view>

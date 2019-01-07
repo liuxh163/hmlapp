@@ -124,14 +124,15 @@
       }
     }
     .right{
-      margin-top: px2rpx(5);
       margin-left: px2rpx(12);
       width: px2rpx(269);
       .offer-introduction{
-        display: block;
         font-size: px2rpx(11);
         color: #333333;
-        line-height: px2rpx(25);
+        line-height: px2rpx(20);
+      }
+      .price{
+        color: #FE585A;
       }
     }
   }
