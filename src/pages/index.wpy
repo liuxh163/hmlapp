@@ -56,13 +56,8 @@
       <block wx:key="item.id" wx:for="{{recommendList}}">
         <view class="recommend-item">
           <image class="thumb" src="{{item.cover_path}}"/>
-          <text class="desc">{{item.slogan}}</text>
-          <view class="tag">
-            <text>即走</text>
-            <text>推荐</text>
-          </view>
-          <view class="data">
-            <text class="price">¥ {{item.price}}</text>
+          <view class="desc-container">
+            <text class="desc">{{item.slogan}}</text>
             <view class="like-comment">
               <image src="../img/like.png"/>
               <text>{{item.praise_num}}</text>
@@ -70,6 +65,29 @@
                 <image class="comment-image" src="../img/comment.png"/>
                 <text>{{item.comment_num}}</text>
               </view>
+            </view>
+          </view>
+          <view class="data">
+            <text class="price">¥ {{item.price}}</text>
+            <text class="unit"> ／人起</text>
+            <view class="tag">
+              <text>混浴汤泉</text>
+              <text>混浴汤泉</text>
+            </view>
+          </view>
+          <view class="offer-view">
+            <view class="left">
+              <view class="offer staging">
+                <text>分</text>
+                <text>支持分期</text>
+              </view>
+              <view class="offer card">
+                <text>卡</text>
+                <text>出行卡</text>
+              </view>
+            </view>
+            <view class="right">
+              <text class="offer-introduction">可根据实际款项进行分期,最低3000即走下订单,每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>
             </view>
           </view>
         </view>
@@ -180,8 +198,8 @@
         {
           id: '1001',
           cover_path: '../img/swiper1.jpg',
-          slogan: '联合大阪阪和医院特别推出高品质体检体检舒适行',
-          price: '4600',
+          slogan: '联合大阪阪和医院特别推出高品质体检',
+          price: '28600',
           comment_num: '15',
           praise_num: '3'
         },
@@ -189,7 +207,7 @@
           id: '1002',
           cover_path: '../img/swiper2.jpg',
           slogan: '联合大阪阪和医院特别推出高品质体检体检舒适行',
-          price: '4600',
+          price: '28600',
           comment_num: '15',
           praise_num: '3'
         },
@@ -360,6 +378,7 @@
     }
 
     onLoad() {
+      // this.initData()
       const token = wepy.getStorageSync('accessToken');
       if (!token) {
         this.$navigate('login');
