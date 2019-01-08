@@ -188,10 +188,8 @@
               console.log("上一个页面实例为空,跳转到index");
               t.$redirect("index");
             }
-            setTimeout(function () {
-              wx.navigateBack();
-            },1500);
             this.$apply();
+            wx.navigateBack();
           },err =>{
             this.loginBtnLoading = false;
             this.$apply();

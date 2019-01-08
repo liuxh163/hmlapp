@@ -31,7 +31,7 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        'pages/servicePersonal',
+        // 'pages/servicePersonal',
         'pages/index',
         'pages/discovery',
         'pages/mine',
@@ -45,7 +45,7 @@
         'pages/setting/modifyInput',
         'pages/archivesImage',
         'pages/flimServiceBuy',
-        // 'pages/servicePersonal',
+        'pages/servicePersonal',
         'pages/servicedetail/serviceDetail',
         'pages/servicedetail/translationReservation',
         'pages/login',

@@ -54,7 +54,7 @@
         </view>
       </view>
       <block wx:key="item.id" wx:for="{{recommendList}}">
-        <view class="recommend-item">
+        <view class="recommend-item" @tap="bindItemRecommend">
           <image class="thumb" src="{{item.cover_path}}"/>
           <view class="desc-container">
             <text class="desc">{{item.slogan}}</text>
@@ -257,11 +257,14 @@
     };
 
     methods = {
+      bindItemRecommend(item){
+        // 跳转到体检详情页面
+        this.$navigate("medicalExamDetail");
+      },
       bindSwiperItemTap(item) {
         switch (item.id) {
           case "1001":
-            console.log("跳转到日本体检");
-            this.$navigate("medicalExamDetail");
+            console.log("跳转到日本产品页面");
             break;
         }
       },
