@@ -320,11 +320,11 @@
         if (this.productsReqOver) {
           wx.stopPullDownRefresh();
         }
-        // if (res) {
-        //   this.discoveryList = res;
-        //   this.$apply();
-        // }
-        console.log("res", res);
+        console.log("getPosts res", res);
+        if (res) {
+          this.discoveryList = res;
+          this.$apply();
+        }
       },err =>{
         this.postsReqOver = true;
         if (this.productsReqOver) {
@@ -346,11 +346,11 @@
         if (this.postsReqOver) {
           wx.stopPullDownRefresh();
         }
-        // if (res) {
-        //   this.recommendList = res;
-        //   this.$apply();
-        // }
-        console.log("res", res);
+        console.log("getRecommendData res", res);
+        if (res && res.products && res.products.length > 0) {
+          this.recommendList = res;
+          this.$apply();
+        }
       },err =>{
         this.productsReqOver = true;
         if (this.postsReqOver) {

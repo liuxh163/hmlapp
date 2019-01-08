@@ -2,6 +2,7 @@
   @import "../css/base";
   .camera{
     width: 100%;
+    height: px2rpx(534);
     .close-image{
       width: px2rpx(51);
       height: px2rpx(51);
@@ -84,7 +85,7 @@
 </style>
 <template>
   <view class="take-photo-container">
-    <camera class="camera" style="height: 534px" device-position="back" flash="off" binderror="error">
+    <camera class="camera" device-position="back" flash="off" binderror="error">
       <cover-image @tap="bindBack" class="close-image" src="../img/close.png" />
     </camera>
     <view class="bottom-view">

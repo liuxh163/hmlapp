@@ -1,0 +1,89 @@
+<style lang="scss">
+  @import "../../css/base";
+  .submit{
+    background:rgba(254,159,5,1);
+    border-radius:px2rpx(4);
+    margin-left: px2rpx(15);
+    margin-right: px2rpx(16);
+    color: white;
+    margin-top: px2rpx(15);
+    font-size: px2rpx(19);
+  }
+</style>
+<template>
+  <view class="modify-input">
+    <form bindsubmit="formSubmit">
+      <van-cell-group>
+        <van-field
+          name="username"
+          value="{{ userName }}"
+          placeholder="请输入新用户名"
+          border="{{ false }}"
+          clearable
+          error-message="{{userNameErrMsg}}"
+          bind:input="bindInput"
+        />
+      </van-cell-group>
+      <button form-type="submit" class="submit">确定</button>
+    </form>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import commonApi from '../../mixins/commonApi'
+  import {httpUrl} from '../../utils/httpUrl'
+
+  export default class modifyInput extends wepy.page {
+    config = {
+      navigationBarTitleText: '修改用户名',
+      "usingComponents": {
+        "van-field": "../../components/vant/field/index",
+        "van-cell-group": "../../components/vant/cell-group/index",
+      }
+    };
+    components = {};
+
+    data = {
+      userName:'',
+      userNameErrMsg:'',
+    };
+
+    mixins = [commonApi];
+
+    methods = {
+      bindInput(){
+        this.userNameErrMsg = '';
+      },
+      formSubmit(e){
+        this.userNameErrMsg = '';
+        let username = e.detail.value.username;
+        if (username){
+          this.sendRequest(httpUrl.modifyInfo,'PUT',{"username":username},res =>{
+            wx.showToast({
+              title: '修改成功',
+            });
+            setTimeout(function () {
+              wx.navigateBack();
+            },1500);
+          });
+        }else {
+          this.userNameErrMsg = '请输入新用户名';
+        }
+      }
+    };
+
+    toLogin() {
+      this.$navigate('login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+
+      this.userName = options.username;
+    }
+  }
+</script>

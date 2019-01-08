@@ -99,7 +99,8 @@
         </view>
       </van-tab>
     </van-tabs>
-    <image class="discovery-add" @tap="bindAddTap" src="../img/icon_discovery_add.png"/>
+    <image wx:if="{{currentIndex == 0}}" class="discovery-add" @tap="bindAddTap" src="../img/icon_discovery_add.png"/>
+    <image wx:if="{{currentIndex == 1}}" class="discovery-add" @tap="bindAddTap" src="../img/edit.png"/>
   </view>
 </template>
 
@@ -228,6 +229,7 @@
           commentNum:15
         },
       ],
+      currentIndex:0,
     };
 
     methods = {
@@ -236,12 +238,21 @@
         this.$navigate("discoverydetail/talkAboutDetail?id=" + id);
       },
       bindAddTap(){
-        this.$navigate("takePhoto");
+        if (this.currentIndex == 0){
+          this.$navigate("takePhoto");
+        }else {
+          wx.showToast({
+            title: '发表说说',
+            icon: 'none'
+          });
+        }
+
       },
       onChange(e){
         let detail = e.detail;
         console.log("tap index",detail.index);
         let t = this;
+        t.currentIndex = detail.index;
         t.scrolling = true;
         if (detail.index == 0){
           this.flag = true;

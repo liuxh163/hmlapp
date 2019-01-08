@@ -21,12 +21,14 @@
 <template>
   <view class="personal-info">
     <van-cell-group>
-      <van-cell custom-class="avatar-class" title=" " value="更换头像" is-link>
+      <van-cell bind:click="chooseImage" custom-class="avatar-class" title=" " value="更换头像" is-link>
         <view slot="icon">
           <image class="avatar" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546346331779&di=799d7249a061b743c65bb412b7231daa&imgtype=0&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20180928%2F16%2F1538124027-aMtYOyIRzC.jpeg"/>
         </view>
       </van-cell>
-      <van-cell title="用户名" is-link/>
+      <navigator url="modifyInput?username={{userName}}">
+        <van-cell title="用户名" value="{{userName}}" is-link/>
+      </navigator>
       <picker mode="date" value="{{date}}" end="{{endDate}}" bindchange="bindDateChange">
         <van-cell title="生日" value="{{date}}" is-link/>
       </picker>
@@ -36,8 +38,8 @@
       <picker mode="region" value="{{region}}" bindchange="bindRegionChange">
         <van-cell title="所在地区" value="{{region[0]}}{{region[1]}}{{region[2]}}" is-link/>
       </picker>
-      <van-cell title="联系方式" is-link/>
-      <van-cell title="账号绑定" is-link/>
+      <!--<van-cell title="联系方式" value="" is-link/>-->
+      <!--<van-cell title="账号绑定" is-link/>-->
     </van-cell-group>
   </view>
 </template>
@@ -45,6 +47,8 @@
 <script>
   import wepy from 'wepy'
   import utils from '../../mixins/utils'
+  import commonApi from '../../mixins/commonApi'
+  import {httpUrl} from '../../utils/httpUrl'
 
   export default class personalInfo extends wepy.page {
     config = {
@@ -56,7 +60,7 @@
     };
     components = {};
 
-    mixins = [utils];
+    mixins = [utils,commonApi];
 
     data = {
       MODIFY_TYPE_AVATAR:0,
@@ -71,14 +75,23 @@
       sexArray:["男","女"],
       sexSelectIndex:-1,
       region: ["","",""],
+      userName:'',
     };
 
     methods = {
       bindDateChange(e){
         this.date = e.detail.value;
+        this.modifyInfo(this.MODIFY_TYPE_BIRTHDAY,{"birthday":this.date})
       },
       bindSexChange(e){
         this.sexSelectIndex = e.detail.value;
+        let gender = "01";
+        if (this.sexSelectIndex == 0){
+          gender  = "01";
+        }else{
+          gender  = "02";
+        }
+        this.modifyInfo(this.MODIFY_TYPE_SEX,{"gender":gender})
       },
       bindRegionChange(e){
         let regionValue = this.convertArrayByComma(e.detail.value);
@@ -92,8 +105,43 @@
           return;
         }
         this.region = e.detail.value;
+        let reg = new RegExp( ',' , "g" );
+        // console.log(regionValue.replace(reg,""));
+        this.modifyInfo(this.MODIFY_TYPE_REGION,{"address":reg})
+      },
+      chooseImage(){
+        wx.chooseImage({
+          count: 1,
+          sizeType: ['compressed'],
+          sourceType: ['album', 'camera'],
+          success(res) {
+            // tempFilePath可以作为img标签的src属性显示图片
+            const tempFilePaths = res.tempFilePaths
+          }
+        });
       },
     };
+
+    modifyInfo(type,data){
+      this.sendRequest(httpUrl.modifyInfo,'PUT',data,res =>{
+        wx.showToast({
+          title: '修改成功',
+        });
+      },err =>{
+        switch (type) {
+          case this.MODIFY_TYPE_BIRTHDAY:
+            this.date = '';
+            break;
+          case this.MODIFY_TYPE_SEX:
+            this.sexSelectIndex = -1;
+            break;
+          case this.MODIFY_TYPE_REGION:
+            this.region = ["","",""];
+            break;
+        }
+        this.$apply();
+      });
+    }
 
     toLogin(){
       this.$navigate('../login');
