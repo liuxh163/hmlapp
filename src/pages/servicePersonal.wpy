@@ -1,5 +1,13 @@
 <style lang="scss" src="../css/servicePersonal.scss">
 </style>
+<style lang="scss">
+  .van-picker__cancel{
+    color: #999999 !important;
+  }
+  .van-picker__confirm{
+    color: #F19F00 !important;
+  }
+</style>
 <template>
   <view class="service-personal">
     <image class="banner" src="../img/banner.png"></image>
@@ -12,7 +20,7 @@
         <van-tabs bind:disabled="bindDisabledTabClick" custom-class="custom-class" animated sticky color="#FFC207"
                   line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="1"
                   bind:change="onChange">
-          <van-tab disabled title="翻译人员"></van-tab>
+          <van-tab disabled title="全部人员"></van-tab>
           <van-tab title="日本">
             <personallist :listData.sync="personalList"></personallist>
           </van-tab>
@@ -25,107 +33,165 @@
         </van-tabs>
       </view>
     </view>
+    <van-popup
+      show="{{ popupShow }}"
+      bind:close="onClose"
+      position="bottom">
+      <van-picker
+        show-toolbar
+        title="选择"
+        columns="{{ columns }}"
+        bind:cancel="onCancel"
+        bind:confirm="onConfirm"
+      />
+    </van-popup>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy';
-  import personalList from '../components/personalList'
+  import personalList from '../components/personalList';
+  import commonApi from '../mixins/commonApi'
+  import {httpUrl} from '../utils/httpUrl'
 
   export default class servicePersonal extends wepy.page {
     config = {
       navigationBarTitleText: '服务人员',
-      "usingComponents": {
-        "van-tab": "../components/vant/tab/index",
-        "van-tabs": "../components/vant/tabs/index",
-        "van-tag": "../components/vant/tag/index",
+      'usingComponents': {
+        'van-tab': '../components/vant/tab/index',
+        'van-tabs': '../components/vant/tabs/index',
+        'van-tag': '../components/vant/tag/index',
+        'van-popup': '../components/vant/popup/index',
+        'van-picker': '../components/vant/picker/index'
       }
     };
     components = {
-      personallist:personalList
+      personallist: personalList
     };
 
     data = {
-      scrollTop: 0,
-      lineWidth:93,
-      personalList:[
-        {
-          id:'1001',
-          thumbImage:'../img/swiper1.jpg',
-          isRecommend:true,
-          isHot:false,
-          tags:['专业','专业'],
-          name:'张小可',
-          likeNum:3,
-          commentNum:15,
-          schoolName:'东京大学',
-          sex:'1',
-        },
-        {
-          id:'1002',
-          thumbImage:'../img/swiper2.jpg',
-          isRecommend:false,
-          isHot:true,
-          tags:['专业','专业'],
-          name:'张小可',
-          likeNum:3,
-          commentNum:15,
-          schoolName:'东京大学',
-          sex:'0',
-        },
-        {
-          id:'1003',
-          thumbImage:'../img/swiper3.jpg',
-          isRecommend:false,
-          isHot:false,
-          tags:['专业','专业'],
-          name:'张小可',
-          likeNum:3,
-          commentNum:15,
-          schoolName:'东京大学',
-          sex:'1',
-        },
-        {
-          id:'1004',
-          thumbImage:'../img/swiper1.jpg',
-          isRecommend:false,
-          isHot:false,
-          tags:['专业','专业'],
-          name:'张小可',
-          likeNum:3,
-          commentNum:15,
-          schoolName:'东京大学',
-          sex:'0',
-        },
-        {
-          id:'1005',
-          thumbImage:'../img/swiper2.jpg',
-          isRecommend:true,
-          isHot:false,
-          tags:['专业','专业'],
-          name:'张小可',
-          likeNum:3,
-          commentNum:15,
-          schoolName:'东京大学',
-          sex:'0',
-        },
+      columns: [
+        { text: '全部人员', id: '00' },
+        { text: '翻译人员', id: '01' },
+        { text: '地接人员', id: '02' }
       ],
+      popupShow: false,
+      scrollTop: 0,
+      lineWidth: 93,
+      personalList: [
+        {
+          id: '1001',
+          picFileId: '../img/swiper1.jpg',
+          isRecommend: true,
+          isHot: false,
+          tags: ['专业', '专业'],
+          name: '张小可',
+          likeNum: 3,
+          commentNum: 15,
+          schoolName: '东京大学',
+          sex: '1'
+        },
+        {
+          id: '1002',
+          picFileId: '../img/swiper2.jpg',
+          isRecommend: false,
+          isHot: true,
+          tags: ['专业', '专业'],
+          name: '张小可',
+          likeNum: 3,
+          commentNum: 15,
+          schoolName: '东京大学',
+          sex: '0'
+        },
+        {
+          id: '1003',
+          picFileId: '../img/swiper3.jpg',
+          isRecommend: false,
+          isHot: false,
+          tags: ['专业', '专业'],
+          name: '张小可',
+          likeNum: 3,
+          commentNum: 15,
+          schoolName: '东京大学',
+          sex: '1'
+        },
+        {
+          id: '1004',
+          picFileId: '../img/swiper1.jpg',
+          isRecommend: false,
+          isHot: false,
+          tags: ['专业', '专业'],
+          name: '张小可',
+          likeNum: 3,
+          commentNum: 15,
+          schoolName: '东京大学',
+          sex: '0'
+        },
+        {
+          id: '1005',
+          picFileId: '../img/swiper2.jpg',
+          isRecommend: true,
+          isHot: false,
+          tags: ['专业', '专业'],
+          name: '张小可',
+          likeNum: 3,
+          commentNum: 15,
+          schoolName: '东京大学',
+          sex: '0'
+        }
+      ],
+      currentNation:"01",
+      currentType:'00'
     };
 
+    mixins = [commonApi];
+
     methods = {
-      bindDisabledTabClick(){
-        wx.showToast({
-          title: 'disabled',
-          icon: 'none'
-        });
+      onConfirm(e){
+        console.log('onConfirm e', e.detail.value.id);
+        this.closePopup();
+        this.currentType = e.detail.value.id;
+        this.getPersonalList();
+      },
+      onCancel(e){
+        this.closePopup();
+      },
+      onClose(e) {
+        this.closePopup();
+      },
+      bindDisabledTabClick() {
+        this.popupShow = true;
+        this.$apply();
+      },
+      onChange(e){
+        let index  =  e.detail.index;
+        let nation = "01";
+        switch (index) {
+          case 1:
+            nation = "01";
+            break;
+          case 2:
+            nation = "02";
+            break;
+          case 3:
+            nation = "03";
+            break;
+        }
+        this.currentNation = nation;
+        this.getPersonalList();
       },
     };
 
     events = {
-      'itemTap':(item,$event) =>{
+      'itemTap': (item, $event) => {
         this.$navigate('servicedetail/serviceDetail?id=' + item.id);
       }
     };
+
+    closePopup(){
+      this.popupShow = false;
+      this.$apply();
+    }
 
     onPageScroll(e) {
       // if (e.scrollTop > this.scrollTop) {
@@ -146,8 +212,19 @@
       this.$apply();
     }
 
-    toLogin(){
+    toLogin() {
       this.$navigate('login');
+    }
+
+    getPersonalList(){
+      let data = {
+        "type":this.currentType,
+        "nation":this.currentNation
+      };
+      this.sendRequest(httpUrl.getPersonalList,'GET',data,res =>{
+        // this.personalList = res.servants;
+        // this.$apply();
+      });
     }
 
     onLoad(options, data) {
@@ -161,7 +238,9 @@
         success(res) {
           t.lineWidth = (res.screenWidth - 96) / 3;
         }
-      })
+      });
+
+      this.getPersonalList();
     }
   }
 </script>

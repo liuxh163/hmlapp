@@ -56,6 +56,10 @@ export default function request(config = {}) {
           reject(r);
         }
       }
+    }).catch(e =>{
+      console.log('catch e',e);
+      wx.hideLoading();
+      reject(e);
     });
   })
 }

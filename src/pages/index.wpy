@@ -320,7 +320,7 @@
         if (this.productsReqOver) {
           wx.stopPullDownRefresh();
         }
-        console.log("getPosts res", res);
+        // console.log("getPosts res", res);
         if (res) {
           this.discoveryList = res;
           this.$apply();
@@ -346,7 +346,7 @@
         if (this.postsReqOver) {
           wx.stopPullDownRefresh();
         }
-        console.log("getRecommendData res", res);
+        // console.log("getRecommendData res", res);
         if (res && res.products && res.products.length > 0) {
           this.recommendList = res;
           this.$apply();
