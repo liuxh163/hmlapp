@@ -79,31 +79,30 @@
       region: ["","",""],
       userName:'',
       personalInfo:{},
+      gender:'',
+      regionValue:'',
       uploadPromise:null,
     };
 
     methods = {
       bindDateChange(e){
-        this.personalInfo.birthday = e.detail.value;
         this.date = e.detail.value;
         this.modifyInfo(this.MODIFY_TYPE_BIRTHDAY,{"birthday":new Date(this.date)})
       },
       bindSexChange(e){
         this.sexSelectIndex = e.detail.value;
-        let gender = "01";
         if (this.sexSelectIndex == 0){
-          gender  = "01";
+          this.gender  = "01";
         }else{
-          gender  = "02";
+          this.gender  = "02";
         }
-        this.personalInfo.gender = gender;
-        this.modifyInfo(this.MODIFY_TYPE_SEX,{"gender":gender})
+        this.modifyInfo(this.MODIFY_TYPE_SEX,{"gender":this.gender})
       },
       bindRegionChange(e){
-        let regionValue = this.convertArrayByComma(e.detail.value);
+        this.regionValue = this.convertArrayByComma(e.detail.value);
         let regionCode = this.convertArrayByComma(e.detail.code);
 
-        if (regionValue && (!e.detail.code || e.detail.code.length == 0)){
+        if (this.regionValue && (!e.detail.code || e.detail.code.length == 0)){
           wx.showModal({
             title: '提示',
             content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
@@ -113,8 +112,7 @@
         this.region = e.detail.value;
         // let reg = new RegExp( ',' , "g" );
         // console.log(regionValue.replace(reg,""));
-        this.personalInfo.address = regionValue;
-        this.modifyInfo(this.MODIFY_TYPE_REGION,{"address":regionValue})
+        this.modifyInfo(this.MODIFY_TYPE_REGION,{"address":this.regionValue})
       },
       chooseImage(){
         let t = this;
@@ -125,7 +123,10 @@
           success(res) {
             // tempFilePath可以作为img标签的src属性显示图片
             const tempFilePaths = res.tempFilePaths;
-            t.uploadImage(tempFilePaths);
+            t.uploadImage(tempFilePaths,res =>{
+              t.personalInfo.iconPath = res[0];
+              t.$apply();
+            });
           }
         });
       },
@@ -136,6 +137,19 @@
         wx.showToast({
           title: '修改成功',
         });
+        switch (type) {
+          case this.MODIFY_TYPE_BIRTHDAY:
+            this.personalInfo.birthday = this.date;
+            break;
+          case this.MODIFY_TYPE_SEX:
+            this.personalInfo.gender = this.gender;
+            break;
+          case this.MODIFY_TYPE_REGION:
+            this.personalInfo.address = this.regionValue;
+            break;
+        }
+        this.$apply();
+        wx.setStorageSync('personalInfo',this.personInfo);
       },err =>{
         switch (type) {
           case this.MODIFY_TYPE_BIRTHDAY:
@@ -161,17 +175,17 @@
 
       this.uploadFiles({
         uploadPromise:this.uploadPromise,
-        url: 'http://10.1.99.8:4000' + this.httpUrl.upload,
+        url: wepy.$instance.globalData.BASE_URL + this.httpUrl.upload,
         paths:paths,
         name:'filex',
         success:datas =>{
           // 服务器返回的路径
           let paths = datas.map(data => {
-            return data.rows.filepath;
+            return data.url;
           });
           console.log("uploadedPaths",paths);
 
-          success && success()
+          success && success(paths)
         }
       });
     }
@@ -197,6 +211,11 @@
       }else {
         this.region = ["","",""];
       }
+      this.$apply();
+    }
+
+    onShow(){
+      this.personalInfo = wx.getStorageSync('personalInfo');
       this.$apply();
     }
 

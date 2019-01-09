@@ -92,8 +92,8 @@
       AuthErrorCount: 0,
       isReLogin: false,  // 是否是token过期重新登录
       isLogin: false,  // 是否登录成功
-      BASE_URL:"http://10.1.99.8:4000", // 测试
-      // BASE_URL: "http://47.92.131.110:24651", // 生产
+      // BASE_URL:"http://10.1.99.8:4000", // 测试
+      BASE_URL: "http://47.92.131.110:24651", // 生产
     };
 
     constructor() {

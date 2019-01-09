@@ -47,6 +47,7 @@
     data = {
       userName:'',
       userNameErrMsg:'',
+      personalInfo:{},
     };
 
     mixins = [commonApi];
@@ -63,6 +64,8 @@
             wx.showToast({
               title: '修改成功',
             });
+            this.personalInfo.userName = username;
+            wx.setStorageSync('personalInfo',this.personInfo);
             setTimeout(function () {
               wx.navigateBack();
             },1500);
@@ -84,6 +87,7 @@
       this.$wxpage.options = options;
 
       this.userName = options.username;
+      this.personalInfo = wx.getStorageSync('personalInfo');
     }
   }
 </script>

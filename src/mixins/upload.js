@@ -10,12 +10,13 @@ export default class upload extends wepy.mixin {
       progress = options.progress,
       fail = options.fail;
     if (path.indexOf("http") == 0){
+      let dataArr = [];
       let data = {
-        rows:{
-          filepath:path,
-        }
+        url:path
       };
-      success && success(data)
+      dataArr.push(data);
+      console.log('already http path',dataArr);
+      success && success(dataArr[0]);
       return;
     }
     const token = wepy.getStorageSync('accessToken');
@@ -38,10 +39,10 @@ export default class upload extends wepy.mixin {
           throw(e)
         }
         let dataArr = data.data;
-        console.log("upload success res",dataArr);
+        console.log("upload success res",data);
 
-        if (dataArr && dataArr[0].url) {
-          success && success(data)
+        if (data.success && dataArr && dataArr[0].url) {
+          success && success(dataArr[0])
         } else {
           fail && fail(data)
         }
@@ -75,7 +76,7 @@ export default class upload extends wepy.mixin {
         },
       })
     });
-    console.log('上传图片');
+    console.log('start upload',options.url);
     wx.showLoading({
       title: '正在上传图片...',
       mask:true,

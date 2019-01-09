@@ -391,7 +391,6 @@
           t.lineWidth = res.screenWidth / 2;
         }
       });
-      // console.log(this.$wxapp.globalData.BASE_URL);
       this.initData();
       this.analyticalDiscoveryData(this.discoveryList);
     }
