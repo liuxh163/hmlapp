@@ -18,9 +18,9 @@
       </view>
       <view class="tabs">
         <van-tabs bind:disabled="bindDisabledTabClick" custom-class="custom-class" animated sticky color="#FFC207"
-                  line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="1"
+                  line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="0"
                   bind:change="onChange">
-          <van-tab disabled title="全部人员"></van-tab>
+          <!--<van-tab disabled title="全部人员"></van-tab>-->
           <van-tab title="日本">
             <personallist :listData.sync="personalList"></personallist>
           </van-tab>
@@ -33,18 +33,18 @@
         </van-tabs>
       </view>
     </view>
-    <van-popup
-      show="{{ popupShow }}"
-      bind:close="onClose"
-      position="bottom">
-      <van-picker
-        show-toolbar
-        title="选择"
-        columns="{{ columns }}"
-        bind:cancel="onCancel"
-        bind:confirm="onConfirm"
-      />
-    </van-popup>
+    <!--<van-popup-->
+      <!--show="{{ popupShow }}"-->
+      <!--bind:close="onClose"-->
+      <!--position="bottom">-->
+      <!--<van-picker-->
+        <!--show-toolbar-->
+        <!--title="选择"-->
+        <!--columns="{{ columns }}"-->
+        <!--bind:cancel="onCancel"-->
+        <!--bind:confirm="onConfirm"-->
+      <!--/>-->
+    <!--</van-popup>-->
   </view>
 </template>
 
@@ -56,13 +56,13 @@
 
   export default class servicePersonal extends wepy.page {
     config = {
-      navigationBarTitleText: '服务人员',
+      navigationBarTitleText: '陪同司导',
       'usingComponents': {
         'van-tab': '../components/vant/tab/index',
         'van-tabs': '../components/vant/tabs/index',
         'van-tag': '../components/vant/tag/index',
-        'van-popup': '../components/vant/popup/index',
-        'van-picker': '../components/vant/picker/index'
+        // 'van-popup': '../components/vant/popup/index',
+        // 'van-picker': '../components/vant/picker/index'
       }
     };
     components = {
@@ -236,7 +236,7 @@
       let t = this;
       wx.getSystemInfo({
         success(res) {
-          t.lineWidth = (res.screenWidth - 96) / 3;
+          t.lineWidth = res.screenWidth / 3;
         }
       });
 
