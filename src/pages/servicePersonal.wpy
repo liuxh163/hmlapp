@@ -61,6 +61,7 @@
         'van-tab': '../components/vant/tab/index',
         'van-tabs': '../components/vant/tabs/index',
         'van-tag': '../components/vant/tag/index',
+        "van-rate": "../components/vant/rate/index",
         // 'van-popup': '../components/vant/popup/index',
         // 'van-picker': '../components/vant/picker/index'
       }
@@ -78,68 +79,71 @@
       popupShow: false,
       scrollTop: 0,
       lineWidth: 93,
-      personalList: [
-        {
-          id: '1001',
-          picFileId: '../img/swiper1.jpg',
-          isRecommend: true,
-          isHot: false,
-          tags: ['专业', '专业'],
-          name: '张小可',
-          likeNum: 3,
-          commentNum: 15,
-          schoolName: '东京大学',
-          sex: '1'
-        },
-        {
-          id: '1002',
-          picFileId: '../img/swiper2.jpg',
-          isRecommend: false,
-          isHot: true,
-          tags: ['专业', '专业'],
-          name: '张小可',
-          likeNum: 3,
-          commentNum: 15,
-          schoolName: '东京大学',
-          sex: '0'
-        },
-        {
-          id: '1003',
-          picFileId: '../img/swiper3.jpg',
-          isRecommend: false,
-          isHot: false,
-          tags: ['专业', '专业'],
-          name: '张小可',
-          likeNum: 3,
-          commentNum: 15,
-          schoolName: '东京大学',
-          sex: '1'
-        },
-        {
-          id: '1004',
-          picFileId: '../img/swiper1.jpg',
-          isRecommend: false,
-          isHot: false,
-          tags: ['专业', '专业'],
-          name: '张小可',
-          likeNum: 3,
-          commentNum: 15,
-          schoolName: '东京大学',
-          sex: '0'
-        },
-        {
-          id: '1005',
-          picFileId: '../img/swiper2.jpg',
-          isRecommend: true,
-          isHot: false,
-          tags: ['专业', '专业'],
-          name: '张小可',
-          likeNum: 3,
-          commentNum: 15,
-          schoolName: '东京大学',
-          sex: '0'
-        }
-      ],
+      // personalList: [
+      //   {
+      //     id: '1001',
+      //     picFileId: '../img/swiper1.jpg',
+      //     isRecommend: true,
+      //     isHot: false,
+      //     type: "01,02",
+      //     tags:["购物达人","美食家"],
+      //     name: '张小可',
+      //     likeNum: 3,
+      //     commentNum: 15,
+      //     schoolName: '东京大学',
+      //     sex: '1',
+      //     desc:'Hi，我是Mike，这次是我为您提供的翻译服务，希望我的服务能帮助到您。',
+      //   },
+      //   {
+      //     id: '1002',
+      //     picFileId: '../img/swiper2.jpg',
+      //     isRecommend: false,
+      //     isHot: true,
+      //     type: "01,02",
+      //     name: '张小可',
+      //     likeNum: 3,
+      //     commentNum: 15,
+      //     schoolName: '东京大学',
+      //     sex: '0'
+      //   },
+      //   {
+      //     id: '1003',
+      //     picFileId: '../img/swiper3.jpg',
+      //     isRecommend: false,
+      //     isHot: false,
+      //     type: "01,02",
+      //     name: '张小可',
+      //     likeNum: 3,
+      //     commentNum: 15,
+      //     schoolName: '东京大学',
+      //     sex: '1'
+      //   },
+      //   {
+      //     id: '1004',
+      //     picFileId: '../img/swiper1.jpg',
+      //     isRecommend: false,
+      //     isHot: false,
+      //     type: "01,02",
+      //     name: '张小可',
+      //     likeNum: 3,
+      //     commentNum: 15,
+      //     schoolName: '东京大学',
+      //     sex: '0'
+      //   },
+      //   {
+      //     id: '1005',
+      //     picFileId: '../img/swiper2.jpg',
+      //     isRecommend: true,
+      //     isHot: false,
+      //     type: "01,02",
+      //     name: '张小可',
+      //     likeNum: 3,
+      //     commentNum: 15,
+      //     schoolName: '东京大学',
+      //     sex: '0'
+      //   }
+      // ],
+      personalList:[],
       currentNation:"01",
       currentType:'00'
     };
@@ -167,13 +171,13 @@
         let index  =  e.detail.index;
         let nation = "01";
         switch (index) {
-          case 1:
+          case 0:
             nation = "01";
             break;
-          case 2:
+          case 1:
             nation = "02";
             break;
-          case 3:
+          case 2:
             nation = "03";
             break;
         }
@@ -184,7 +188,8 @@
 
     events = {
       'itemTap': (item, $event) => {
-        this.$navigate('servicedetail/serviceDetail?id=' + item.id);
+        this.$preload('item', item);
+        this.$navigate('servicedetail/serviceDetail');
       }
     };
 
@@ -218,12 +223,17 @@
 
     getPersonalList(){
       let data = {
-        "type":this.currentType,
+        // "type":this.currentType,
         "nation":this.currentNation
       };
       this.sendRequest(httpUrl.getPersonalList,'GET',data,res =>{
-        // this.personalList = res.servants;
-        // this.$apply();
+        this.personalList = res.servants;
+        for (let i = 0; i < this.personalList.length; i++) {
+          let item  =  this.personalList[i];
+          item.types = item.type.split(",");
+        }
+        console.log('personalList',this.personalList);
+        this.$apply();
       });
     }
 

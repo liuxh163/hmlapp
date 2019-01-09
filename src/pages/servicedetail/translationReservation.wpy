@@ -218,7 +218,7 @@
       <van-cell title="文字翻译" value-class="value-class" label="{{errMsg.x_ray}}">
         <view class="right-value" slot="">
           <view class="unit-price">
-            <text>¥ 150/千字</text>
+            <text>¥ {{item.literPrice}}/千字</text>
           </view>
           <view class="stepper">
             <van-stepper id="text" name="text" minus-class="minus-plus-class" plus-class="minus-plus-class" input-class="input-class"
@@ -232,7 +232,7 @@
         <view class="right-value interpreter-container" slot="">
           <view class="unit-price-container bottom-border">
             <view class="unit-price">
-              <text>¥ 1000/人／天</text>
+              <text>¥ {{item.followPrice}}/人／天</text>
             </view>
             <view class="stepper">
               <van-stepper id="interpreter" name="interpreter" minus-class="minus-plus-class" plus-class="minus-plus-class" input-class="input-class"
@@ -303,9 +303,9 @@
       endDate:'',
       endStartDate:'',
       checked:false,
-      priceRMB:'23400',
-      priceJPY:'293900',
-      buyListCount:5,
+      priceRMB:'0',
+      priceJPY:'0',
+      buyListCount:0,
       wordCount:0,
       interpreterCount:0,
       errMsg:{
@@ -313,7 +313,10 @@
         termService:'',
         startDate:'',
         endDate:'',
-      }
+      },
+      item:{},
+      wordPrice:0,
+      interpreterPrice:0,
     };
 
     watch = {
@@ -335,11 +338,17 @@
       },
       onChange(e){
         // console.log('e',e);
+        let wordNum  = 0;
         if (e.currentTarget.id == 'interpreter') {
           this.interpreterCount = e.detail;
+          this.interpreterPrice = this.item.followPrice * this.interpreterCount;
         }else {
+          wordNum = e.detail;
+          this.wordPrice = this.item.literPrice * wordNum;
           this.wordCount = e.detail * 1000;
         }
+        this.priceRMB = this.interpreterPrice + this.wordPrice;
+        this.buyListCount = wordNum + this.interpreterCount;
         this.errMsg.translationMode = '';
       },
       onCheckBoxChange(e){
@@ -376,7 +385,7 @@
         }
         if (isSuccess) {
           wx.showToast({
-            title: '调用支付接口',
+            title: '支付功能即将上线，敬请期待',
             icon: 'none'
           });
         }
@@ -431,6 +440,11 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      this.item.id  = options.id;
+      this.item.followPrice  = options.followPrice;
+      this.item.literPrice  = options.literPrice;
+      // console.log('item',options);
     }
   }
 </script>

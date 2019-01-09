@@ -84,7 +84,7 @@
           <text>￥ </text>
           <text>{{priceRMB}} 元</text>
         </view>
-        <text class="jpy-text">JPY {{priceJPY}}</text>
+        <!--<text class="jpy-text">JPY {{priceJPY}}</text>-->
       </view>
     </view>
     <button disabled="{{submitBtnLoading}}" loading="{{submitBtnLoading}}" form-type="submit">支付</button>

@@ -3,36 +3,65 @@
   .personal-list{
     margin-top: px2rpx(15);
     display: flex;
-    flex-flow: row wrap;
-    align-content: flex-start;
+    flex-direction: column;
     padding-left: px2rpx(6);
     .personal-item:active{
       opacity: 0.9;
     }
     .personal-item{
-      margin-left: px2rpx(9);
+      margin-left: px2rpx(15);
+      margin-right: px2rpx(15);
       margin-bottom: px2rpx(10);
       border: 1px solid #E3E3E3;
       border-radius: px2rpx(4);
-      width: px2rpx(169);
       position: relative;
       overflow: hidden;
       .top{
-        image{
-          border-top-left-radius: px2rpx(4);
-          border-top-right-radius: px2rpx(4);
-          width: px2rpx(169);
-          height: px2rpx(168);
+        margin-top: px2rpx(11);
+        margin-left: px2rpx(11);
+        display: flex;
+        align-items: flex-start;
+        .avatar{
+          border-radius: 50%;
+          overflow: hidden;
+          width: px2rpx(32);
+          height: px2rpx(32);
         }
-        .tags{
-          position: absolute;
-          top: px2rpx(0);
-          left: px2rpx(6);
+        .name-container{
+          margin-left: px2rpx(10);
+          display: flex;
+          flex-direction: column;
+          text{
+            display: block;
+            color: #000000;
+            font-size: px2rpx(17);
+            font-weight: bold;
+          }
+        }
+        .school-name{
+          display: block;
+          margin-top: px2rpx(3);
+          color: #333333;
+          font-size: px2rpx(12);
+          margin-left: px2rpx(15);
+        }
+        .types{
+          margin-top: px2rpx(-5);
           .van-tag{
-            margin-right: px2rpx(10);
-            background-color: rgba(0,0,0,0.26) !important;
+            padding: 0 px2rpx(5);
+            margin-left: px2rpx(5);
             color: white;
             font-size: px2rpx(11);
+          }
+          .type1{
+            .van-tag{
+              background-color: #FE585A !important;
+            }
+          }
+          .type2{
+            .van-tag{
+              background-color: #FFC207 !important;
+            }
           }
         }
         .tag {
@@ -60,69 +89,58 @@
             top: px2rpx(2);
           }
         }
+        .right{
+          position: absolute;
+          top: px2rpx(38);
+          right: px2rpx(10);
+          display: flex;
+          align-items: center;
+          .common {
+            display: flex;
+            align-items: center;
+          }
+          .like-view {
+            margin-left: px2rpx(15);
+            image {
+              width: px2rpx(12);
+              height: px2rpx(11);
+            }
+          }
+          .comment-view {
+            margin-left: px2rpx(15);
+            margin-top: px2rpx(2);
+            image {
+              width: px2rpx(12);
+              height: px2rpx(11);
+            }
+          }
+          text {
+            display: inline-block;
+            margin-left: px2rpx(7);
+            color: #999999;
+            font-size: px2rpx(11);
+          }
+        }
       }
       .bottom{
         margin-bottom: px2rpx(10);
-        .first{
-          display: flex;
-          align-items: center;
-          .left{
+        display: flex;
+        flex-direction: column;
+        .tags{
+          .tag{
             margin-left: px2rpx(10);
-            text{
-              display: block;
-              color: #333333;
-              font-size: px2rpx(12);
-              font-weight: bold;
-            }
-          }
-          .right{
-            margin-left: auto;
-            margin-right: px2rpx(10);
-            display: flex;
-            align-items: center;
-            .common {
-              display: flex;
-              align-items: center;
-            }
-            .like-view {
-              margin-left: px2rpx(15);
-              image {
-                width: px2rpx(12);
-                height: px2rpx(11);
-              }
-            }
-            .comment-view {
-              margin-left: px2rpx(15);
-              margin-top: px2rpx(2);
-              image {
-                width: px2rpx(12);
-                height: px2rpx(11);
-              }
-            }
-            text {
-              display: inline-block;
-              margin-left: px2rpx(7);
-              color: #999999;
-              font-size: px2rpx(11);
-            }
+            padding: px2rpx(8) px2rpx(15);
+            background-color: #FFF6DA !important;
+            color: #F19F00;
+            font-size: px2rpx(12);
           }
         }
-        .second{
-          margin-top: px2rpx(5);
-          display: flex;
-          align-items: center;
-          text{
-            margin-left: px2rpx(10);
-            color: #333333;
-            font-size: px2rpx(12);
-            font-weight: bold;
-          }
-          image{
-            width: px2rpx(20);
-            height: px2rpx(20);
-            margin-left: auto;
-            margin-right: px2rpx(10);
-          }
+        .desc{
+          color: #333333;
+          font-size: px2rpx(12);
+          margin-top: px2rpx(12);
+          margin-left: px2rpx(12);
+          margin-right: px2rpx(12);
         }
       }
     }
@@ -134,37 +152,43 @@
     <block wx:key="item.id" wx:for="{{listData}}">
       <view class="personal-item" @tap="bindItemTap({{item}})">
         <view class="top">
-          <image src="{{item.picFileId}}"/>
-          <view class="tags">
-            <van-tag wx:key="tagItem" wx:for-item="tagItem" wx:for="{{item.tags}}">{{tagItem}}</van-tag>
+          <image class="avatar" src="{{item.picFileId}}"/>
+          <view class="name-container">
+            <text>{{item.name}}</text>
+            <van-rate value="{{item.score}}" count="5" size="13"></van-rate>
           </view>
-          <view class="tag hot" wx:if="{{item.isHot}}">
+          <text class="school-name">{{item.schoolName}}</text>
+          <view class="types">
+            <block wx:key="typeItem" wx:for-item="typeItem" wx:for="{{item.types}}">
+              <van-tag class="{{typeItem == '01'?'type1':typeItem == '02'?'type2':'type3'}}">
+                {{typeItem == '01'?'带车':typeItem == '02'?'陪同':'文字'}}</van-tag>
+            </block>
+          </view>
+          <view class="right">
+            <view class="common like-view">
+              <image src="../img/like.png"/>
+              <text>{{item.thumbNum}}</text>
+            </view>
+            <view class="common comment-view">
+              <image src="../img/comment.png"/>
+              <text>{{item.commentNum}}</text>
+            </view>
+          </view>
+          <view class="tag hot" wx:if="{{item.category == '02'}}">
             <text>热</text>
           </view>
-          <view class="tag recommend" wx:if="{{item.isRecommend}}">
+          <view class="tag recommend" wx:if="{{item.category == '01'}}">
             <text>推荐</text>
           </view>
         </view>
+        <view style="background-color: #F2F2F2;height: 1px;margin: 20rpx;margin-top: 10rpx"></view>
         <view class="bottom">
-          <view class="first">
-            <view class="left">
-              <text>{{item.name}}</text>
-            </view>
-            <view class="right">
-              <view class="common like-view">
-                <image src="../img/like.png"/>
-                <text>{{item.likeNum}}</text>
-              </view>
-              <view class="common comment-view">
-                <image src="../img/comment.png"/>
-                <text>{{item.commentNum}}</text>
-              </view>
-            </view>
+          <view class="tags">
+            <block wx:key="tagItem" wx:for-item="tagItem" wx:for="{{tagItem.tags}}">
+              <van-tag custom-class="tag">{{tagItem}}</van-tag>
+            </block>
           </view>
-          <view class="second">
-            <text>{{item.schoolName}}</text>
-            <image src="{{item.sex == '0'?'../img/icon_boy.svg':'../img/icon_girl.svg'}}"/>
-          </view>
+          <text class="desc">{{item.desc}}</text>
         </view>
       </view>
     </block>
@@ -176,9 +200,6 @@
 
   export default class personalList extends wepy.component {
     config = {
-      "usingComponents": {
-        "van-tag": "./vant/tag/index",
-      }
     };
 
     props = {
@@ -192,7 +213,7 @@
       },
     };
     data = {
-
+      rateValue:3,
     };
     methods = {
       bindItemTap(item){
@@ -200,6 +221,7 @@
       },
     };
     onLoad(){
+
     }
   }
 </script>

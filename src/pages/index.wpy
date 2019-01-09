@@ -59,7 +59,7 @@
           <view class="desc-container">
             <text class="desc">{{item.slogan}}</text>
             <view class="like-comment">
-              <image src="../img/like.png"/>
+              <image src="../img/icon_like.png"/>
               <text>{{item.praise_num}}</text>
               <view @tap="bindTurnComment({{item.id}})" class="comment-container">
                 <image class="comment-image" src="../img/comment.png"/>
@@ -123,7 +123,7 @@
                   <text>{{item.posterName}}</text>
                 </view>
                 <view class="like-container">
-                  <image src="../img/like.png"/>
+                  <image src="../img/icon_like.png"/>
                   <text>{{item.praise_num}}</text>
                 </view>
               </view>
@@ -145,7 +145,7 @@
                   <text>{{item.posterName}}</text>
                 </view>
                 <view class="like-container">
-                  <image src="../img/like.png"/>
+                  <image src="../img/icon_like.png"/>
                   <text>{{item.praise_num}}</text>
                 </view>
               </view>
