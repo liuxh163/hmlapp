@@ -5,10 +5,10 @@
     <view class="swiper-view">
       <swiper bindchange="bindchange" autoplay indicator-dots
               indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
-        <block wx:key="{{item}}" wx:for="{{imgUrls}}">
+        <block wx:key="{{item.id}}" wx:for="{{carousels}}">
           <swiper-item @tap="bindSwiperItemTap">
             <view class="swiper-item">
-              <image mode="widthFix" src="{{item}}"/>
+              <image mode="widthFix" src="{{item.picFileId}}"/>
             </view>
           </swiper-item>
         </block>
@@ -60,6 +60,8 @@
 
 <script>
   import wepy from 'wepy';
+  import commonApi from '../mixins/commonApi'
+  import {httpUrl} from '../utils/httpUrl'
 
   export default class nationProducts extends wepy.page {
     config = {
@@ -69,6 +71,9 @@
 
     data = {
       nation:'',
+      carousels:[{
+
+      }],
       imgUrls: [
         '../img/swiper1.jpg',
         '../img/swiper2.jpg',
@@ -94,16 +99,41 @@
       ],
     };
 
-    mixins = [];
+    mixins = [commonApi];
 
     methods = {
       bindchange(e){
+
+      },
+      bindSwiperItemTap(item){
 
       },
     };
 
     toLogin() {
       this.$navigate('login');
+    }
+
+    getCarousels(){
+      let data = {
+        location:this.nation,
+        productId:'',
+      };
+      this.sendRequest(httpUrl.getCarousels,'GET',data,res =>{
+        this.carousels = res.carousels;
+        this.$apply();
+      });
+    }
+
+    getProducts(){
+      let data = {
+        nation:this.nation,
+        limit:10000,
+        sort_type:'01',
+      };
+      this.sendRequest(httpUrl.getProducts,'GET',data,res =>{
+
+      });
     }
 
     onLoad(options, data) {
@@ -117,6 +147,9 @@
       wx.setNavigationBarTitle({
         title: options.title
       });
+
+      this.getCarousels();
+      this.getProducts();
     }
   }
 </script>

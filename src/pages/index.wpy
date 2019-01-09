@@ -176,21 +176,21 @@
       nationList: [
         {
           id: '1001',
-          nation:'01',
+          nation:'02',
           thumbImage: '../img/swiper1.jpg',
           title: '日本康养之旅',
           desc: '日本康养的特点特色介绍',
         },
         {
           id: '1002',
-          nation:'02',
+          nation:'03',
           thumbImage: '../img/swiper2.jpg',
           title: '韩国康养之旅',
           desc: '韩国康养的特点特色介绍',
         },
         {
           id: '1003',
-          nation:'03',
+          nation:'04',
           thumbImage: '../img/swiper3.jpg',
           title: '泰国康养之旅',
           desc: '泰国康养的特点特色介绍',

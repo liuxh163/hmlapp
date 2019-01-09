@@ -18,13 +18,16 @@ export default class upload extends wepy.mixin {
       success && success(data)
       return;
     }
+    const token = wepy.getStorageSync('accessToken');
     const uploadTask = wx.uploadFile({
       url: url,
       filePath: path,
       name: name,
       formData: extra,
+      header:{
+        'hmtoken': `${token}`
+      },
       success: function (res) {
-        console.log("upload success res");
 
         let data = res.data;
         try {
@@ -34,13 +37,14 @@ export default class upload extends wepy.mixin {
           console.error(data);
           throw(e)
         }
+        let dataArr = data.data;
+        console.log("upload success res",dataArr);
 
-        if (res.statusCode == 200 && data.isSuccess == "true" && data.rows && data.rows.filepath) {
+        if (dataArr && dataArr[0].url) {
           success && success(data)
         } else {
           fail && fail(data)
         }
-
       },
       fail: function (res) {
         console.error("upload fail res",res);
@@ -49,9 +53,9 @@ export default class upload extends wepy.mixin {
     });
 
     uploadTask.onProgressUpdate((res) => {
-      // console.log('上传进度', res.progress);
-      // console.log('已经上传的数据长度', res.totalBytesSent);
-      // console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend);
+      console.log('上传进度', res.progress);
+      console.log('已经上传的数据长度', res.totalBytesSent);
+      console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend);
       progress && progress(res)
     })
   }
@@ -71,7 +75,7 @@ export default class upload extends wepy.mixin {
         },
       })
     });
-
+    console.log('上传图片');
     wx.showLoading({
       title: '正在上传图片...',
       mask:true,

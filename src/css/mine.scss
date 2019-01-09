@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    open-data:nth-child(1) {
+    image {
       margin-top: px2rpx(16);
       width: px2rpx(53);
       height: px2rpx(53);
@@ -17,7 +17,7 @@
       border-radius: 50%;
       border: 2px solid white;
     }
-    open-data:nth-child(2) {
+    text {
       margin-top: px2rpx(8);
       color: #333333;
       font-size: px2rpx(18);

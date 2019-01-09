@@ -4,8 +4,10 @@
   <view class="mine">
     <view class="personal-information">
       <view class="avatar-container">
-        <open-data class="avatar" type="userAvatarUrl"></open-data>
-        <open-data type="userNickName"></open-data>
+        <image class="avatar" src="{{personInfo.iconPath}}"></image>
+        <text>{{personInfo.userName}}</text>
+        <!--<open-data class="avatar" type="userAvatarUrl"></open-data>-->
+        <!--<open-data type="userNickName"></open-data>-->
       </view>
       <navigator url="setting/setting">
         <image class="setting" src="../img/icon_setting.png"/>
@@ -13,15 +15,15 @@
     </view>
     <view class="personal-data shadow">
       <view class="common">
-        <text>545</text>
+        <text>{{thumbNum}}</text>
         <text>点赞</text>
       </view>
       <view class="common">
-        <text>123</text>
+        <text>{{commentNum}}</text>
         <text>回复</text>
       </view>
       <view class="common">
-        <text>3452</text>
+        <text>{{personInfo.hmCoins}}</text>
         <text>海马币</text>
       </view>
     </view>
@@ -159,11 +161,14 @@
 
 <script>
   import wepy from 'wepy';
+  import commonApi from '../mixins/commonApi'
   import utils from '../mixins/utils'
+  import {httpUrl} from '../utils/httpUrl'
 
   export default class Mine extends wepy.page {
     config = {
       navigationBarTitleText: '我的',
+      enablePullDownRefresh:true,
       "usingComponents": {
         "van-tab": "../components/vant/tab/index",
         "van-tabs": "../components/vant/tabs/index"
@@ -171,12 +176,14 @@
     };
     components = {};
 
-    mixins = [utils];
+    mixins = [utils,commonApi];
 
     computed = {};
 
     data = {
-      money:'34000.00',
+      thumbNum:'',
+      commentNum:'',
+      money:'0',
       scrollTop: 0,
       tab1ScrollTop:0,
       tab2ScrollTop:0,
@@ -347,6 +354,29 @@
       this.$navigate('login');
     }
 
+    onPullDownRefresh(){
+      this.initData();
+    }
+
+    initData(){
+      this.getMine();
+    }
+
+    getMine(){
+      this.sendRequest(httpUrl.getMine,'GET',{},res =>{
+        wx.stopPullDownRefresh();
+        this.personInfo = res.user;
+        console.log('personalInfo',this.personInfo);
+        this.thumbNum = res.thumbNum;
+        this.commentNum = res.commentNum;
+        this.$apply();
+
+        wx.setStorageSync('personalInfo',this.personInfo);
+      },err =>{
+        wx.stopPullDownRefresh();
+      });
+    }
+
     onLoad(options, data) {
       if (!options.preload) {
         options.preload = data.preload;
@@ -361,7 +391,8 @@
           t.lineWidth = res.screenWidth / 2;
         }
       });
-
+      // console.log(this.$wxapp.globalData.BASE_URL);
+      this.initData();
       this.analyticalDiscoveryData(this.discoveryList);
     }
   }

@@ -169,16 +169,16 @@
       },
       onChange(e){
         let index  =  e.detail.index;
-        let nation = "01";
+        let nation = "02";
         switch (index) {
           case 0:
-            nation = "01";
-            break;
-          case 1:
             nation = "02";
             break;
-          case 2:
+          case 1:
             nation = "03";
+            break;
+          case 2:
+            nation = "04";
             break;
         }
         this.currentNation = nation;

@@ -23,14 +23,14 @@
     <van-cell-group>
       <van-cell bind:click="chooseImage" custom-class="avatar-class" title=" " value="更换头像" is-link>
         <view slot="icon">
-          <image class="avatar" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546346331779&di=799d7249a061b743c65bb412b7231daa&imgtype=0&src=http%3A%2F%2Fimage.biaobaiju.com%2Fuploads%2F20180928%2F16%2F1538124027-aMtYOyIRzC.jpeg"/>
+          <image class="avatar" src="{{personalInfo.iconPath}}"/>
         </view>
       </van-cell>
-      <navigator url="modifyInput?username={{userName}}">
-        <van-cell title="用户名" value="{{userName}}" is-link/>
+      <navigator url="modifyInput?username={{personalInfo.userName}}">
+        <van-cell title="用户名" value="{{personalInfo.userName}}" is-link/>
       </navigator>
-      <picker mode="date" value="{{date}}" end="{{endDate}}" bindchange="bindDateChange">
-        <van-cell title="生日" value="{{date}}" is-link/>
+      <picker mode="date" value="{{personalInfo.birthday}}" end="{{endDate}}" bindchange="bindDateChange">
+        <van-cell title="生日" value="{{personalInfo.birthday}}" is-link/>
       </picker>
       <picker bindchange="bindSexChange" value="{{sexSelectIndex == -1?0:sexSelectIndex}}" range="{{sexArray}}">
         <van-cell title="性别" value="{{sexSelectIndex == -1?'':sexArray[sexSelectIndex]}}" is-link/>
@@ -48,11 +48,13 @@
   import wepy from 'wepy'
   import utils from '../../mixins/utils'
   import commonApi from '../../mixins/commonApi'
+  import upload from '../../mixins/upload'
   import {httpUrl} from '../../utils/httpUrl'
 
   export default class personalInfo extends wepy.page {
     config = {
       navigationBarTitleText: '个人信息',
+      backgroundTextStyle:'dark',
       "usingComponents": {
         "van-cell": "../../components/vant/cell/index",
         "van-cell-group": "../../components/vant/cell-group/index",
@@ -60,7 +62,7 @@
     };
     components = {};
 
-    mixins = [utils,commonApi];
+    mixins = [utils,commonApi,upload];
 
     data = {
       MODIFY_TYPE_AVATAR:0,
@@ -76,12 +78,15 @@
       sexSelectIndex:-1,
       region: ["","",""],
       userName:'',
+      personalInfo:{},
+      uploadPromise:null,
     };
 
     methods = {
       bindDateChange(e){
+        this.personalInfo.birthday = e.detail.value;
         this.date = e.detail.value;
-        this.modifyInfo(this.MODIFY_TYPE_BIRTHDAY,{"birthday":this.date})
+        this.modifyInfo(this.MODIFY_TYPE_BIRTHDAY,{"birthday":new Date(this.date)})
       },
       bindSexChange(e){
         this.sexSelectIndex = e.detail.value;
@@ -91,6 +96,7 @@
         }else{
           gender  = "02";
         }
+        this.personalInfo.gender = gender;
         this.modifyInfo(this.MODIFY_TYPE_SEX,{"gender":gender})
       },
       bindRegionChange(e){
@@ -105,18 +111,21 @@
           return;
         }
         this.region = e.detail.value;
-        let reg = new RegExp( ',' , "g" );
+        // let reg = new RegExp( ',' , "g" );
         // console.log(regionValue.replace(reg,""));
-        this.modifyInfo(this.MODIFY_TYPE_REGION,{"address":reg})
+        this.personalInfo.address = regionValue;
+        this.modifyInfo(this.MODIFY_TYPE_REGION,{"address":regionValue})
       },
       chooseImage(){
+        let t = this;
         wx.chooseImage({
           count: 1,
           sizeType: ['compressed'],
           sourceType: ['album', 'camera'],
           success(res) {
             // tempFilePath可以作为img标签的src属性显示图片
-            const tempFilePaths = res.tempFilePaths
+            const tempFilePaths = res.tempFilePaths;
+            t.uploadImage(tempFilePaths);
           }
         });
       },
@@ -131,6 +140,7 @@
         switch (type) {
           case this.MODIFY_TYPE_BIRTHDAY:
             this.date = '';
+            this.personalInfo.birthday = '';
             break;
           case this.MODIFY_TYPE_SEX:
             this.sexSelectIndex = -1;
@@ -143,8 +153,51 @@
       });
     }
 
+    uploadImage(paths,success){
+      if (this.uploadPromise == null){
+        console.log("转化promise对象");
+        this.uploadPromise = this.promisify(this.upload);
+      }
+
+      this.uploadFiles({
+        uploadPromise:this.uploadPromise,
+        url: 'http://10.1.99.8:4000' + this.httpUrl.upload,
+        paths:paths,
+        name:'filex',
+        success:datas =>{
+          // 服务器返回的路径
+          let paths = datas.map(data => {
+            return data.rows.filepath;
+          });
+          console.log("uploadedPaths",paths);
+
+          success && success()
+        }
+      });
+    }
+
     toLogin(){
       this.$navigate('../login');
+    }
+
+    initData(){
+      this.endDate = this.formatTime(new Date());
+      this.personalInfo = wx.getStorageSync('personalInfo');
+      if (this.personalInfo.gender){
+        if (this.personalInfo.gender == '01'){
+          this.sexSelectIndex = 0;
+        }else if (this.personalInfo.gender == '02'){
+          this.sexSelectIndex = 1;
+        }
+      }else {
+        this.sexSelectIndex = -1;
+      }
+      if (this.personalInfo.address){
+        this.region = this.personalInfo.address.split(',');
+      }else {
+        this.region = ["","",""];
+      }
+      this.$apply();
     }
 
     onLoad(options, data) {
@@ -153,7 +206,7 @@
       }
       this.$wxpage.options = options;
 
-      this.endDate = this.formatTime(new Date());
+      this.initData();
     }
   }
 </script>
