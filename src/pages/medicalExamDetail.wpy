@@ -7,7 +7,7 @@
         <block wx:key="{{item}}" wx:for="{{imgUrls}}">
           <swiper-item @tap="bindSwiperItemTap">
             <view class="swiper-item">
-              <image src="{{item}}"/>
+              <image mode="widthFix" src="{{item}}"/>
             </view>
           </swiper-item>
         </block>

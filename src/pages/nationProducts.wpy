@@ -1,0 +1,122 @@
+<style lang="scss" src="../css/nationProducts.scss">
+</style>
+<template>
+  <view class="nation-products">
+    <view class="swiper-view">
+      <swiper bindchange="bindchange" autoplay indicator-dots
+              indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
+        <block wx:key="{{item}}" wx:for="{{imgUrls}}">
+          <swiper-item @tap="bindSwiperItemTap">
+            <view class="swiper-item">
+              <image mode="widthFix" src="{{item}}"/>
+            </view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view class="recommend-view">
+      <block wx:key="item.id" wx:for="{{recommendList}}">
+        <view class="recommend-item" @tap="bindItemRecommend">
+          <image class="thumb" src="{{item.cover_path}}"/>
+          <view class="desc-container">
+            <text class="desc">{{item.slogan}}</text>
+            <view class="like-comment">
+              <image src="../img/icon_like.png"/>
+              <text>{{item.praise_num}}</text>
+              <view @tap="bindTurnComment({{item.id}})" class="comment-container">
+                <image class="comment-image" src="../img/comment.png"/>
+                <text>{{item.comment_num}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="data">
+            <text class="price">¥ {{item.price}}</text>
+            <text class="unit"> ／人起</text>
+            <view class="tag">
+              <text>混浴汤泉</text>
+              <text>混浴汤泉</text>
+            </view>
+          </view>
+          <!--<view class="offer-view">-->
+            <!--<view class="left">-->
+              <!--<view class="offer staging">-->
+                <!--<text>分</text>-->
+                <!--<text>支持分期</text>-->
+              <!--</view>-->
+              <!--<view class="offer card">-->
+                <!--<text>卡</text>-->
+                <!--<text>出行卡</text>-->
+              <!--</view>-->
+            <!--</view>-->
+            <!--<view class="right">-->
+              <!--<text class="offer-introduction">可根据实际款项进行分期,最低</text><text class="offer-introduction price">3000</text><text class="offer-introduction">即走下订单,每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>-->
+            <!--</view>-->
+          <!--</view>-->
+        </view>
+      </block>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+
+  export default class nationProducts extends wepy.page {
+    config = {
+      navigationBarTitleText: '日本康养之旅'
+    };
+    components = {};
+
+    data = {
+      nation:'',
+      imgUrls: [
+        '../img/swiper1.jpg',
+        '../img/swiper2.jpg',
+        '../img/swiper3.jpg'
+      ],
+      recommendList: [
+        {
+          id: '1001',
+          cover_path: '../img/swiper1.jpg',
+          slogan: '联合大阪阪和医院特别推出高品质体检',
+          price: '28600',
+          comment_num: '15',
+          praise_num: '3'
+        },
+        {
+          id: '1002',
+          cover_path: '../img/swiper2.jpg',
+          slogan: '联合大阪阪和医院特别推出高品质体检体检舒适行',
+          price: '28600',
+          comment_num: '15',
+          praise_num: '3'
+        },
+      ],
+    };
+
+    mixins = [];
+
+    methods = {
+      bindchange(e){
+
+      },
+    };
+
+    toLogin() {
+      this.$navigate('login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+
+      this.nation = options.nation;
+      console.log('nation',this.nation);
+      wx.setNavigationBarTitle({
+        title: options.title
+      });
+    }
+  }
+</script>

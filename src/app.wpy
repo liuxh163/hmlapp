@@ -31,13 +31,13 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        'pages/servicePersonal',
         'pages/index',
         'pages/discovery',
         'pages/mine',
         'pages/hmgold/healthGold',
         'pages/hmgold/productIntroduction',
         'pages/discoverydetail/comments',
+        'pages/nationProducts',
         'pages/medicalExamDetail',
         'pages/medicalexam/packageIntroduction',
         'pages/setting/setting',
@@ -45,7 +45,7 @@
         'pages/setting/modifyInput',
         'pages/archivesImage',
         'pages/flimServiceBuy',
-        // 'pages/servicePersonal',
+        'pages/servicePersonal',
         'pages/servicedetail/serviceDetail',
         'pages/servicedetail/translationReservation',
         'pages/login',
