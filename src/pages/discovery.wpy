@@ -106,6 +106,8 @@
 
 <script>
   import wepy from 'wepy'
+  import commonApi from '../mixins/commonApi'
+  import {httpUrl} from '../utils/httpUrl'
 
   export default class Discovery extends wepy.page {
     config = {
@@ -116,6 +118,8 @@
       }
     };
     components = {};
+
+    mixins = [commonApi];
 
     data = {
       isHidden:false,

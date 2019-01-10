@@ -35,25 +35,25 @@
     </view>
     <view class="main">
       <view class="comments-view">
-        <block wx:key="item.id" wx:for="{{commentList}}">
+        <block wx:key="commentItem.id" wx:for-item="commentItem" wx:for="{{item.commentList}}">
           <view class="comment-item">
             <view>
-              <image class="avatar" src="{{item.avatar}}"/>
+              <image class="avatar" src="{{commentItem.avatar}}"/>
             </view>
             <view class="content">
               <view class="first-line">
                 <view class="left">
-                  <text>{{item.nickname}}</text>
-                  <text>{{item.date}}</text>
+                  <text>{{commentItem.nickname}}</text>
+                  <text>{{commentItem.date}}</text>
                 </view>
-                <view @tap="bindLike({{item}})" class="right">
-                  <image src="{{item.isLiked == 'true'?'../../img/search.png':'../../img/like.png'}}"/>
-                  <text class="{{item.isLiked == 'true'?'liked':''}}">{{item.likeNum}}</text>
+                <view @tap="bindLike({{commentItem}})" class="right">
+                  <image src="{{commentItem.isLiked == 'true'?'../../img/search.png':'../../img/like.png'}}"/>
+                  <text class="{{commentItem.isLiked == 'true'?'liked':''}}">{{commentItem.likeNum}}</text>
                 </view>
               </view>
-              <text class="comment-content">{{item.commentContent}}</text>
-              <view class="replies-view" wx:if="{{item.replyList && item.replyList.length>0}}">
-                <block wx:key="replyItem.replyID" wx:for-item="replyItem" wx:for="{{item.replyList}}">
+              <text class="comment-content">{{commentItem.commentContent}}</text>
+              <view class="replies-view" wx:if="{{commentItem.replyList && commentItem.replyList.length>0}}">
+                <block wx:key="replyItem.replyID" wx:for-item="replyItem" wx:for="{{commentItem.replyList}}">
                   <view class="reply-item">
                     <text class="reply-name">{{replyItem.replyNickname}}{{replyItem.beReplyNickname?'':': '}}</text>
                     <text class="reply-text" wx:if="{{replyItem.beReplyNickname}}"> 回复 </text>
@@ -61,7 +61,7 @@
                     <text class="reply-content">{{replyItem.beReplyNickname?': ':''}}{{replyItem.replayContent}}</text>
                   </view>
                 </block>
-                <text @tap="bindViewReply({{item.id}})" class="view-reply">查看{{item.replyList.length}}条回复 ></text>
+                <text @tap="bindViewReply({{commentItem}})" class="view-reply">查看{{commentItem.replyList.length}}条回复 ></text>
               </view>
             </view>
           </view>
@@ -80,7 +80,7 @@
             <image src="../../img/like.png"/>
             <text>{{item.likeNum}}</text>
           </view>
-          <navigator url="comments">
+          <navigator url="comments?isReply=false">
           <view class="common comment-view">
             <image src="../../img/comment.png"/>
             <text>{{item.commentNum}}</text>
@@ -94,12 +94,16 @@
 
 <script>
   import wepy from 'wepy'
+  import commonApi from '../../mixins/commonApi'
+  import {httpUrl} from '../../utils/httpUrl'
 
   export default class talkAboutDetail extends wepy.page {
     config = {
       navigationBarTitleText: '说说',
     };
     components = {};
+
+    mixins = [commonApi];
 
     data = {
       inputFocus:false,
@@ -120,138 +124,149 @@
         likeNum:3,
         commentNum:15,
         isHot:false,
+        commentList: [
+          {
+            id: '1001',
+            avatar: '../../img/swiper1.jpg',
+            nickname: 'Amanda',
+            date: '12-23',
+            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+            likeNum: '3',
+            isLiked: 'true',
+            replyList: []
+          },
+          {
+            id: '1002',
+            avatar: '../../img/swiper1.jpg',
+            nickname: 'Amanda',
+            date: '12-23',
+            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+            likeNum: '3',
+            isLiked: 'false',
+            replyList: [
+              {
+                replyID:'2004',
+                replyNickname: '中华美少女',
+                beReplyNickname: '',
+                replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+              },
+              {
+                replyID:'2005',
+                replyNickname: '礼花',
+                beReplyNickname: '中华美少女',
+                replayContent: '不错不错，我也安排。',
+              },
+              {
+                replyID:'2006',
+                replyNickname: '礼花',
+                beReplyNickname: '中华美少女',
+                replayContent: '不错不错，我也安排。',
+              },
+            ]
+          },
+          {
+            id: '1003',
+            avatar: '../../img/swiper1.jpg',
+            nickname: 'Amanda',
+            date: '12-23',
+            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+            likeNum: '3',
+            isLiked: 'true',
+            replyList: [
+              {
+                replyID:'2007',
+                replyNickname: '中华美少女',
+                beReplyNickname: '',
+                replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+              },
+              {
+                replyID:'2008',
+                replyNickname: '礼花',
+                beReplyNickname: '中华美少女',
+                replayContent: '不错不错，我也安排。',
+              },
+              {
+                replyID:'2009',
+                replyNickname: '礼花',
+                beReplyNickname: '中华美少女',
+                replayContent: '不错不错，我也安排。',
+              },
+            ]
+          },
+          {
+            id: '1004',
+            avatar: '../../img/swiper1.jpg',
+            nickname: 'Amanda',
+            date: '12-23',
+            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+            likeNum: '3',
+            isLiked: 'true',
+            replyList: [
+              {
+                replyID:'2010',
+                replyNickname: '中华美少女',
+                beReplyNickname: '',
+                replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+              },
+              {
+                replyID:'2011',
+                replyNickname: '礼花',
+                beReplyNickname: '中华美少女',
+                replayContent: '不错不错，我也安排。',
+              },
+              {
+                replyID:'2012',
+                replyNickname: '礼花',
+                beReplyNickname: '中华美少女',
+                replayContent: '不错不错，我也安排。',
+              },
+            ]
+          },
+          {
+            id: '1005',
+            avatar: '../../img/swiper1.jpg',
+            nickname: 'Amanda',
+            date: '12-23',
+            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+            likeNum: '3',
+            isLiked: 'true',
+            replyList: [
+              {
+                replyID:'2013',
+                replyNickname: '中华美少女',
+                beReplyNickname: '',
+                replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+              },
+              {
+                replyID:'2014',
+                replyNickname: '礼花',
+                beReplyNickname: '中华美少女',
+                replayContent: '不错不错，我也安排。',
+              },
+              {
+                replyID:'2015',
+                replyNickname: '礼花',
+                beReplyNickname: '中华美少女',
+                replayContent: '不错不错，我也安排。',
+              },
+            ]
+          },
+        ],
       },
-      commentList: [
-        {
-          id: '1001',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'true',
-          replyList: []
-        },
-        {
-          id: '1002',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'false',
-          replyList: [
-            {
-              replyID:'2004',
-              replyNickname: '中华美少女',
-              beReplyNickname: '',
-              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-            },
-            {
-              replyID:'2005',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-            {
-              replyID:'2006',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-          ]
-        },
-        {
-          id: '1003',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'true',
-          replyList: [
-            {
-              replyID:'2007',
-              replyNickname: '中华美少女',
-              beReplyNickname: '',
-              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-            },
-            {
-              replyID:'2008',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-            {
-              replyID:'2009',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-          ]
-        },
-        {
-          id: '1004',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'true',
-          replyList: [
-            {
-              replyID:'2010',
-              replyNickname: '中华美少女',
-              beReplyNickname: '',
-              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-            },
-            {
-              replyID:'2011',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-            {
-              replyID:'2012',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-          ]
-        },
-        {
-          id: '1005',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'true',
-          replyList: [
-            {
-              replyID:'2013',
-              replyNickname: '中华美少女',
-              beReplyNickname: '',
-              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-            },
-            {
-              replyID:'2014',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-            {
-              replyID:'2015',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-          ]
-        },
-      ],
     };
 
     methods = {
+      bindSend(){
+        if (!this.inputValue) {
+          wx.showToast({
+            title: '请输入评论',
+            icon: 'none'
+          });
+          return;
+        }
+        console.log(this.inputValue);
+        this.inputValue = '';
+      },
       bindinput(e){
         this.inputValue = e.detail.value;
       },
@@ -260,11 +275,19 @@
       },
       bindblur(e){
         this.inputFocus = false;
+      },
+      bindViewReply(commentItem){
+        this.$preload('commentItem', commentItem);
+        this.$navigate('comments?isReply=true');
       }
     };
 
     toLogin() {
       this.$navigate('../login');
+    }
+
+    onShow() {
+      this.$preload('item', this.item);
     }
 
     onLoad(options, data) {
