@@ -1,0 +1,37 @@
+<style lang="scss">
+</style>
+<template>
+  <view class="publish-post">
+    <texterea placeholder="写点什么"></texterea>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import commonApi from '../mixins/commonApi';
+  import { httpUrl } from '../utils/httpUrl';
+
+  export default class publishPost extends wepy.page {
+    config = {
+      navigationBarTitleText: '发表说说'
+    };
+    components = {};
+
+    data = {};
+
+    mixins = [];
+
+    methods = {};
+
+    toLogin() {
+      this.$navigate('login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>

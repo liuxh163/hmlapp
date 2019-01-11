@@ -51,6 +51,7 @@
         'pages/login',
         'pages/discoverydetail/talkAboutDetail',
         'pages/takePhoto',
+        'pages/publishPost',
         'pages/webView',
       ],
       window: {

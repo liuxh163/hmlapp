@@ -74,13 +74,47 @@
       }
     }
   }
-  .preview-image{
+  .preview{
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .preview-image{
+      width: 100%;
+      height: 100%;
+    }
+    .operate{
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+      bottom: px2rpx(15);
+      display: flex;
+      .close-class{
+        background-color: #CCCCCC;
+        border-radius: 50%;
+        overflow: hidden;
+        padding: px2rpx(20);
+        margin-left: px2rpx(15);
+      }
+      .success-class{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        align-self: flex-end;
+        justify-self: flex-end;
+        background-color: #FFFFFF;
+        border-radius: 50%;
+        overflow: hidden;
+        padding: px2rpx(20);
+        margin-right: px2rpx(15);
+      }
+    }
   }
 </style>
 <template>
@@ -105,7 +139,13 @@
       </view>
     </view>
 
-    <cover-image @tap="next" mode="aspectFill" wx:if="{{showPreviewImage}}" class="preview-image" src="{{photoImageSrc}}" />
+    <cover-view class="preview" wx:if="{{showPreviewImage}}">
+      <image class="preview-image" mode="widthFix" src="{{photoImageSrc}}" />
+      <view class="operate">
+        <van-icon @tap="closePreview" custom-class="close-class" size="50rpx" name="cross" />
+        <van-icon @tap="next" custom-class="success-class" color="#36D570" size="50rpx" name="success" />
+      </view>
+    </cover-view>
   </view>
 </template>
 
@@ -117,6 +157,9 @@
       navigationBarTitleText: '拍照',
       navigationStyle: 'custom',
       navigationBarTextStyle: "white",
+      "usingComponents": {
+        "van-icon": "../components/vant/icon/index",
+      }
     };
     components = {};
 
@@ -127,6 +170,9 @@
     };
 
     methods = {
+      closePreview(){
+        this.showPreviewImage = false;
+      },
       next(){
         this.showPreviewImage = false;
       },
