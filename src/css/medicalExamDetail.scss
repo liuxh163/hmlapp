@@ -273,18 +273,11 @@
   .van-tab--active{
     color: #F19F00 !important;
   }
-  .van-tabs__line{
-    z-index: 10;
-  }
   .van-hairline--top-bottom::after{
     border-top-width: 0 !important;
   }
   .van-hairline--top-bottom::after{
-    border-bottom-width: px2rpx(4) !important;
     border-bottom-color: #E3E3E3 !important;
-  }
-  .van-tabs__wrap{
-    //position: fixed !important;
   }
 }
 
