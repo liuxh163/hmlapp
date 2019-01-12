@@ -92,6 +92,7 @@
       AuthErrorCount: 0,
       isReLogin: false,  // 是否是token过期重新登录
       isLogin: false,  // 是否登录成功
+      isToLogin:false,
       // BASE_URL:"http://10.1.99.8:4000", // 测试
       BASE_URL: "http://47.92.131.110:24651", // 生产
     };
@@ -146,8 +147,16 @@
     }
 
     toLogin(){
-      console.log("跳转到登录");
+      wepy.$instance.globalData.isToLogin = true;
+      console.log("跳转到登录",wepy.$instance.globalData.isToLogin);
       let pages = getCurrentPages();
+      let curPage = pages[pages.length - 1];
+      if (curPage && curPage.route == 'pages/login') {
+        console.log("curPage",curPage);
+        console.log("已经在登录页面");
+        wepy.$instance.globalData.isToLogin = false;
+        return;
+      }
       let prevPage = pages[pages.length - 2];  //上一个页面
       if (prevPage){
         console.log("prevPage",prevPage);

@@ -22,7 +22,7 @@
       },
       parserContent:{
           type: String,
-          default: "<p style='font-size: 32rpx; padding: 30rpx 0; text-align: center;'>此处可以在html2wxml.wpy中自行选择删除</p>"
+          default: "<p style='font-size: 32rpx; padding: 30rpx 0; text-align: center;'>暂无内容</p>"
       },
       parserType:{
           type:String,

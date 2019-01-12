@@ -40,17 +40,19 @@ export default function request(config = {}) {
 
     wepy.request(options).then(r => {
       if (r.statusCode === 200) {
-        wepy.$instance.globalData.AuthErrorCount = 0;
+        // wepy.$instance.globalData.AuthErrorCount = 0;
         wx.hideLoading();
         resolve(r);
       } else {
-        if (r.statusCode === 401 && wepy.$instance.globalData.AuthErrorCount < 3) {
+        if (r.statusCode === 401) {
           // token失效，需要重新登录
           wx.hideLoading();
-          console.log("AuthErrorCount：" + wepy.$instance.globalData.AuthErrorCount);
-          wepy.$instance.globalData.AuthErrorCount++;
-          wepy.$instance.globalData.isReLogin = true;
-          wepy.$instance.toLogin();
+          // console.log("AuthErrorCount：" + wepy.$instance.globalData.AuthErrorCount);
+          // wepy.$instance.globalData.AuthErrorCount++;
+          // wepy.$instance.globalData.isReLogin = true;
+          if (!wepy.$instance.globalData.isToLogin) {
+            wepy.$instance.toLogin();
+          }
         } else {
           wx.hideLoading();
           reject(r);

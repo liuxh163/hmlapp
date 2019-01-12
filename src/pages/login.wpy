@@ -241,6 +241,8 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      wepy.$instance.globalData.isToLogin = false;
     }
   }
 </script>
