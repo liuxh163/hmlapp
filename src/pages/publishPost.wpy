@@ -18,7 +18,8 @@
         />
       </van-cell-group>
       <image mode="widthFix" src="{{photoImageSrc}}"></image>
-      <button @tap="chooseLocation">选择位置</button>
+      <!--<button @tap="chooseLocation">选择位置</button>-->
+      <text style="display: block">{{address}}</text>
       <button form-type="submit" class="submit">确定</button>
     </form>
   </view>
@@ -28,6 +29,7 @@
   import wepy from 'wepy';
   import commonApi from '../mixins/commonApi';
   import { httpUrl } from '../utils/httpUrl';
+  import QQMapWX from '../libs/qqmap-wx-jssdk.min'
 
   export default class publishPost extends wepy.page {
     config = {
@@ -41,6 +43,8 @@
 
     data = {
       photoImageSrc:'',
+      address:'',
+      qqmapsdk:null,
     };
 
     mixins = [commonApi];
@@ -65,17 +69,37 @@
           });
         }
       },
-      chooseLocation(){
-        wx.chooseLocation({
-          success:res =>{
-            console.log(res);
-          }
-        })
-      },
       bindInput(e){
 
       }
     };
+
+    chooseLocation(){
+      wx.getLocation({
+        success:res =>{
+          var _this = this;
+          _this.qqmapsdk.reverseGeocoder({
+            //位置坐标，默认获取当前位置，非必须参数
+            location: {
+              latitude: res.latitude,
+              longitude: res.longitude
+            },
+            success: function(res) {//成功后的回调
+              console.log(res);
+              let address_component = res.result.address_component;
+              _this.address = address_component.nation + address_component.province;
+              _this.$apply();
+            },
+            fail: function(error) {
+              console.error(error);
+            },
+            complete: function(res) {
+              console.log(res);
+            }
+          })
+        }
+      })
+    }
 
     toLogin() {
       this.$navigate('login');
@@ -87,8 +111,14 @@
       }
       this.$wxpage.options = options;
 
+      this.qqmapsdk = new QQMapWX({
+        key: 'DMHBZ-JQOCK-DROJH-APF52-BWMMF-22FZ2'
+      });
+      this.chooseLocation();
+
       this.photoImageSrc = options.photoImageSrc;
       this.$apply();
+
     }
   }
 </script>
