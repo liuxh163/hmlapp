@@ -17,7 +17,7 @@
                 bindinput="bindInput"
         />
       </van-cell-group>
-      <image mode="widthFix" src="{{photoImageSrc}}"></image>
+      <image mode="widthFix" src="{{photoImages[0]}}"></image>
       <!--<button @tap="chooseLocation">选择位置</button>-->
       <text style="display: block">{{address}}</text>
       <button form-type="submit" class="submit">确定</button>
@@ -28,6 +28,8 @@
 <script>
   import wepy from 'wepy';
   import commonApi from '../mixins/commonApi';
+  import utils from '../mixins/utils'
+  import upload from '../mixins/upload'
   import { httpUrl } from '../utils/httpUrl';
   import QQMapWX from '../libs/qqmap-wx-jssdk.min'
 
@@ -42,26 +44,42 @@
     components = {};
 
     data = {
-      photoImageSrc:'',
+      photoImages:[],
+      uploadedImages:'',
       address:'',
       qqmapsdk:null,
+      uploadPromise:null,
     };
 
-    mixins = [commonApi];
+    mixins = [commonApi,utils,upload];
 
     methods = {
       formSubmit(e){
-        let value = e.value;
+        let value = e.detail.value;
         let content = value.content;
         console.log("content",content);
 
         if (content) {
-          let data = {
-            "content":content
-          };
-          this.sendRequest(httpUrl.posts.replace(":id","1"),'POST',data,res =>{
+          if (this.photoImages) {
+            this.uploadImage(this.photoImages,paths =>{
+              this.uploadedImages = paths[0];
+              let data = {
+                "content":content,
+                picIds:this.uploadedImages,
+              };
+              this.sendRequest(httpUrl.posts.replace(":id","1"),'POST',data,res =>{
 
-          });
+              });
+            });
+          }else {
+            let data = {
+              "content":content,
+              picIds:[],
+            };
+            this.sendRequest(httpUrl.posts.replace(":id","1"),'POST',data,res =>{
+
+            });
+          }
         }else {
           wx.showToast({
             title: '请写点儿什么',
@@ -101,6 +119,29 @@
       })
     }
 
+    uploadImage(paths,success){
+      if (this.uploadPromise == null){
+        console.log("转化promise对象");
+        this.uploadPromise = this.promisify(this.upload);
+      }
+
+      this.uploadFiles({
+        uploadPromise:this.uploadPromise,
+        url: wepy.$instance.globalData.BASE_URL + this.httpUrl.upload,
+        paths:paths,
+        name:'filex',
+        success:datas =>{
+          // 服务器返回的路径
+          let paths = datas.map(data => {
+            return data.url;
+          });
+          console.log("uploadedPaths",paths);
+
+          success && success(paths)
+        }
+      });
+    }
+
     toLogin() {
       this.$navigate('login');
     }
@@ -116,7 +157,8 @@
       });
       this.chooseLocation();
 
-      this.photoImageSrc = options.photoImageSrc;
+      this.photoImages.push(options.photoImageSrc);
+      console.log("photoImages",this.photoImages);
       this.$apply();
 
     }
