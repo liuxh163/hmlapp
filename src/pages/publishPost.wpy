@@ -3,6 +3,8 @@
 <template>
   <view class="publish-post">
     <texterea placeholder="写点什么"></texterea>
+    <image src="{{photoImageSrc}}"></image>
+    <button>提交</button>
   </view>
 </template>
 
@@ -17,7 +19,9 @@
     };
     components = {};
 
-    data = {};
+    data = {
+      photoImageSrc:'',
+    };
 
     mixins = [];
 
@@ -32,6 +36,9 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      this.photoImageSrc = options.photoImageSrc;
+      this.$apply();
     }
   }
 </script>

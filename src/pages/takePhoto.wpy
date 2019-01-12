@@ -174,12 +174,13 @@
         this.showPreviewImage = false;
       },
       next(){
+        this.$navigate('publishPost?photoImageSrc=' + photoImageSrc);
         this.showPreviewImage = false;
       },
       takeAlbum(){
         wx.chooseImage({
-          count: 1,
-          sizeType: ['original', 'compressed'],
+          count: 9,
+          sizeType: ['compressed'],
           sourceType: ['album'],
           success(res) {
             // tempFilePath可以作为img标签的src属性显示图片
@@ -189,7 +190,6 @@
         })
       },
       takePhoto() {
-        console.log("takePhoto");
         const ctx = wx.createCameraContext();
         ctx.takePhoto({
           success: (res) => {
