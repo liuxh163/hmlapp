@@ -23,7 +23,7 @@
     <van-cell-group>
       <van-cell bind:click="chooseImage" custom-class="avatar-class" title=" " value="更换头像" is-link>
         <view slot="icon">
-          <image class="avatar" src="{{personalInfo.iconPath}}"/>
+          <image mode="aspectFill" class="avatar" src="{{personalInfo.iconPath}}"/>
         </view>
       </van-cell>
       <navigator url="modifyInput?username={{personalInfo.userName}}">
@@ -82,6 +82,7 @@
       gender:'',
       regionValue:'',
       uploadPromise:null,
+      iconPath: '',
     };
 
     methods = {
@@ -124,8 +125,8 @@
             // tempFilePath可以作为img标签的src属性显示图片
             const tempFilePaths = res.tempFilePaths;
             t.uploadImage(tempFilePaths,res =>{
-              t.personalInfo.iconPath = res[0];
-              t.$apply();
+              t.iconPath = res[0];
+              t.modifyInfo(t.MODIFY_TYPE_AVATAR,{"iconPath":t.iconPath})
             });
           }
         });
@@ -147,9 +148,12 @@
           case this.MODIFY_TYPE_REGION:
             this.personalInfo.address = this.regionValue;
             break;
+          case this.MODIFY_TYPE_AVATAR:
+            this.personalInfo.iconPath = this.iconPath;
+            break;
         }
         this.$apply();
-        wx.setStorageSync('personalInfo',this.personInfo);
+        wx.setStorageSync('personalInfo',this.personalInfo);
       },err =>{
         switch (type) {
           case this.MODIFY_TYPE_BIRTHDAY:
@@ -181,7 +185,7 @@
         success:datas =>{
           // 服务器返回的路径
           let paths = datas.map(data => {
-            return data.url;
+            return data.path;
           });
           console.log("uploadedPaths",paths);
 

@@ -4,8 +4,8 @@
   <view class="mine">
     <view class="personal-information">
       <view class="avatar-container">
-        <image class="avatar" src="{{personInfo.iconPath}}"></image>
-        <text>{{personInfo.userName}}</text>
+        <image @tap="previewBigImage({{personalInfo.iconPath}})" mode="aspectFill" class="avatar" src="{{personalInfo.iconPath}}"></image>
+        <text>{{personalInfo.userName}}</text>
         <!--<open-data class="avatar" type="userAvatarUrl"></open-data>-->
         <!--<open-data type="userNickName"></open-data>-->
       </view>
@@ -23,15 +23,15 @@
         <text>回复</text>
       </view>
       <view class="common">
-        <text>{{personInfo.hmCoins}}</text>
+        <text>{{personalInfo.hmCoins}}</text>
         <text>海马币</text>
       </view>
     </view>
     <view class="black-card shadow">
       <text class="name">海马黑卡</text>
-      <text class="apply" hidden="{{personInfo.isApplyed}}">申请</text>
+      <text class="apply" hidden="{{personalInfo.isApplyed}}">申请</text>
       <view class="money-view">
-        <text>可用额度:</text>
+        <text>可用额度: </text>
         <text>{{money}}</text>
         <text> 元</text>
       </view>
@@ -289,7 +289,7 @@
           commentNum:15
         }
       ],
-      personInfo:{
+      personalInfo:{
         isApplyed:false
       },
     };
@@ -321,6 +321,11 @@
       },
       bindSettingTap(){
 
+      },
+      previewBigImage(path){
+        wx.previewImage({
+          urls: [path] // 需要预览的图片http链接列表
+        })
       }
     };
 
@@ -365,16 +370,21 @@
     getMine(){
       this.sendRequest(httpUrl.getMine,'GET',{},res =>{
         wx.stopPullDownRefresh();
-        this.personInfo = res.user;
-        console.log('personalInfo',this.personInfo);
+        this.personalInfo = res.user;
+        console.log('personalInfo',this.personalInfo);
         this.thumbNum = res.thumbNum;
         this.commentNum = res.commentNum;
         this.$apply();
 
-        wx.setStorageSync('personalInfo',this.personInfo);
+        wx.setStorageSync('personalInfo',this.personalInfo);
       },err =>{
         wx.stopPullDownRefresh();
       });
+    }
+
+    onShow(){
+      this.personalInfo = wx.getStorageSync('personalInfo');
+      this.$apply();
     }
 
     onLoad(options, data) {

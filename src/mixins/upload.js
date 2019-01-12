@@ -38,11 +38,11 @@ export default class upload extends wepy.mixin {
           console.error(data);
           throw(e)
         }
-        let dataArr = data.data;
+        let dataFiles = data.data.files;
         console.log("upload success res",data);
 
-        if (data.success && dataArr && dataArr[0].url) {
-          success && success(dataArr[0])
+        if (data.success && dataFiles && dataFiles[0].path) {
+          success && success(dataFiles[0])
         } else {
           fail && fail(data)
         }

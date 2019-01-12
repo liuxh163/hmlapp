@@ -65,7 +65,7 @@
               title: '修改成功',
             });
             this.personalInfo.userName = username;
-            wx.setStorageSync('personalInfo',this.personInfo);
+            wx.setStorageSync('personalInfo',this.personalInfo);
             setTimeout(function () {
               wx.navigateBack();
             },1500);
