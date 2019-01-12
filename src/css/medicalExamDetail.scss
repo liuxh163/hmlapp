@@ -273,6 +273,9 @@
   .van-tab--active{
     color: #F19F00 !important;
   }
+  .van-tabs__line{
+    z-index: 10;
+  }
   .van-hairline--top-bottom::after{
     border-top-width: 0 !important;
   }
@@ -287,12 +290,13 @@
 
 .scroll-view-tab{
   position: relative;
-  height: 100%;
+  height: px2rpx(667);
   .common{
     display: flex;
     flex-direction: column;
   }
   .view1{
+    margin-top: px2rpx(1);
     image{
       width: 100%;
       height: px2rpx(201);

@@ -7,7 +7,7 @@
         <block wx:key="{{item}}" wx:for="{{imgUrls}}">
           <swiper-item @tap="bindSwiperItemTap">
             <view class="swiper-item">
-              <image mode="widthFix" src="{{item}}"/>
+              <image src="{{item}}"/>
             </view>
           </swiper-item>
         </block>
@@ -74,11 +74,11 @@
     </view>
     <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 30rpx;margin-bottom: 30rpx"></view>
     <view class="tabs">
-      <van-tabs custom-class="custom-class" animated sticky color="#FFC207"
+      <van-tabs id="tabs" custom-class="custom-class" sticky animated color="#FFC207"
                 line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="0"
                 canChangeTab="{{false}}" bind:change="onChange">
         <van-tab title="行程亮点">
-          <view class="scroll-view-tab">
+          <scroll-view class="scroll-view-tab" scroll-into-view="{{toView}}" scroll-with-animation scroll-y>
             <view class="view1" id="view0">
               <image src="../img/swiper1.jpg"/>
               <image src="../img/swiper2.jpg"/>
@@ -133,7 +133,8 @@
                 </text>
               </view>
             </view>
-          </view>
+            <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 10rpx"></view>
+          </scroll-view>
         </van-tab>
         <van-tab title="体检介绍"></van-tab>
         <van-tab title="轻松行程"></van-tab>
@@ -141,7 +142,6 @@
         <van-tab title="预订须知"></van-tab>
       </van-tabs>
     </view>
-    <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 10rpx"></view>
     <view class="bottom-view">
       <button id='contact' open-type="contact" size="mini" plain='true' hidden='{{true}}'></button>
       <label for='contact'>
@@ -206,8 +206,9 @@
       },
       scrollTop: 0,
       lineWidth:93,
-      toView: 'ss',
-      scrollTop2:0,
+      toView: '',
+      height:'',
+      top:0,
     };
 
     methods = {
@@ -218,31 +219,40 @@
 
       },
       onChange(e){
+        if (this.top != -40) {
+          wx.pageScrollTo({
+            scrollTop: this.top,
+            duration: 300
+          });
+        }
         let detail = e.detail;
         console.log("tap index",detail.index);
-        if (detail.index === 1){
-          this.toView = 'view2';
-          let _this = this;
-          var query = wx.createSelectorQuery()
-          query.select('#view2').boundingClientRect()
-          query.selectViewport().scrollOffset()
-          query.exec(function(res){
-            // if (res[0].top <= 0) {
-            //   _this.setData({
-            //     "scrollCls": 'fixedCls'
-            //   })
-            // } else if (res[0].top > 0) {
-            //   _this.setData({
-            //     "scrollCls": ''
-            //   })
-            // }
-            console.log(res);
-            // res[0].top       // #the-id节点的上边界坐标
-            // res[1].scrollTop // 显示区域的竖直滚动位置
-          })
-        }
+        this.toView = 'view' + detail.index;
+        this.$apply();
       }
     };
+
+    getTop(){
+      let _this = this;
+      var query = wx.createSelectorQuery()
+      query.select('#tabs').boundingClientRect()
+      query.selectViewport().scrollOffset()
+      query.exec(function(res){
+        // if (res[0].top <= 0) {
+        //   _this.setData({
+        //     "scrollCls": 'fixedCls'
+        //   })
+        // } else if (res[0].top > 0) {
+        //   _this.setData({
+        //     "scrollCls": ''
+        //   })
+        // }
+        _this.top = res[0].top;
+        console.log("tabs",res[0].top);
+        // res[0].top       // #the-id节点的上边界坐标
+        // res[1].scrollTop // 显示区域的竖直滚动位置
+      })
+    }
 
     onPageScroll(e) {
       // if (e.scrollTop > this.scrollTop) {
@@ -277,8 +287,12 @@
       wx.getSystemInfo({
         success(res) {
           t.lineWidth = res.screenWidth / 5;
+          // t.height = res.screenHeight;
+          t.$apply();
         }
-      })
+      });
+
+      this.getTop();
     }
   }
 </script>
