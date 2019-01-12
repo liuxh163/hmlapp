@@ -119,7 +119,7 @@
 </style>
 <template>
   <view class="take-photo-container">
-    <camera class="camera" device-position="back" flash="off" binderror="error">
+    <camera wx:if="{{!showPreviewImage}}" class="camera" device-position="back" flash="off" binderror="error">
       <cover-image @tap="bindBack" class="close-image" src="../img/close.png" />
     </camera>
     <view class="bottom-view">
@@ -139,13 +139,13 @@
       </view>
     </view>
 
-    <cover-view class="preview" wx:if="{{showPreviewImage}}">
+    <view class="preview" wx:if="{{showPreviewImage}}">
       <image class="preview-image" mode="widthFix" src="{{photoImageSrc}}" />
       <view class="operate">
         <van-icon @tap="closePreview" custom-class="close-class" size="50rpx" name="cross" />
         <van-icon @tap="next" custom-class="success-class" color="#36D570" size="50rpx" name="success" />
       </view>
-    </cover-view>
+    </view>
   </view>
 </template>
 
@@ -174,8 +174,13 @@
         this.showPreviewImage = false;
       },
       next(){
-        this.$navigate('publishPost?photoImageSrc=' + photoImageSrc);
-        this.showPreviewImage = false;
+        this.$navigate('publishPost?photoImageSrc=' + this.photoImageSrc);
+        let t = this;
+        setTimeout(function () {
+          t.showPreviewImage = false;
+          t.$apply();
+        },500);
+
       },
       takeAlbum(){
         wx.chooseImage({

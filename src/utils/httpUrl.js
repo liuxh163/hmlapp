@@ -1,7 +1,7 @@
 let httpUrl = {
   "login":"/api/v1/user/login",           // 登录
   "sendSmsCode":"/api/v1/users/sendSms",  // 发送验证码
-  "getPosts":"/api/v1/topics/:id/posts",  // 查询帖子列表
+  "posts":"/api/v1/topics/:id/posts",  // 查询帖子列表
   "getPost":"/api/v1/posts",              // 查询指定帖子信息
   "getProducts":"/api/v1/products",       // 查询产品列表
   "modifyInfo":'/api/v1/users',           // 修改用户信息

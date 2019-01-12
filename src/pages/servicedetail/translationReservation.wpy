@@ -316,6 +316,7 @@
       },
       item:{},
       wordPrice:0,
+      wordNum:0,
       interpreterPrice:0,
     };
 
@@ -338,17 +339,16 @@
       },
       onChange(e){
         // console.log('e',e);
-        let wordNum  = 0;
         if (e.currentTarget.id == 'interpreter') {
           this.interpreterCount = e.detail;
           this.interpreterPrice = this.item.followPrice * this.interpreterCount;
         }else {
-          wordNum = e.detail;
-          this.wordPrice = this.item.literPrice * wordNum;
+          this.wordNum = e.detail;
+          this.wordPrice = this.item.literPrice * this.wordNum;
           this.wordCount = e.detail * 1000;
         }
         this.priceRMB = this.interpreterPrice + this.wordPrice;
-        this.buyListCount = wordNum + this.interpreterCount;
+        this.buyListCount = this.wordNum + this.interpreterCount;
         this.errMsg.translationMode = '';
       },
       onCheckBoxChange(e){

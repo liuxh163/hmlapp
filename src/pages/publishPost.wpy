@@ -1,10 +1,26 @@
 <style lang="scss">
+  @import "../css/base";
+  .input-class{
+    height: px2rpx(100);
+    width: 100%;
+  }
 </style>
 <template>
   <view class="publish-post">
-    <texterea placeholder="写点什么"></texterea>
-    <image src="{{photoImageSrc}}"></image>
-    <button>提交</button>
+    <form bindsubmit="formSubmit">
+      <van-cell-group>
+        <textarea
+                name="content"
+                placeholder="写点儿什么..."
+                maxlength="1000"
+                class="input-class"
+                bindinput="bindInput"
+        />
+      </van-cell-group>
+      <image mode="widthFix" src="{{photoImageSrc}}"></image>
+      <button @tap="chooseLocation">选择位置</button>
+      <button form-type="submit" class="submit">确定</button>
+    </form>
   </view>
 </template>
 
@@ -15,7 +31,11 @@
 
   export default class publishPost extends wepy.page {
     config = {
-      navigationBarTitleText: '发表说说'
+      navigationBarTitleText: '发表说说',
+      "usingComponents": {
+        "van-field": "../components/vant/field/index",
+        "van-cell-group": "../components/vant/cell-group/index",
+      }
     };
     components = {};
 
@@ -23,9 +43,39 @@
       photoImageSrc:'',
     };
 
-    mixins = [];
+    mixins = [commonApi];
 
-    methods = {};
+    methods = {
+      formSubmit(e){
+        let value = e.value;
+        let content = value.content;
+        console.log("content",content);
+
+        if (content) {
+          let data = {
+            "content":content
+          };
+          this.sendRequest(httpUrl.posts.replace(":id","1"),'POST',data,res =>{
+
+          });
+        }else {
+          wx.showToast({
+            title: '请写点儿什么',
+            icon: 'none'
+          });
+        }
+      },
+      chooseLocation(){
+        wx.chooseLocation({
+          success:res =>{
+            console.log(res);
+          }
+        })
+      },
+      bindInput(e){
+
+      }
+    };
 
     toLogin() {
       this.$navigate('login');

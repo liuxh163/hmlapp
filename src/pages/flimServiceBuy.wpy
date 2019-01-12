@@ -148,9 +148,9 @@
                  placeholder="请填写联系人姓名" error-message="{{errMsg.contact}}"/>
       <van-field name="phone" id="phone" bind:input="bindInput" maxlength="11" label="手机号"
                  placeholder="请填写手机号" type="number" error-message="{{errMsg.phone}}"/>
-      <!--<picker name="region" mode="region" value="{{region}}" bindchange="bindRegionChange">-->
-        <!--<van-cell title="所在地区" value="{{region[0]}}{{region[1]}}{{region[2]}}" label="{{errMsg.region}}" is-link/>-->
-      <!--</picker>-->
+      <picker name="region" mode="region" value="{{region}}" bindchange="bindRegionChange">
+        <van-cell title="所在地区" value="{{region[0]}}{{region[1]}}{{region[2]}}" label="{{errMsg.region}}" is-link/>
+      </picker>
       <van-field name="address" id="address" bind:input="bindInput" maxlength="100" label="收件详细地址"
                  placeholder="详细地址，例16号楼5单元301室" title-width="220rpx" error-message="{{errMsg.address}}"/>
       <van-cell title-class="title-text" title="胶片转印服务购买">
@@ -220,17 +220,21 @@
     data = {
       checked:false,
       region: ["", "", ""],
-      priceRMB:'23400',
-      priceJPY:'293900',
-      buyListCount:5,
+      priceRMB:'0',
+      priceJPY:'0',
+      buyListCount:0,
       errMsg:{
         contact:'',
         phone:'',
+        region:'',
         address:'',
         x_ray:'',
         nuclear_magnetic_ct:'',
         termService:'',
-      }
+      },
+      nuclear_magnetic_ct_num:0,
+      x_ray_num:0,
+      regionValue:'',
     };
 
     watch = {
@@ -241,9 +245,12 @@
         // console.log('e',e);
         if (e.currentTarget.id == 'nuclear_magnetic_ct') {
           this.errMsg.nuclear_magnetic_ct='';
+          this.nuclear_magnetic_ct_num = e.detail;
         }else {
           this.errMsg.x_ray='';
+          this.x_ray_num = e.detail;
         }
+        this.buyListCount = this.nuclear_magnetic_ct_num + this.x_ray_num;
       },
       onCheckBoxChange(e){
         this.checked = e.detail;
@@ -259,7 +266,10 @@
         let contact = value.contact;
         let phone = value.phone;
         let address = value.address;
-        if (contact && phone && address && value.x_ray !== 0 && value.nuclear_magnetic_ct !== 0 && this.checked){
+        let region = value.region;
+        let reg = new RegExp( ',' , "g" );
+        let regionString = region.toString().replace(reg,"");
+        if (contact && phone && regionString && address && (value.x_ray !== 0 || value.nuclear_magnetic_ct !== 0) && this.checked){
           if (this.checkPhoneNumber(phone,false)){
             isSuccess = true;
           }else{
@@ -272,15 +282,16 @@
           if (!phone) {
             this.errMsg.phone='请填写手机号';
           }
+          if (!regionString) {
+            this.errMsg.region='请选择所在地区';
+          }
           if (!address) {
             this.errMsg.address='请填写详细地址';
           }
-          if (value.x_ray === 0) {
+          if (value.x_ray === 0 && value.nuclear_magnetic_ct === 0) {
             this.errMsg.x_ray='请选择数量';
           }
-          if (value.nuclear_magnetic_ct === 0) {
-            this.errMsg.nuclear_magnetic_ct='请选择数量';
-          }
+
           if (!this.checked) {
             this.errMsg.termService='请阅读并同意服务条款';
           }
@@ -307,10 +318,10 @@
         }
       },
       bindRegionChange(e) {
-        let regionValue = this.convertArrayByComma(e.detail.value);
+        this.regionValue = this.convertArrayByComma(e.detail.value);
         let regionCode = this.convertArrayByComma(e.detail.code);
 
-        if (regionValue && (!e.detail.code || e.detail.code.length == 0)) {
+        if (this.regionValue && (!e.detail.code || e.detail.code.length == 0)) {
           wx.showModal({
             title: '提示',
             content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'

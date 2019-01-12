@@ -57,18 +57,18 @@
         <view class="recommend-item" @tap="bindItemRecommend">
           <image class="thumb" src="{{item.cover_path}}"/>
           <view class="desc-container">
-            <text class="desc">{{item.slogan}}</text>
+            <text class="desc">{{item.desc}}</text>
             <view class="like-comment">
               <image src="../img/icon_like.png"/>
-              <text>{{item.praise_num}}</text>
+              <text>{{item.thumbNum}}</text>
               <view @tap="bindTurnComment({{item.id}})" class="comment-container">
                 <image class="comment-image" src="../img/comment.png"/>
-                <text>{{item.comment_num}}</text>
+                <text>{{item.commentNum}}</text>
               </view>
             </view>
           </view>
           <view class="data">
-            <text class="price">¥ {{item.price}}</text>
+            <text class="price">¥ {{item.adultPrice}}</text>
             <text class="unit"> ／人起</text>
             <view class="tag">
               <text>混浴汤泉</text>
@@ -124,7 +124,7 @@
                 </view>
                 <view class="like-container">
                   <image src="../img/icon_like.png"/>
-                  <text>{{item.praise_num}}</text>
+                  <text>{{item.thumbNum}}</text>
                 </view>
               </view>
             </view>
@@ -146,7 +146,7 @@
                 </view>
                 <view class="like-container">
                   <image src="../img/icon_like.png"/>
-                  <text>{{item.praise_num}}</text>
+                  <text>{{item.thumbNum}}</text>
                 </view>
               </view>
             </view>
@@ -224,7 +224,7 @@
           title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
           posterName: 'Amanda',
-          praise_num: '3',
+          thumbNum: '3',
           location: '日本 东京'
         },
         {
@@ -233,7 +233,7 @@
           title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
           posterName: 'Amanda',
-          praise_num: '3',
+          thumbNum: '3',
           location: '日本 东京'
         },
         {
@@ -242,7 +242,7 @@
           title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
           posterName: 'Amanda',
-          praise_num: '3',
+          thumbNum: '3',
           location: '日本 东京'
         },
         {
@@ -251,7 +251,7 @@
           title: '东京健康体检之旅开始啦健康体检之旅开始啦',
           avatar: '../img/swiper1.jpg',
           posterName: 'Amanda',
-          praise_num: '3',
+          thumbNum: '3',
           location: '日本 东京'
         }
       ],
@@ -288,7 +288,7 @@
             this.$navigate("archivesImage");
             break;
           case '3':
-            this.$navigate("hmgold/healthGold");
+            this.$navigate("hmgold/productIntroduction");
             break;
         }
       },
@@ -317,19 +317,19 @@
     // 获取发现新鲜数据
     getPosts() {
       let postData = {
-        "id": "topic1",
         "pages": 1,
         "pageNum": 4
       };
       this.postsReqOver = false;
-      this.sendRequest(httpUrl.getPosts, 'GET', postData, res => {
+      this.sendRequest(httpUrl.posts.replace(":id","1"), 'GET', postData, res => {
         this.postsReqOver = true;
         if (this.productsReqOver) {
           wx.stopPullDownRefresh();
         }
         // console.log("getPosts res", res);
         if (res) {
-          this.discoveryList = res;
+          this.discoveryList = res.posts;
+          this.analyticalDiscoveryData(this.discoveryList);
           this.$apply();
         }
       },err =>{
@@ -355,7 +355,7 @@
         }
         // console.log("getRecommendData res", res);
         if (res && res.products && res.products.length > 0) {
-          this.recommendList = res;
+          this.recommendList = res.products;
           this.$apply();
         }
       },err =>{
@@ -367,7 +367,6 @@
     }
 
     initData(){
-      this.analyticalDiscoveryData(this.discoveryList);
       this.getPosts();
       this.getRecommendData();
     }
