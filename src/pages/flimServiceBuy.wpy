@@ -159,8 +159,8 @@
       <van-cell title="X光片" value-class="value-class" label="{{errMsg.x_ray}}">
         <view class="right-value" slot="">
           <view class="unit-price">
-            <text>¥ 80 ／张</text>
-            <text>JPY 24,840 ／张</text>
+            <text>¥ {{x_ray_unit_price}} ／张</text>
+            <!--<text>JPY 24,840 ／张</text>-->
           </view>
           <view class="stepper">
             <van-stepper id="x_ray" name="x_ray" minus-class="minus-plus-class" plus-class="minus-plus-class" input-class="input-class"
@@ -171,8 +171,8 @@
       <van-cell title="核磁共振CT片" value-class="value-class" label="{{errMsg.nuclear_magnetic_ct}}">
         <view class="right-value" slot="">
           <view class="unit-price">
-            <text>¥ 80 ／张</text>
-            <text>JPY 24,840 ／张</text>
+            <text>¥ {{nuclear_magnetic_ct_unit_price}} ／张</text>
+            <!--<text>JPY 24,840 ／张</text>-->
           </view>
           <view class="stepper">
             <van-stepper id="nuclear_magnetic_ct" name="nuclear_magnetic_ct" minus-class="minus-plus-class" plus-class="minus-plus-class" input-class="input-class"
@@ -233,7 +233,11 @@
         termService:'',
       },
       nuclear_magnetic_ct_num:0,
+      nuclear_magnetic_ct_price:0,
+      nuclear_magnetic_ct_unit_price:80,
       x_ray_num:0,
+      x_ray_price:0,
+      x_ray_unit_price:80,
       regionValue:'',
     };
 
@@ -246,11 +250,14 @@
         if (e.currentTarget.id == 'nuclear_magnetic_ct') {
           this.errMsg.nuclear_magnetic_ct='';
           this.nuclear_magnetic_ct_num = e.detail;
+          this.nuclear_magnetic_ct_price = this.nuclear_magnetic_ct_num * this.nuclear_magnetic_ct_unit_price;
         }else {
           this.errMsg.x_ray='';
           this.x_ray_num = e.detail;
+          this.x_ray_price = this.x_ray_num * this.x_ray_unit_price;
         }
         this.buyListCount = this.nuclear_magnetic_ct_num + this.x_ray_num;
+        this.priceRMB = this.x_ray_price + this.nuclear_magnetic_ct_price;
       },
       onCheckBoxChange(e){
         this.checked = e.detail;
@@ -298,7 +305,7 @@
         }
         if (isSuccess) {
           wx.showToast({
-            title: '调用支付接口',
+            title: '支付功能即将上线，敬请期待',
             icon: 'none'
           });
         }

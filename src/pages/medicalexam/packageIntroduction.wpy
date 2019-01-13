@@ -108,7 +108,7 @@
           <text>在线客服</text>
         </view>
       </label>
-      <button>马上预定</button>
+      <button @tap="booking">马上预定</button>
     </view>
   </view>
 </template>
@@ -145,6 +145,12 @@
         console.log("tap index",detail.index);
         this.toView = 'view' + detail.index;
         this.$apply();
+      },
+      booking(){
+        wx.showToast({
+          title: '预订功能即将上线，敬请期待',
+          icon: 'none'
+        });
       }
     };
 

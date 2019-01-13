@@ -71,9 +71,7 @@
 
     data = {
       nation:'',
-      carousels:[{
-
-      }],
+      carousels:[],
       imgUrls: [
         '../img/swiper1.jpg',
         '../img/swiper2.jpg',

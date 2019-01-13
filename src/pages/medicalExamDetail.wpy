@@ -4,16 +4,16 @@
   <view class="medical-exam">
     <view class="swiper-view">
       <swiper bindchange="bindchange">
-        <block wx:key="{{item}}" wx:for="{{imgUrls}}">
+        <block wx:key="{{item.id}}" wx:for="{{carousels}}">
           <swiper-item @tap="bindSwiperItemTap">
             <view class="swiper-item">
-              <image src="{{item}}"/>
+              <image src="{{item.picFileId}}"/>
             </view>
           </swiper-item>
         </block>
       </swiper>
       <view class="indicators">
-        <text>{{currentIndex + 1}}</text><text>/{{imgUrls.length}}</text>
+        <text>{{currentIndex + 1}}</text><text>/{{carousels.length}}</text>
       </view>
       <view class="prompt">
         <text>法律保障 先行赔付</text>
@@ -149,7 +149,7 @@
           <text>在线客服</text>
         </view>
       </label>
-      <button>马上预定</button>
+      <button @tap="booking">马上预定</button>
     </view>
   </view>
 </template>
@@ -180,11 +180,7 @@
     mixins = [commonApi];
 
     data = {
-      imgUrls: [
-        '../img/swiper1.jpg',
-        '../img/swiper2.jpg',
-        '../img/swiper3.jpg'
-      ],
+      carousels:[],
       currentIndex:0,
       totalCount:0,
       medicalExam:{
@@ -252,6 +248,12 @@
         console.log("tap index",detail.index);
         this.toView = 'view' + detail.index;
         this.$apply();
+      },
+      booking(){
+        wx.showToast({
+          title: '预订功能即将上线，敬请期待',
+          icon: 'none'
+        });
       }
     };
 
@@ -315,6 +317,22 @@
       });
     }
 
+    getCarousels(){
+      let data = {
+        location:'05',
+        productId:this.id,
+      };
+      this.sendRequest(httpUrl.getCarousels,'GET',data,res =>{
+        this.carousels = res.carousels;
+        this.$apply();
+      });
+    }
+
+    initData(){
+      this.getProductInfo();
+      this.getCarousels();
+    }
+
     toLogin(){
       this.$navigate('login');
     }
@@ -334,8 +352,8 @@
           t.$apply();
         }
       });
-      this.getProductInfo();
       this.getTop();
+      this.initData();
     }
   }
 </script>
