@@ -20,12 +20,12 @@
       </view>
     </view>
     <view class="introduction-view">
-      <text class="title">{{medicalExam.title}}</text>
+      <text class="title">{{medicalExam.desc}}</text>
       <view class="tags">
         <van-tag wx:key="{{item}}" wx:for="{{medicalExam.tagList}}">{{item}}</van-tag>
       </view>
       <view class="price-view">
-        <text>￥{{medicalExam.price}}</text>
+        <text>￥{{medicalExam.adultPrice}}</text>
         <text> / 人起</text>
       </view>
       <view class="offer-view">
@@ -80,8 +80,8 @@
         <van-tab title="行程亮点">
           <scroll-view class="scroll-view-tab" scroll-into-view="{{toView}}" scroll-with-animation scroll-y>
             <view class="view1" id="view0">
-              <image src="../img/swiper1.jpg"/>
-              <image src="../img/swiper2.jpg"/>
+              <import src="../wxparse/wxParse.wxml"/>
+              <html2wxml0 :parserName="html0" :parserContent.sync="htmlContent0"/>
             </view>
             <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 14rpx"></view>
             <view class="common view2" id="view1">
@@ -90,9 +90,10 @@
                 <text>体检介绍</text>
               </view>
               <view class="content">
-                <text>
-                  医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-                </text>
+                <view>
+                  <import src="../wxparse/wxParse.wxml"/>
+                  <html2wxml1 :parserName="html1" :parserContent.sync="htmlContent1"/>
+                </view>
                 <navigator url="medicalexam/packageIntroduction">
                   更多内容 >
                 </navigator>
@@ -105,20 +106,19 @@
                 <text>轻松行程</text>
               </view>
               <view class="content">
-                <text>
-                  医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-                </text>
+                <import src="../wxparse/wxParse.wxml"/>
+                <html2wxml2 :parserName="html2" :parserContent.sync="htmlContent2"/>
               </view>
             </view>
+            <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 14rpx"></view>
             <view class="view1" id="view3">
               <view class="title-view">
                 <view class="title-icon"></view>
                 <text>费用说明</text>
               </view>
               <view class="content">
-                <text>
-                  医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-                </text>
+                <import src="../wxparse/wxParse.wxml"/>
+                <html2wxml3 :parserName="html3" :parserContent.sync="htmlContent3"/>
               </view>
             </view>
             <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 14rpx"></view>
@@ -128,9 +128,8 @@
                 <text>预订须知</text>
               </view>
               <view class="content">
-                <text>
-                  医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-                </text>
+                <import src="../wxparse/wxParse.wxml"/>
+                <html2wxml4 :parserName="html4" :parserContent.sync="htmlContent4"/>
               </view>
             </view>
             <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 10rpx"></view>
@@ -159,6 +158,7 @@
   import wepy from 'wepy';
   import commonApi from '../mixins/commonApi'
   import {httpUrl} from '../utils/httpUrl'
+  import html2wxml from '../components/html2wxml'
 
   export default class medicalExamDetail extends wepy.page {
     config = {
@@ -169,7 +169,13 @@
         "van-tabs": "../components/vant/tabs/index",
       }
     };
-    components = {};
+    components = {
+      html2wxml0: html2wxml,
+      html2wxml1: html2wxml,
+      html2wxml2: html2wxml,
+      html2wxml3: html2wxml,
+      html2wxml4: html2wxml,
+    };
 
     mixins = [commonApi];
 
@@ -182,14 +188,21 @@
       currentIndex:0,
       totalCount:0,
       medicalExam:{
-        id:'1001',
-        title:'健康大阪6天5夜 感受不一样的大阪',
-        tagList:['健康','精密体检','混浴汤泉','混浴汤泉','健康','精密体检','混浴汤泉','健康'],
-        price:'26800',
-        shareNum:60,
-        viewNum:120,
-        likeNum:3,
-        commentNum:15,
+        id: '',
+        desc: '',
+        tagList: ['健康', '精密体检', '混浴汤泉', '混浴汤泉', '健康', '精密体检', '混浴汤泉', '健康'],
+        adultPrice: '',
+        shareNum: 0,
+        viewNum: 0,
+        likeNum: 0,
+        commentNum: 0,
+        feature:'',
+        detail:'',
+        routine:'',
+        fee:'',
+        notice:'',
+        hospital:'',
+        item:'',
         replyList: [
           {
             replyID:'2004',
@@ -214,6 +227,11 @@
       height:'',
       top:0,
       id:'',
+      htmlContent0:'',
+      htmlContent1:'',
+      htmlContent2:'',
+      htmlContent3:'',
+      htmlContent4:'',
     };
 
     methods = {
@@ -279,8 +297,21 @@
     }
 
     getProductInfo(){
-      this.sendRequest(httpUrl.getProducts,'GET',{'id':this.id},res =>{
+      this.sendRequest(httpUrl.getProducts + '/' + this.id,'GET',{},res =>{
+        this.medicalExam = res;
+        this.htmlContent0 = this.medicalExam.feature;
+        this.htmlContent1 = this.medicalExam.detail;
+        this.htmlContent2 = this.medicalExam.routine;
+        this.htmlContent3 = this.medicalExam.fee;
+        this.htmlContent4 = this.medicalExam.notice;
+        this.$apply();
+        this.$invoke('html2wxml0', 'htmlParserNotice');
+        this.$invoke('html2wxml1', 'htmlParserNotice');
+        this.$invoke('html2wxml2', 'htmlParserNotice');
+        this.$invoke('html2wxml3', 'htmlParserNotice');
+        this.$invoke('html2wxml4', 'htmlParserNotice');
 
+        this.getTop();
       });
     }
 

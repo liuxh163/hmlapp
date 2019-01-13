@@ -46,14 +46,14 @@
           <image src="../img/title_icon.png"/>
           <text>精品推荐</text>
         </view>
-        <view class="more">
-          <navigator open-type="switchTab" url="discovery">
-            <text>更多</text>
-            <image src="../img/more.png"/>
-          </navigator>
-        </view>
+        <!--<view class="more">-->
+          <!--<navigator open-type="switchTab" url="discovery">-->
+            <!--<text>更多</text>-->
+            <!--<image src="../img/more.png"/>-->
+          <!--</navigator>-->
+        <!--</view>-->
       </view>
-      <block wx:key="item.id" wx:for="{{recommendList}}">
+      <block wx:key="item.id" wx:if="{{index < 2}}" wx:for="{{recommendList}}">
         <view class="recommend-item" @tap="bindItemRecommend({{item}})">
           <image class="thumb" src="{{item.cover_path}}"/>
           <view class="desc-container">

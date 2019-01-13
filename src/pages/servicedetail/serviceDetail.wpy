@@ -223,8 +223,10 @@
 
       this.item  = options.preload.item;
       this.serviceHtmlContent = this.item.intro;
+      this.carHtmlContent = this.item.car;
       this.$apply();
       this.$invoke('html2wxml', 'htmlParserNotice');
+      this.$invoke('html2wxml2', 'htmlParserNotice');
 
     }
   }
