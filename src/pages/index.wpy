@@ -54,7 +54,7 @@
         </view>
       </view>
       <block wx:key="item.id" wx:for="{{recommendList}}">
-        <view class="recommend-item" @tap="bindItemRecommend">
+        <view class="recommend-item" @tap="bindItemRecommend({{item}})">
           <image class="thumb" src="{{item.cover_path}}"/>
           <view class="desc-container">
             <text class="desc">{{item.desc}}</text>
@@ -110,7 +110,7 @@
       <view class="discovery-container">
         <view class="left-container content-container">
           <block wx:key="item.id" wx:for="{{discoveryListLeft}}">
-            <view class="discovery-item">
+            <view class="discovery-item" @tap="bindDiscoveryItem({{item}})">
               <view class="location">
                 <image src="../img/location.png"/>
                 <text>{{item.location}}</text>
@@ -132,7 +132,7 @@
         </view>
         <view class="right-container content-container">
           <block wx:key="item.id" wx:for="{{discoveryListRight}}">
-            <view class="discovery-item">
+            <view class="discovery-item" @tap="bindDiscoveryItem({{item}})">
               <view class="location">
                 <image src="../img/location.png"/>
                 <text>{{item.location}}</text>
@@ -262,7 +262,7 @@
     methods = {
       bindItemRecommend(item){
         // 跳转到体检详情页面
-        this.$navigate("medicalExamDetail");
+        this.$navigate("medicalExamDetail?id=" + item.id);
       },
       bindSwiperItemTap(item) {
         // switch (item.id) {
@@ -298,6 +298,10 @@
       bindTurnComment(id) {
         console.log('id', id);
         this.$navigate("discoverydetail/comments");
+      },
+      bindDiscoveryItem(item){
+        this.$preload('item', item);
+        this.$navigate("discoverydetail/discoveryDetail");
       }
     };
 
@@ -343,7 +347,6 @@
     // 获取推荐数据
     getRecommendData(){
       let data = {
-        "nation":"01",
         "limit": 2,
         "sort_type": "03"
       };

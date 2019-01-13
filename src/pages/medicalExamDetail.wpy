@@ -157,6 +157,8 @@
 
 <script>
   import wepy from 'wepy';
+  import commonApi from '../mixins/commonApi'
+  import {httpUrl} from '../utils/httpUrl'
 
   export default class medicalExamDetail extends wepy.page {
     config = {
@@ -168,6 +170,8 @@
       }
     };
     components = {};
+
+    mixins = [commonApi];
 
     data = {
       imgUrls: [
@@ -209,6 +213,7 @@
       toView: '',
       height:'',
       top:0,
+      id:'',
     };
 
     methods = {
@@ -273,6 +278,12 @@
       this.$apply();
     }
 
+    getProductInfo(){
+      this.sendRequest(httpUrl.getProducts,'GET',{'id':this.id},res =>{
+
+      });
+    }
+
     toLogin(){
       this.$navigate('login');
     }
@@ -283,6 +294,7 @@
       }
       this.$wxpage.options = options;
 
+      this.id = options.id;
       let t = this;
       wx.getSystemInfo({
         success(res) {
@@ -291,7 +303,7 @@
           t.$apply();
         }
       });
-
+      this.getProductInfo();
       this.getTop();
     }
   }

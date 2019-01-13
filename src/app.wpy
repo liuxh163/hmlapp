@@ -31,29 +31,30 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        'pages/index',
-        'pages/discovery',
-        'pages/mine',
-        'pages/hmgold/healthGold',
-        'pages/hmgold/productIntroduction',
-        'pages/discoverydetail/comments',
-        'pages/nationProducts',
-        'pages/medicalExamDetail',
-        'pages/medicalexam/packageIntroduction',
-        'pages/setting/setting',
-        'pages/setting/personalInfo',
-        'pages/setting/modifyInput',
-        'pages/archivesImage',
-        'pages/flimServiceBuy',
-        'pages/servicePersonal',
-        'pages/servicedetail/serviceDetail',
-        'pages/servicedetail/translationReservation',
-        'pages/login',
-        'pages/discoverydetail/talkAboutDetail',
-        'pages/discoverydetail/discoveryDetail',
-        'pages/takePhoto',
-        'pages/publishPost',
-        'pages/webView',
+        // 'pages/publishPost',  // 发表帖子
+        'pages/index',  // 首页
+        'pages/discovery',  // 发现
+        'pages/mine',   // 我的
+        'pages/hmgold/healthGold',  // 海马金
+        'pages/hmgold/productIntroduction', // 海马金介绍和申请
+        'pages/discoverydetail/comments',   // 评论和回复
+        'pages/nationProducts',   // 国家产品列表
+        'pages/medicalExamDetail',  // 体检详情
+        'pages/medicalexam/packageIntroduction',  // 套餐介绍
+        'pages/setting/setting',  // 设置
+        'pages/setting/personalInfo', // 个人信息
+        'pages/setting/modifyInput',  // 修改用户名
+        'pages/archivesImage',  // 胶片影像
+        'pages/flimServiceBuy', // 影像购买
+        'pages/servicePersonal',  // 服务人员
+        'pages/servicedetail/serviceDetail',  // 服务人员详情
+        'pages/servicedetail/translationReservation', // 翻译预约
+        'pages/login',  // 登录
+        'pages/discoverydetail/talkAboutDetail',  // 说说详情
+        'pages/discoverydetail/discoveryDetail',  // 发现详情
+        'pages/takePhoto',  // 拍照
+        // 'pages/publishPost',  // 发表帖子
+        'pages/webView', // 示例
       ],
       window: {
         backgroundTextStyle: "light",

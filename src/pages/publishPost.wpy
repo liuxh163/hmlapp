@@ -60,7 +60,7 @@
         console.log("content",content);
 
         if (content) {
-          if (this.photoImages) {
+          if (this.photoImages && this.photoImages.length > 0) {
             this.uploadImage(this.photoImages,paths =>{
               this.uploadedImages = paths[0];
               let data = {
@@ -103,16 +103,16 @@
               longitude: res.longitude
             },
             success: function(res) {//成功后的回调
-              console.log(res);
+              console.log("location success",res);
               let address_component = res.result.address_component;
               _this.address = address_component.nation + address_component.province;
               _this.$apply();
             },
             fail: function(error) {
-              console.error(error);
+              console.error("location error",error);
             },
             complete: function(res) {
-              console.log(res);
+              // console.log(res);
             }
           })
         }
@@ -132,12 +132,12 @@
         name:'filex',
         success:datas =>{
           // 服务器返回的路径
-          let paths = datas.map(data => {
-            return data.url;
+          let ids = datas.map(data => {
+            return data.id;
           });
-          console.log("uploadedPaths",paths);
+          console.log("uploadedPaths",ids);
 
-          success && success(paths)
+          success && success(ids)
         }
       });
     }
@@ -157,8 +157,10 @@
       });
       this.chooseLocation();
 
-      this.photoImages.push(options.photoImageSrc);
-      console.log("photoImages",this.photoImages);
+      if (options.photoImageSrc) {
+        this.photoImages.push(options.photoImageSrc);
+        console.log("photoImages",this.photoImages);
+      }
       this.$apply();
 
     }

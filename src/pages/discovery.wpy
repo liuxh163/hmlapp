@@ -32,7 +32,7 @@
             </view>
             <view class="right-container content-container">
               <block wx:key="item.id" wx:for="{{discoveryListRight}}">
-                <view class="discovery-item">
+                <view class="discovery-item" @tap="bindItem(1,{{item.id}})">
                   <view class="location">
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>

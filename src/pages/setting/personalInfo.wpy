@@ -88,7 +88,7 @@
     methods = {
       bindDateChange(e){
         this.date = e.detail.value;
-        this.modifyInfo(this.MODIFY_TYPE_BIRTHDAY,{"birthday":new Date(this.date)})
+        this.modifyInfo(this.MODIFY_TYPE_BIRTHDAY,{"birthday":this.date})
       },
       bindSexChange(e){
         this.sexSelectIndex = e.detail.value;
@@ -184,12 +184,12 @@
         name:'filex',
         success:datas =>{
           // 服务器返回的路径
-          let paths = datas.map(data => {
+          let uploadedPaths = datas.map(data => {
             return data.path;
           });
-          console.log("uploadedPaths",paths);
+          console.log("uploadedPaths",uploadedPaths);
 
-          success && success(paths)
+          success && success(uploadedPaths)
         }
       });
     }
@@ -220,6 +220,7 @@
 
     onShow(){
       this.personalInfo = wx.getStorageSync('personalInfo');
+      this.personalInfo.birthday = this.formatTime(new Date(this.personalInfo.birthday));
       this.$apply();
     }
 
