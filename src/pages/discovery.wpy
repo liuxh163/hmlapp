@@ -10,7 +10,7 @@
           <view class="discovery-container">
             <view class="left-container content-container">
               <block wx:key="item.id" wx:for="{{discoveryListLeft}}">
-                <view class="discovery-item">
+                <view class="discovery-item" @tap="bindItem(1,{{item.id}})">
                   <view class="location">
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>
@@ -58,7 +58,7 @@
       <van-tab title="说说">
         <view class="talk-about">
           <block wx:key="item.id" wx:for="{{talkAboutList}}">
-            <view class="item-view" @tap="bindTalkAboutItem({{item.id}})">
+            <view class="item-view" @tap="bindItem(2,{{item.id}})">
               <view class="avatar-container">
                 <image class="avatar" src="../img/swiper1.jpg"></image>
                 <text>{{item.posterName}}</text>
@@ -67,7 +67,7 @@
               <view class="image-container">
                 <view class="image-list">
                   <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
-                    <image src="{{imageItem}}"></image>
+                    <image catchtap="previewImage({{imageItem}},{{item.imageList}})" src="{{imageItem}}"></image>
                   </block>
                 </view>
                 <view class="operate-view">
@@ -237,9 +237,21 @@
     };
 
     methods = {
-      bindTalkAboutItem(id){
-        console.log("id",id);
-        this.$navigate("discoverydetail/talkAboutDetail?id=" + id);
+      previewImage(currentPath,paths){
+        wx.previewImage({
+          current:currentPath,
+          urls: paths // 需要预览的图片http链接列表
+        })
+      },
+      bindItem(type,item){
+        this.$preload('item', item);
+        if (type == 1){
+          // 发现
+          this.$navigate("discoverydetail/discoveryDetail");
+        } else {
+          // 说说
+          this.$navigate("discoverydetail/talkAboutDetail");
+        }
       },
       bindAddTap(){
         if (this.currentIndex == 0){
@@ -250,7 +262,6 @@
             icon: 'none'
           });
         }
-
       },
       onChange(e){
         let detail = e.detail;

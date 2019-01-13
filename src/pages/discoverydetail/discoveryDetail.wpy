@@ -1,5 +1,53 @@
 <style lang="scss" src="../../css/talkAboutDetail.scss">
 </style>
+<style lang="scss">
+  @import "../../css/base.scss";
+  .detail-container{
+    .avatar-container{
+      .location-view{
+        margin-left: auto;
+        margin-right: px2rpx(15);
+        display: flex;
+        align-items: center;
+        image{
+          width: px2rpx(9);
+          height: px2rpx(12);
+        }
+        text{
+          margin-left: px2rpx(5);
+          color: #999999;
+          font-size: px2rpx(11);
+        }
+      }
+    }
+  }
+  .wx-swiper-dots {
+    position: absolute !important;
+    left: unset !important;
+    right: 0 !important;
+  }
+
+  .wx-swiper-dots.wx-swiper-dots-horizontal {
+    margin-bottom: -5rpx;
+  }
+
+  .swiper-view {
+    position: relative;
+    margin-top: px2rpx(11);
+    swiper {
+      height: px2rpx(514);
+    }
+    .swiper-item {
+      display: flex;
+      justify-content: center;
+      image {
+        border-radius: px2rpx(4);
+        width: px2rpx(345);
+        height: px2rpx(514);
+      }
+    }
+  }
+</style>
 <template>
   <view class="talk-about-detail">
     <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;"></view>
@@ -10,20 +58,29 @@
           <text>{{item.posterName}}</text>
           <text>{{item.postDate}} 来自iphone</text>
         </view>
-      </view>
-      <text class="content">{{item.content}}</text>
-      <view class="image-container">
-        <view class="image-list">
-          <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
-            <image @tap="previewImage({{imageItem}},{{item.imageList}})" src="{{imageItem}}"></image>
-          </block>
+        <view class="location-view">
+          <image src="../../img/location_gray.png"/>
+          <text>{{item.location}}</text>
         </view>
       </view>
+      <view class="swiper-view">
+        <swiper bindchange="bindchange" autoplay indicator-dots
+                indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
+          <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
+            <swiper-item @tap="bindSwiperItemTap">
+              <view class="swiper-item">
+                <image mode="aspectFill" src="{{imageItem}}"/>
+              </view>
+            </swiper-item>
+          </block>
+        </swiper>
+      </view>
+      <text class="content">{{item.content}}</text>
       <view class="tag" wx:if="{{item.isHot}}">
         <text>热</text>
       </view>
       <view class="like-list">
-        <image src="../../img/like.png"/>
+        <image src="../../img/icon_like.png"/>
         <block wx:key="likeItem" wx:for-item="likeItem" wx:for="{{item.likeList}}">
           <text>{{likeItem}}</text>
           <text wx:if="{{index != (item.likeList.length - 1)}}">，</text>
@@ -50,7 +107,7 @@
                   <text>{{commentItem.date}}</text>
                 </view>
                 <view @tap="bindLike({{commentItem}})" class="right">
-                  <image src="{{commentItem.isLiked == 'true'?'../../img/liked.png':'../../img/like.png'}}"/>
+                  <image src="{{commentItem.isLiked == 'true'?'../../img/icon_liked.png':'../../img/icon_like.png'}}"/>
                   <text class="{{commentItem.isLiked == 'true'?'liked':''}}">{{commentItem.likeNum}}</text>
                 </view>
               </view>
@@ -80,10 +137,10 @@
             <text>{{item.viewNum}}</text>
           </view>
           <view class="common like-view">
-            <image src="../../img/like.png"/>
+            <image src="../../img/icon_like.png"/>
             <text>{{item.likeNum}}</text>
           </view>
-          <navigator url="comments?isReply=false">
+          <navigator url="comments?isReply=false&pageType=2">
           <view class="common comment-view">
             <image src="../../img/comment.png"/>
             <text>{{item.commentNum}}</text>
@@ -100,9 +157,9 @@
   import commonApi from '../../mixins/commonApi'
   import {httpUrl} from '../../utils/httpUrl'
 
-  export default class talkAboutDetail extends wepy.page {
+  export default class discoveryDetail extends wepy.page {
     config = {
-      navigationBarTitleText: '说说',
+      navigationBarTitleText: '发现',
     };
     components = {};
 
@@ -113,6 +170,7 @@
       inputValue:"",
       item:{
         id:'2001',
+        location:'日本 东京',
         content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
         posterName:'Amanda',
         postDate:'12-23',
@@ -282,13 +340,16 @@
       },
       bindViewReply(commentItem){
         this.$preload('commentItem', commentItem);
-        this.$navigate('comments?isReply=true');
+        this.$navigate('comments?isReply=true&pageType=2');
       },
       previewImage(currentPath,paths){
         wx.previewImage({
           current:currentPath,
           urls: paths // 需要预览的图片http链接列表
         })
+      },
+      bindSwiperItemTap(){
+
       }
     };
 
@@ -306,7 +367,6 @@
       }
       this.$wxpage.options = options;
 
-      // console.log("id",options.id);
     }
   }
 </script>

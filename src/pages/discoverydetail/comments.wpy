@@ -15,7 +15,7 @@
                 <text>{{item.date}}</text>
               </view>
               <view @tap="bindLike({{item}})" class="right">
-                <image src="{{item.isLiked == 'true'?'../../img/search.png':'../../img/like.png'}}"/>
+                <image src="{{item.isLiked == 'true'?pageType == 2?'../../img/icon_liked.png':'../../img/liked.png':pageType ==2?'../../img/icon_like.png':'../../img/like.png'}}"/>
                 <text class="{{item.isLiked == 'true'?'liked':''}}">{{item.likeNum}}</text>
               </view>
             </view>
@@ -188,6 +188,7 @@
       commentItem:{},
       item:{},
       isReply:'false',
+      pageType:1,
     };
 
     methods = {
@@ -233,6 +234,7 @@
 
       console.log("options",options);
       this.isReply = options.isReply;
+      this.pageType = options.pageType;
       console.log("isReply",this.isReply);
       let title = '';
       if (this.isReply == 'true') {

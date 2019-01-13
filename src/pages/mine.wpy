@@ -4,7 +4,7 @@
   <view class="mine">
     <view class="personal-information">
       <view class="avatar-container">
-        <image @tap="previewBigImage({{personalInfo.iconPath}})" mode="aspectFill" class="avatar" src="{{personalInfo.iconPath}}"></image>
+        <image @tap="previewSingleImage({{personalInfo.iconPath}})" mode="aspectFill" class="avatar" src="{{personalInfo.iconPath}}"></image>
         <text>{{personalInfo.userName}}</text>
         <!--<open-data class="avatar" type="userAvatarUrl"></open-data>-->
         <!--<open-data type="userNickName"></open-data>-->
@@ -66,7 +66,7 @@
             <view class="discovery-container">
               <view class="left-container content-container">
                 <block wx:key="item.id" wx:for="{{discoveryListLeft}}">
-                  <view class="discovery-item">
+                  <view class="discovery-item" @tap="bindItem(1,{{item}})">
                     <view class="location">
                       <image src="../img/location.png"/>
                       <text>{{item.location}}</text>
@@ -114,16 +114,16 @@
         <van-tab title="我的说说">
           <view class="talk-about">
             <block wx:key="item.id" wx:for="{{talkAboutList}}">
-              <view class="item-view">
+              <view class="item-view" @tap="bindItem(2,{{item}})">
                 <view class="avatar-container">
-                  <open-data class="avatar" type="userAvatarUrl"></open-data>
-                  <open-data type="userNickName"></open-data>
+                  <image class="avatar" src="{{personalInfo.iconPath}}"></image>
+                  <text>{{personalInfo.userName}}</text>
                 </view>
                 <text class="content">{{item.content}}</text>
                 <view class="image-container">
                   <view class="image-list">
                     <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
-                      <image src="{{imageItem}}"></image>
+                      <image catchtap="previewImage({{imageItem}},{{item.imageList}})" src="{{imageItem}}"></image>
                     </block>
                   </view>
                   <view class="operate-view">
@@ -319,13 +319,26 @@
           },150);
         }
       },
-      bindSettingTap(){
-
+      previewImage(currentPath,paths){
+        wx.previewImage({
+          current:currentPath,
+          urls: paths // 需要预览的图片http链接列表
+        })
       },
-      previewBigImage(path){
+      previewSingleImage(path){
         wx.previewImage({
           urls: [path] // 需要预览的图片http链接列表
         })
+      },
+      bindItem(type,item){
+        this.$preload('item', item);
+        if (type == 1){
+          // 发现
+          this.$navigate("discoverydetail/discoveryDetail");
+        } else {
+          // 说说
+          this.$navigate("discoverydetail/talkAboutDetail");
+        }
       }
     };
 
@@ -339,8 +352,6 @@
       }
       this.$apply();
     }
-
-
 
     analyticalDiscoveryData(data){
       this.discoveryListLeft = [];

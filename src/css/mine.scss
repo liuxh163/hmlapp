@@ -267,13 +267,13 @@
         margin-left: px2rpx(15);
         display: flex;
         align-items: center;
-        open-data:nth-child(1) {
+        image {
           width: px2rpx(22);
           height: px2rpx(22);
           overflow: hidden;
           border-radius: 50%;
         }
-        open-data:nth-child(2) {
+        text {
           margin-left: px2rpx(8);
           color: #999999;
           font-size: px2rpx(12);

@@ -50,6 +50,7 @@
         'pages/servicedetail/translationReservation',
         'pages/login',
         'pages/discoverydetail/talkAboutDetail',
+        'pages/discoverydetail/discoveryDetail',
         'pages/takePhoto',
         'pages/publishPost',
         'pages/webView',
