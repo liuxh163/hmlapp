@@ -172,7 +172,8 @@
           <text>价格</text>
         </view>
         <view class="content">
-          图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图文介绍文字介绍图。
+          <import src="../../wxparse/wxParse.wxml"/>
+          <html2wxml3 :parserName="feeHtml" :parserContent.sync="feeHtmlContent"/>
         </view>
       </view>
     </view>
@@ -198,6 +199,7 @@
     components = {
       html2wxml: html2wxml,
       html2wxml2: html2wxml,
+      html2wxml3: html2wxml,
     };
 
     data = {
@@ -207,6 +209,7 @@
       item:{},
       serviceHtmlContent:'',
       carHtmlContent:'',
+      feeHtmlContent:'',
     };
 
     methods = {};
@@ -224,9 +227,11 @@
       this.item  = options.preload.item;
       this.serviceHtmlContent = this.item.intro;
       this.carHtmlContent = this.item.car;
+      this.feeHtmlContent = this.item.feedesc;
       this.$apply();
       this.$invoke('html2wxml', 'htmlParserNotice');
       this.$invoke('html2wxml2', 'htmlParserNotice');
+      this.$invoke('html2wxml3', 'htmlParserNotice');
 
     }
   }

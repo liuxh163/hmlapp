@@ -53,7 +53,7 @@
             color: white;
             font-size: px2rpx(11);
           }
-          .type1{
+          .type3{
             .van-tag{
               background-color: #FE585A !important;
             }
@@ -161,7 +161,7 @@
           <view class="types">
             <block wx:key="typeItem" wx:for-item="typeItem" wx:for="{{item.types}}">
               <van-tag class="{{typeItem == '01'?'type1':typeItem == '02'?'type2':'type3'}}">
-                {{typeItem == '01'?'带车':typeItem == '02'?'陪同':'文字'}}</van-tag>
+                {{typeItem == '01'?'文字':typeItem == '02'?'陪同':'带车'}}</van-tag>
             </block>
           </view>
           <view class="right">

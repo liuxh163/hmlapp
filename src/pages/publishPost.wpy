@@ -12,7 +12,7 @@
         <textarea
                 name="content"
                 placeholder="写点儿什么..."
-                maxlength="1000"
+                maxlength="500"
                 class="input-class"
                 bindinput="bindInput"
         />
@@ -49,6 +49,7 @@
       address:'',
       qqmapsdk:null,
       uploadPromise:null,
+      pageType:'1',
     };
 
     mixins = [commonApi,utils,upload];
@@ -57,34 +58,77 @@
       formSubmit(e){
         let value = e.detail.value;
         let content = value.content;
-        console.log("content",content);
 
-        if (content) {
+        if (this.pageType == 1){
+          // 发现
           if (this.photoImages && this.photoImages.length > 0) {
-            this.uploadImage(this.photoImages,paths =>{
-              this.uploadedImages = paths[0];
+            this.uploadImage(this.photoImages,ids =>{
+              this.uploadedImages = this.convertArrayByComma(ids);
+              console.log('uploadedIds',this.uploadedImages);
               let data = {
                 "content":content,
-                picIds:this.uploadedImages,
+                "location":this.address,
+                "picIds":this.uploadedImages,
               };
-              this.sendRequest(httpUrl.posts.replace(":id","1"),'POST',data,res =>{
-
+              this.sendRequest(httpUrl.posts.replace(":id",this.pageType),'POST',data,res =>{
+                wx.showToast({
+                  title: '发表成功',
+                  icon: 'none'
+                });
+                setTimeout(function() {
+                  wx.navigateBack();
+                },1000)
               });
             });
           }else {
-            let data = {
-              "content":content,
-              picIds:[],
-            };
-            this.sendRequest(httpUrl.posts.replace(":id","1"),'POST',data,res =>{
-
+            wx.showToast({
+              title: '请选择图片',
+              icon: 'none'
             });
           }
         }else {
-          wx.showToast({
-            title: '请写点儿什么',
-            icon: 'none'
-          });
+          // 说说
+          if (content){
+            if (this.photoImages && this.photoImages.length > 0) {
+              this.uploadImage(this.photoImages,ids =>{
+                this.uploadedImages = this.convertArrayByComma(ids);
+                console.log('uploadedIds',this.uploadedImages);
+                let data = {
+                  "content":content,
+                  "location":this.address,
+                  picIds:this.uploadedImages,
+                };
+                this.sendRequest(httpUrl.posts.replace(":id",this.pageType),'POST',data,res =>{
+                  wx.showToast({
+                    title: '发表成功',
+                    icon: 'none'
+                  });
+                  setTimeout(function() {
+                    wx.navigateBack();
+                  },1000)
+                });
+              });
+            }else {
+              let data = {
+                "content":content,
+                "location":this.address,
+              };
+              this.sendRequest(httpUrl.posts.replace(":id",this.pageType),'POST',data,res =>{
+                wx.showToast({
+                  title: '发表成功',
+                  icon: 'none'
+                });
+                setTimeout(function() {
+                  wx.navigateBack();
+                },1000)
+              });
+            }
+          }else {
+            wx.showToast({
+              title: '请写点儿什么',
+              icon: 'none'
+            });
+          }
         }
       },
       bindInput(e){
@@ -105,7 +149,7 @@
             success: function(res) {//成功后的回调
               console.log("location success",res);
               let address_component = res.result.address_component;
-              _this.address = address_component.nation + address_component.province;
+              _this.address = address_component.nation + "，" +address_component.province;
               _this.$apply();
             },
             fail: function(error) {
@@ -133,7 +177,8 @@
         success:datas =>{
           // 服务器返回的路径
           let ids = datas.map(data => {
-            return data.id;
+            console.log('id',data.id[0]);
+            return data.id[0];
           });
           console.log("uploadedPaths",ids);
 
@@ -153,14 +198,14 @@
       this.$wxpage.options = options;
 
       this.qqmapsdk = new QQMapWX({
-        key: 'DMHBZ-JQOCK-DROJH-APF52-BWMMF-22FZ2'
+        key: wepy.$instance.globalData.qqmapsdkKey
       });
       this.chooseLocation();
 
       if (options.photoImageSrc) {
         this.photoImages.push(options.photoImageSrc);
-        console.log("photoImages",this.photoImages);
       }
+      this.pageType = options.pageType;
       this.$apply();
 
     }

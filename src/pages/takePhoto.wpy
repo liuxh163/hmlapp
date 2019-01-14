@@ -174,13 +174,12 @@
         this.showPreviewImage = false;
       },
       next(){
-        this.$navigate('publishPost?photoImageSrc=' + this.photoImageSrc);
+        this.$redirect('publishPost?pageType=1&photoImageSrc=' + this.photoImageSrc);
         let t = this;
         setTimeout(function () {
           t.showPreviewImage = false;
           t.$apply();
         },500);
-
       },
       takeAlbum(){
         wx.chooseImage({

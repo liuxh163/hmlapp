@@ -24,12 +24,15 @@
       }
     }
   }
+  .scroll-view-tab{
+    height: px2rpx(667);
+  }
 </style>
 <template>
   <view class="medical-exam">
     <view class="header">
       <view class="title">
-        <text>健康大阪6天5夜  感受不一样的大阪感受不一样的大阪</text>
+        <text>{{medicalExam.desc}}</text>
       </view>
       <view class="desc">
         <text>日本体检优势项目，适合40岁以上人群</text>
@@ -43,15 +46,15 @@
                 line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="0"
                 canChangeTab="{{false}}" bind:change="onChange">
         <van-tab title="医院介绍">
-          <scroll-view class="scroll-view-tab" bindscroll="bindscroll" scroll-into-view="{{toView}}" scroll-with-animation scroll-y>
+          <scroll-view class="scroll-view-tab" scroll-into-view="{{toView}}" scroll-with-animation scroll-y>
             <view class="view1" id="view0">
               <view class="title-view">
                 <view class="title-icon"></view>
                 <text>医院介绍</text>
               </view>
               <view class="content">
-                <image src="../../img/swiper1.jpg"/>
-                <image src="../../img/swiper2.jpg"/>
+                <import src="../../wxparse/wxParse.wxml"/>
+                <html2wxml :parserName="html0" :parserContent.sync="htmlContent0"/>
               </view>
             </view>
             <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 14rpx"></view>
@@ -61,12 +64,8 @@
                 <text>基础项目</text>
               </view>
               <view class="content">
-                <text>
-                  医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-                </text>
-                <navigator url="login">
-                  更多内容 >
-                </navigator>
+                <import src="../../wxparse/wxParse.wxml"/>
+                <html2wxml1 :parserName="html1" :parserContent.sync="htmlContent1"/>
               </view>
             </view>
             <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 14rpx"></view>
@@ -76,9 +75,8 @@
                 <text>可选项目</text>
               </view>
               <view class="content">
-                <text>
-                  医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-                </text>
+                <import src="../../wxparse/wxParse.wxml"/>
+                <html2wxml2 :parserName="html2" :parserContent.sync="htmlContent2"/>
               </view>
             </view>
             <view class="view1" id="view3">
@@ -87,9 +85,8 @@
                 <text>专家团队</text>
               </view>
               <view class="content">
-                <text>
-                  医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-                </text>
+                <import src="../../wxparse/wxParse.wxml"/>
+                <html2wxml3 :parserName="html3" :parserContent.sync="htmlContent3"/>
               </view>
             </view>
             <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 10rpx"></view>
@@ -115,22 +112,33 @@
 
 <script>
   import wepy from 'wepy';
+  import html2wxml from '../../components/html2wxml'
 
   export default class packageIntroduction extends wepy.page {
     config = {
-      navigationBarTitleText: '日本精密体检',
+      navigationBarTitleText: '详情',
       "usingComponents": {
         "van-tab": "../../components/vant/tab/index",
         "van-tabs": "../../components/vant/tabs/index",
       }
     };
-    components = {};
+    components = {
+      html2wxml: html2wxml,
+      html2wxml1: html2wxml,
+      html2wxml2: html2wxml,
+      html2wxml3: html2wxml,
+    };
 
     data = {
       scrollTop: 0,
       lineWidth:93,
       toView: '',
       top:0,
+      medicalExam:{},
+      htmlContent0:'',
+      htmlContent1:'',
+      htmlContent2:'',
+      htmlContent3:'',
     };
 
     methods = {
@@ -155,20 +163,6 @@
     };
 
     onPageScroll(e) {
-      // if (e.scrollTop > this.scrollTop) {
-      //   //向下滚动
-      //   // console.log('向下 ')
-      //   if (e.scrollTop > 40  && !this.scrolling){
-      //     // console.log('隐藏tabs');
-      //     this.isHidden = true;
-      //     this.offsetTop = -100;
-      //   }
-      // } else {
-      //   //向上滚动
-      //   // console.log('向上滚动 ')
-      //   this.isHidden = false;
-      //   this.offsetTop = 0;
-      // }
       this.scrollTop = e.scrollTop;
       this.$apply();
     }
@@ -179,15 +173,6 @@
       query.select('#tabs').boundingClientRect()
       query.selectViewport().scrollOffset()
       query.exec(function(res){
-        // if (res[0].top <= 0) {
-        //   _this.setData({
-        //     "scrollCls": 'fixedCls'
-        //   })
-        // } else if (res[0].top > 0) {
-        //   _this.setData({
-        //     "scrollCls": ''
-        //   })
-        // }
         _this.top = res[0].top;
         console.log("tabs",res[0].top);
         // res[0].top       // #the-id节点的上边界坐标
@@ -205,15 +190,31 @@
       }
       this.$wxpage.options = options;
 
+      this.medicalExam = options.preload.medicalExam;
       let t = this;
       wx.getSystemInfo({
         success(res) {
           t.lineWidth = res.screenWidth / 4;
           t.$apply();
         }
-      })
+      });
+
+      this.htmlContent0 = this.medicalExam.hospital;
+      this.htmlContent1 = this.medicalExam.item;
+      this.htmlContent2 = this.medicalExam.experts;
+      this.htmlContent3 = this.medicalExam.operations;
+      this.$apply();
+      this.$invoke('html2wxml', 'htmlParserNotice');
+      this.$invoke('html2wxml1', 'htmlParserNotice');
+      this.$invoke('html2wxml2', 'htmlParserNotice');
+      this.$invoke('html2wxml3', 'htmlParserNotice');
+
+      wx.setNavigationBarTitle({
+        title: this.medicalExam.desc
+      });
 
       this.getTop();
+
     }
   }
 </script>

@@ -12,7 +12,7 @@
             <view class="first-line">
               <view class="left">
                 <text>{{item.nickname}}</text>
-                <text>{{item.date}}</text>
+                <text>{{item.createdAt}}</text>
               </view>
               <view @tap="bindLike({{item}})" class="right">
                 <image src="{{item.isLiked == 'true'?pageType == 2?'../../img/icon_liked.png':'../../img/liked.png':pageType ==2?'../../img/icon_like.png':'../../img/like.png'}}"/>
@@ -47,7 +47,7 @@
   import commonApi from '../../mixins/commonApi'
   import {httpUrl} from '../../utils/httpUrl'
 
-  export default class Comments extends wepy.page {
+  export default class comments extends wepy.page {
     config = {
       navigationBarTitleText: '共0条评论',
     };
@@ -63,9 +63,10 @@
           avatar: '../../img/swiper1.jpg',
           nickname: 'Amanda',
           date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'true',
+          comment: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+          createdAt:'',
+          thumbNum: '3',
+          isLike: true,
           replyList: []
         },
         {
@@ -188,7 +189,8 @@
       commentItem:{},
       item:{},
       isReply:'false',
-      pageType:1,
+      pageType:'',
+      id:'',
     };
 
     methods = {
@@ -213,8 +215,15 @@
           });
           return;
         }
-        console.log(this.inputValue);
-        this.inputValue = '';
+        // console.log(this.inputValue);
+        let data = {
+          'target':this.pageType,
+          'targetId':this.id,
+          'content':this.inputValue
+        };
+        this.sendRequest(httpUrl.comments,'POST',data,res =>{
+          this.inputValue = '';
+        })
       }
     };
 
@@ -222,8 +231,20 @@
       this.$navigate('../login');
     }
 
-    onShow() {
-
+    getComments(){
+      let data = {
+        'target':this.pageType,
+        'targetId':this.id,
+        'page':1,
+        'number':10000
+      };
+      this.sendRequest(httpUrl.comments,'GET',data,res =>{
+        this.commentList = res;
+        wx.setNavigationBarTitle({
+          title: '共' + this.commentList.length + '条评论'
+        });
+        this.$apply();
+      })
     }
 
     onLoad(options, data) {
@@ -235,20 +256,22 @@
       console.log("options",options);
       this.isReply = options.isReply;
       this.pageType = options.pageType;
+      this.id = options.id;
       console.log("isReply",this.isReply);
       let title = '';
-      if (this.isReply == 'true') {
-        this.commentItem = options.preload.commentItem;
-        title = '共' + this.commentItem.replyList.length + '条回复';
-        console.log("commentItem",this.commentItem);
-      }else {
-        this.item  = options.preload.item;
-        title = '共' + this.item.commentList.length + '条评论';
-        console.log("item",this.item);
-      }
-      wx.setNavigationBarTitle({
-        title: title
-      });
+      // if (this.isReply && this.isReply == '1') {
+      //   this.commentItem = options.preload.commentItem;
+      //   title = '共' + this.commentItem.replyList.length + '条回复';
+      //   console.log("commentItem",this.commentItem);
+      // }else {
+      //   if (options.preload.item){
+      //     this.item  = options.preload.item;
+      //     title = '共' + this.item.commentList.length + '条评论';
+      //     console.log("item",this.item);
+      //   }
+      // }
+
+      this.getComments();
     }
   }
 </script>

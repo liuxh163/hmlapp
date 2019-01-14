@@ -15,8 +15,8 @@
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>
                   </view>
-                  <image class="thumb" src="{{item.image}}"/>
-                  <text class="desc">{{item.title}}</text>
+                  <image class="thumb" src="{{item.pictures[0].path}}"/>
+                  <text class="desc">{{item.content}}</text>
                   <view class="info">
                     <view class="avatar-container">
                       <image src="{{item.avatar}}"/>
@@ -24,7 +24,7 @@
                     </view>
                     <view class="like-container">
                       <image src="../img/icon_view.png"/>
-                      <text>{{item.view_num}}</text>
+                      <text>{{item.viewNum}}</text>
                     </view>
                   </view>
                 </view>
@@ -37,8 +37,8 @@
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>
                   </view>
-                  <image class="thumb" src="{{item.image}}"/>
-                  <text class="desc">{{item.title}}</text>
+                  <image class="thumb" src="{{item.pictures[0].path}}"/>
+                  <text class="desc">{{item.content}}</text>
                   <view class="info">
                     <view class="avatar-container">
                       <image src="{{item.avatar}}"/>
@@ -46,7 +46,7 @@
                     </view>
                     <view class="like-container">
                       <image src="../img/icon_view.png"/>
-                      <text>{{item.view_num}}</text>
+                      <text>{{item.viewNum}}</text>
                     </view>
                   </view>
                 </view>
@@ -112,6 +112,7 @@
   export default class Discovery extends wepy.page {
     config = {
       navigationBarTitleText: '发现',
+      enablePullDownRefresh:true,
       "usingComponents": {
         "van-tab": "../components/vant/tab/index",
         "van-tabs": "../components/vant/tabs/index"
@@ -257,10 +258,7 @@
         if (this.currentIndex == 0){
           this.$navigate("takePhoto");
         }else {
-          wx.showToast({
-            title: '发表说说',
-            icon: 'none'
-          });
+          this.$navigate('publishPost?pageType=2');
         }
       },
       onChange(e){
@@ -336,8 +334,38 @@
       this.$apply();
     }
 
+    getPosts(id) {
+      let postData = {
+        "pages": 1,
+        "pageNum": 10000
+      };
+      this.sendRequest(httpUrl.posts.replace(":id",id), 'GET', postData, res => {
+        wx.stopPullDownRefresh();
+        if (res) {
+          if (id == 1){
+            this.discoveryList = res.posts;
+            this.analyticalDiscoveryData(this.discoveryList);
+          }else {
+            this.talkAboutList = res.posts;
+          }
+          this.$apply();
+        }
+      },err =>{
+        wx.stopPullDownRefresh();
+      })
+    }
+
+    initData(){
+      this.getPosts(1);
+      this.getPosts(2);
+    }
+
     toLogin(){
       this.$navigate('login');
+    }
+
+    onPullDownRefresh(){
+      this.initData();
     }
 
     onLoad(options,data) {
@@ -353,7 +381,7 @@
         }
       });
 
-      this.analyticalDiscoveryData(this.discoveryList);
+      this.initData();
     }
   }
 </script>

@@ -53,7 +53,7 @@
           <!--</navigator>-->
         <!--</view>-->
       </view>
-      <block wx:key="item.id" wx:if="{{index < 2}}" wx:for="{{recommendList}}">
+      <block wx:key="item.id" wx:for="{{recommendList}}">
         <view class="recommend-item" @tap="bindItemRecommend({{item}})">
           <image class="thumb" src="{{item.cover_path}}"/>
           <view class="desc-container">
@@ -71,8 +71,9 @@
             <text class="price">¥ {{item.adultPrice}}</text>
             <text class="unit"> ／人起</text>
             <view class="tag">
-              <text>混浴汤泉</text>
-              <text>混浴汤泉</text>
+              <block wx:if="{{tagIndex < 2}}" wx:for-index="tagIndex" wx:for-item="tagItem" wx:key="tagItem.id" wx:for="{{item.tags}}">
+                <text>{{tagItem.name}}</text>
+              </block>
             </view>
           </view>
           <view class="offer-view">
@@ -115,8 +116,8 @@
                 <image src="../img/location.png"/>
                 <text>{{item.location}}</text>
               </view>
-              <image class="thumb" src="{{item.image}}"/>
-              <text class="desc">{{item.title}}</text>
+              <image class="thumb" src="{{item.pictures[0].path}}"/>
+              <text class="desc">{{item.content}}</text>
               <view class="info">
                 <view class="avatar-container">
                   <image src="{{item.avatar}}"/>
@@ -137,8 +138,8 @@
                 <image src="../img/location.png"/>
                 <text>{{item.location}}</text>
               </view>
-              <image class="thumb" src="{{item.image}}"/>
-              <text class="desc">{{item.desc}}</text>
+              <image class="thumb" src="{{item.pictures[0].path}}"/>
+              <text class="desc">{{item.content}}</text>
               <view class="info">
                 <view class="avatar-container">
                   <image src="{{item.avatar}}"/>
@@ -198,62 +199,62 @@
       ],
       currentIndex: 0,
       recommendList: [
-        {
-          id: '1001',
-          cover_path: '../img/swiper1.jpg',
-          slogan: '联合大阪阪和医院特别推出高品质体检',
-          price: '28600',
-          comment_num: '15',
-          praise_num: '3'
-        },
-        {
-          id: '1002',
-          cover_path: '../img/swiper2.jpg',
-          slogan: '联合大阪阪和医院特别推出高品质体检体检舒适行',
-          price: '28600',
-          comment_num: '15',
-          praise_num: '3'
-        },
+        // {
+        //   id: '1001',
+        //   cover_path: '../img/swiper1.jpg',
+        //   slogan: '联合大阪阪和医院特别推出高品质体检',
+        //   price: '28600',
+        //   comment_num: '15',
+        //   praise_num: '3'
+        // },
+        // {
+        //   id: '1002',
+        //   cover_path: '../img/swiper2.jpg',
+        //   slogan: '联合大阪阪和医院特别推出高品质体检体检舒适行',
+        //   price: '28600',
+        //   comment_num: '15',
+        //   praise_num: '3'
+        // },
       ],
       discoveryListLeft: [],
       discoveryListRight: [],
       discoveryList: [
-        {
-          id: '1001',
-          image: '../img/swiper1.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          thumbNum: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1002',
-          image: '../img/swiper1.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          thumbNum: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1003',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          thumbNum: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1004',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          thumbNum: '3',
-          location: '日本 东京'
-        }
+        // {
+        //   id: '1001',
+        //   image: '../img/swiper1.jpg',
+        //   title: '东京健康体检之旅开始啦健康体检之旅开始啦',
+        //   avatar: '../img/swiper1.jpg',
+        //   posterName: 'Amanda',
+        //   thumbNum: '3',
+        //   location: '日本 东京'
+        // },
+        // {
+        //   id: '1002',
+        //   image: '../img/swiper1.jpg',
+        //   title: '东京健康体检之旅开始啦健康体检之旅开始啦',
+        //   avatar: '../img/swiper1.jpg',
+        //   posterName: 'Amanda',
+        //   thumbNum: '3',
+        //   location: '日本 东京'
+        // },
+        // {
+        //   id: '1003',
+        //   image: '../img/swiper2.jpg',
+        //   title: '东京健康体检之旅开始啦健康体检之旅开始啦',
+        //   avatar: '../img/swiper1.jpg',
+        //   posterName: 'Amanda',
+        //   thumbNum: '3',
+        //   location: '日本 东京'
+        // },
+        // {
+        //   id: '1004',
+        //   image: '../img/swiper2.jpg',
+        //   title: '东京健康体检之旅开始啦健康体检之旅开始啦',
+        //   avatar: '../img/swiper1.jpg',
+        //   posterName: 'Amanda',
+        //   thumbNum: '3',
+        //   location: '日本 东京'
+        // }
       ],
       postsReqOver:false,
       productsReqOver:false,
@@ -322,7 +323,7 @@
     getPosts() {
       let postData = {
         "pages": 1,
-        "pageNum": 4
+        "pageNum": 100
       };
       this.postsReqOver = false;
       this.sendRequest(httpUrl.posts.replace(":id","1"), 'GET', postData, res => {
@@ -347,8 +348,9 @@
     // 获取推荐数据
     getRecommendData(){
       let data = {
-        "limit": 2,
-        "sort_type": "03"
+        "sort": "03",
+        "page":1,
+        "number":2,
       };
       this.productsReqOver = false;
       this.sendRequest(httpUrl.getProducts, 'GET', data, res => {

@@ -100,7 +100,7 @@
         <view class="common code">
           <image src="../img/icon_lock.png"/>
           <view class="line"></view>
-          <input name="code" placeholder="验证码" placeholder-style="color:#CECECE"
+          <input name="code" value="{{codeValue}}" placeholder="验证码" placeholder-style="color:#CECECE"
                  type="number" confirm-type="done" maxlength="6"/>
           <view class="line"></view>
           <button id="code" disabled="{{codeDisabled}}" loading="{{codeLoading}}" form-type="submit" class="send-code">{{codeText}}</button>
@@ -136,6 +136,7 @@
       codeDisabled:false,
       codeLoading:false,
       interval:null,
+      codeValue:'',
     };
 
     methods = {
@@ -208,6 +209,7 @@
         wx.showToast({
           title: '验证码已发送'
         });
+        this.codeValue = res.smscode;
         this.codeText = "60秒";
         if (this.interval){
           clearInterval(this.interval);
