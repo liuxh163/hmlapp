@@ -4,14 +4,14 @@
   <view class="main">
     <view class="comments-view">
       <block wx:key="item.id" wx:for="{{commentList}}">
-        <view class="comment-item">
+        <view class="comment-item" @tap="bindViewReply({{item}})">
           <view>
-            <image class="avatar" src="{{item.avatar}}"/>
+            <image mode="aspectFill" class="avatar" src="{{item.iconPath}}"/>
           </view>
           <view class="content">
             <view class="first-line">
               <view class="left">
-                <text>{{item.nickname}}</text>
+                <text>{{item.userName}}</text>
                 <text>{{item.createdAt}}</text>
               </view>
               <view @tap="bindLike({{item}})" class="right">
@@ -34,6 +34,7 @@
           </view>
         </view>
       </block>
+      <view></view>
     </view>
     <view class="send-comment">
       <input maxlength="1000" value="{{inputValue}}" placeholder="我也想评论几句" bindinput="bindinput" />
@@ -58,133 +59,133 @@
     data = {
       inputValue:'',
       commentList: [
-        {
-          id: '1001',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          comment: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          createdAt:'',
-          thumbNum: '3',
-          isLike: true,
-          replyList: []
-        },
-        {
-          id: '1002',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'false',
-          replyList: [
-            {
-              replyID:'2004',
-              replyNickname: '中华美少女',
-              beReplyNickname: '',
-              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-            },
-            {
-              replyID:'2005',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-            {
-              replyID:'2006',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-          ]
-        },
-        {
-          id: '1003',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'true',
-          replyList: [
-            {
-              replyID:'2007',
-              replyNickname: '中华美少女',
-              beReplyNickname: '',
-              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-            },
-            {
-              replyID:'2008',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-            {
-              replyID:'2009',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-          ]
-        },
-        {
-          id: '1004',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'true',
-          replyList: [
-            {
-              replyID:'2010',
-              replyNickname: '中华美少女',
-              beReplyNickname: '',
-              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-            },
-            {
-              replyID:'2011',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-            {
-              replyID:'2012',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-          ]
-        },
-        {
-          id: '1005',
-          avatar: '../../img/swiper1.jpg',
-          nickname: 'Amanda',
-          date: '12-23',
-          commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-          likeNum: '3',
-          isLiked: 'true',
-          replyList: [
-            {
-              replyID:'2013',
-              replyNickname: '中华美少女',
-              beReplyNickname: '',
-              replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-            },
-            {
-              replyID:'2014',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-            {
-              replyID:'2015',
-              replyNickname: '礼花',
-              beReplyNickname: '中华美少女',
-              replayContent: '不错不错，我也安排。',
-            },
-          ]
-        },
+        // {
+        //   id: '1001',
+        //   avatar: '../../img/swiper1.jpg',
+        //   nickname: 'Amanda',
+        //   date: '12-23',
+        //   comment: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+        //   createdAt:'',
+        //   thumbNum: '3',
+        //   isLike: true,
+        //   replyList: []
+        // },
+        // {
+        //   id: '1002',
+        //   avatar: '../../img/swiper1.jpg',
+        //   nickname: 'Amanda',
+        //   date: '12-23',
+        //   commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+        //   likeNum: '3',
+        //   isLiked: 'false',
+        //   replyList: [
+        //     {
+        //       replyID:'2004',
+        //       replyNickname: '中华美少女',
+        //       beReplyNickname: '',
+        //       replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+        //     },
+        //     {
+        //       replyID:'2005',
+        //       replyNickname: '礼花',
+        //       beReplyNickname: '中华美少女',
+        //       replayContent: '不错不错，我也安排。',
+        //     },
+        //     {
+        //       replyID:'2006',
+        //       replyNickname: '礼花',
+        //       beReplyNickname: '中华美少女',
+        //       replayContent: '不错不错，我也安排。',
+        //     },
+        //   ]
+        // },
+        // {
+        //   id: '1003',
+        //   avatar: '../../img/swiper1.jpg',
+        //   nickname: 'Amanda',
+        //   date: '12-23',
+        //   commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+        //   likeNum: '3',
+        //   isLiked: 'true',
+        //   replyList: [
+        //     {
+        //       replyID:'2007',
+        //       replyNickname: '中华美少女',
+        //       beReplyNickname: '',
+        //       replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+        //     },
+        //     {
+        //       replyID:'2008',
+        //       replyNickname: '礼花',
+        //       beReplyNickname: '中华美少女',
+        //       replayContent: '不错不错，我也安排。',
+        //     },
+        //     {
+        //       replyID:'2009',
+        //       replyNickname: '礼花',
+        //       beReplyNickname: '中华美少女',
+        //       replayContent: '不错不错，我也安排。',
+        //     },
+        //   ]
+        // },
+        // {
+        //   id: '1004',
+        //   avatar: '../../img/swiper1.jpg',
+        //   nickname: 'Amanda',
+        //   date: '12-23',
+        //   commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+        //   likeNum: '3',
+        //   isLiked: 'true',
+        //   replyList: [
+        //     {
+        //       replyID:'2010',
+        //       replyNickname: '中华美少女',
+        //       beReplyNickname: '',
+        //       replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+        //     },
+        //     {
+        //       replyID:'2011',
+        //       replyNickname: '礼花',
+        //       beReplyNickname: '中华美少女',
+        //       replayContent: '不错不错，我也安排。',
+        //     },
+        //     {
+        //       replyID:'2012',
+        //       replyNickname: '礼花',
+        //       beReplyNickname: '中华美少女',
+        //       replayContent: '不错不错，我也安排。',
+        //     },
+        //   ]
+        // },
+        // {
+        //   id: '1005',
+        //   avatar: '../../img/swiper1.jpg',
+        //   nickname: 'Amanda',
+        //   date: '12-23',
+        //   commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
+        //   likeNum: '3',
+        //   isLiked: 'true',
+        //   replyList: [
+        //     {
+        //       replyID:'2013',
+        //       replyNickname: '中华美少女',
+        //       beReplyNickname: '',
+        //       replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
+        //     },
+        //     {
+        //       replyID:'2014',
+        //       replyNickname: '礼花',
+        //       beReplyNickname: '中华美少女',
+        //       replayContent: '不错不错，我也安排。',
+        //     },
+        //     {
+        //       replyID:'2015',
+        //       replyNickname: '礼花',
+        //       beReplyNickname: '中华美少女',
+        //       replayContent: '不错不错，我也安排。',
+        //     },
+        //   ]
+        // },
       ],
       commentItem:{},
       item:{},
@@ -216,14 +217,29 @@
           return;
         }
         // console.log(this.inputValue);
-        let data = {
-          'target':this.pageType,
-          'targetId':this.id,
-          'content':this.inputValue
-        };
-        this.sendRequest(httpUrl.comments,'POST',data,res =>{
-          this.inputValue = '';
-        })
+        if (this.isReply == 'true'){
+          let data = {
+            'target':'05',
+            'targetId':this.commentItem.id,
+            'content':this.inputValue
+          };
+          this.sendRequest(httpUrl.comments,'POST',data,res =>{
+            this.inputValue = '';
+            this.commentItem.replyList;
+            this.$apply();
+          })
+        }else {
+          let data = {
+            'target':this.pageType,
+            'targetId':this.id,
+            'content':this.inputValue
+          };
+          this.sendRequest(httpUrl.comments,'POST',data,res =>{
+            this.inputValue = '';
+            this.$apply();
+            this.getComments();
+          })
+        }
       }
     };
 
@@ -247,6 +263,12 @@
       })
     }
 
+    onShow(){
+      if (this.isReply == 'false'){
+        this.getComments();
+      }
+    }
+
     onLoad(options, data) {
       if (!options.preload) {
         options.preload = data.preload;
@@ -259,19 +281,14 @@
       this.id = options.id;
       console.log("isReply",this.isReply);
       let title = '';
-      // if (this.isReply && this.isReply == '1') {
-      //   this.commentItem = options.preload.commentItem;
-      //   title = '共' + this.commentItem.replyList.length + '条回复';
-      //   console.log("commentItem",this.commentItem);
-      // }else {
-      //   if (options.preload.item){
-      //     this.item  = options.preload.item;
-      //     title = '共' + this.item.commentList.length + '条评论';
-      //     console.log("item",this.item);
-      //   }
-      // }
-
-      this.getComments();
+      if (this.isReply && this.isReply == 'true') {
+        this.commentItem = options.preload.commentItem;
+        title = '共' + this.commentItem.replyList.length + '条回复';
+        // console.log("commentItem",this.commentItem);
+        wx.setNavigationBarTitle({
+          title: title
+        });
+      }
     }
   }
 </script>

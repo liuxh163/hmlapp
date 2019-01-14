@@ -274,10 +274,10 @@
         this.$navigate("nationProducts?nation=" + item.nation+"&title=" + item.title);
       },
       bindTurnSearch() {
-        wx.showToast({
-          title: '跳转到搜索页面',
-          icon: 'none'
-        });
+        // wx.showToast({
+        //   title: '跳转到搜索页面',
+        //   icon: 'none'
+        // });
       },
       bindTurnFun(type) {
         console.log(type);
