@@ -1,6 +1,8 @@
 @import "base";
 
 .medical-exam{
+  position: relative;
+  height: px2rpx(667);
   padding-bottom: px2rpx(60);
 }
 
@@ -281,10 +283,14 @@
     border-bottom-color: #E3E3E3 !important;
   }
 }
+.fixed-class{
+  .van-tabs__wrap{
+    position: fixed !important;
+  }
+}
 
 .scroll-view-tab{
   position: relative;
-  //height: px2rpx(667);
   .common{
     display: flex;
     flex-direction: column;
