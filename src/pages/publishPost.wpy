@@ -49,7 +49,7 @@
       address:'',
       qqmapsdk:null,
       uploadPromise:null,
-      pageType:'1',
+      type:2,
     };
 
     mixins = [commonApi,utils,upload];
@@ -59,7 +59,7 @@
         let value = e.detail.value;
         let content = value.content;
 
-        if (this.pageType == 1){
+        if (this.type == 1){
           // 发现
           if (this.photoImages && this.photoImages.length > 0) {
             this.uploadImage(this.photoImages,ids =>{
@@ -70,7 +70,7 @@
                 "location":this.address,
                 "picIds":this.uploadedImages,
               };
-              this.sendRequest(httpUrl.posts.replace(":id",this.pageType),'POST',data,res =>{
+              this.sendRequest(httpUrl.posts.replace(":id",this.type),'POST',data,res =>{
                 wx.showToast({
                   title: '发表成功',
                   icon: 'none'
@@ -98,7 +98,7 @@
                   "location":this.address,
                   picIds:this.uploadedImages,
                 };
-                this.sendRequest(httpUrl.posts.replace(":id",this.pageType),'POST',data,res =>{
+                this.sendRequest(httpUrl.posts.replace(":id",this.type),'POST',data,res =>{
                   wx.showToast({
                     title: '发表成功',
                     icon: 'none'
@@ -113,7 +113,7 @@
                 "content":content,
                 "location":this.address,
               };
-              this.sendRequest(httpUrl.posts.replace(":id",this.pageType),'POST',data,res =>{
+              this.sendRequest(httpUrl.posts.replace(":id",this.type),'POST',data,res =>{
                 wx.showToast({
                   title: '发表成功',
                   icon: 'none'
@@ -202,10 +202,13 @@
       });
       this.chooseLocation();
 
-      if (options.photoImageSrc) {
-        this.photoImages.push(options.photoImageSrc);
+      if (options.photoImages && options.photoImages.length > 0) {
+        this.photoImages.concat(options.photoImages);
       }
-      this.pageType = options.pageType;
+      console.log("photoImages", this.photoImages);
+      if (options.type) {
+        this.type = options.type;
+      }
       this.$apply();
 
     }

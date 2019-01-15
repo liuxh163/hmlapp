@@ -13,5 +13,6 @@ let httpUrl = {
   "getTags":"/api/v1/tags",               // 查询标签列表
   "thumbs":"/api/v1/thumbs",              // 点赞
   "getMinePosts":"/api/v1/posts/get/mine",//获取我的帖子
+  "getLikeList":"/api/vi/posts/get/getLikerList", // 获取帖子点赞列表
 };
 export {httpUrl}

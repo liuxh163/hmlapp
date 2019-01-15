@@ -10,7 +10,7 @@
           <view class="discovery-container">
             <view class="left-container content-container">
               <block wx:key="item.id" wx:for="{{discoveryListLeft}}">
-                <view class="discovery-item" @tap="bindItem(1,{{item.id}})">
+                <view class="discovery-item" @tap="bindItem(1,{{item}})">
                   <view class="location">
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>
@@ -60,7 +60,7 @@
           <block wx:key="item.id" wx:for="{{talkAboutList}}">
             <view class="item-view" @tap="bindItem(2,{{item}})">
               <view class="avatar-container">
-                <image class="avatar" src="{{item.iconPath}}"></image>
+                <image mode="aspectFill" class="avatar" src="{{item.iconPath}}"></image>
                 <text>{{item.userName}}</text>
               </view>
               <text class="content">{{item.content}}</text>
@@ -238,8 +238,8 @@
 
     getPosts(id) {
       let postData = {
-        "pages": 1,
-        "pageNum": 10000
+        "page": 1,
+        "number": 10000
       };
       this.sendRequest(httpUrl.posts.replace(":id",id), 'GET', postData, res => {
         wx.stopPullDownRefresh();

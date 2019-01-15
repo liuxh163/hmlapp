@@ -14,7 +14,7 @@
                 <text>{{item.userName}}</text>
                 <text>{{item.createdAt}}</text>
               </view>
-              <view catchtap="bindLike({{item}})" class="right">
+              <view catchtap="bindLike({{index}})" class="right">
                 <image src="{{item.isLike?type == 1?'../../img/icon_liked.png':'../../img/liked.png':type ==1?'../../img/icon_like.png':'../../img/like.png'}}"/>
                 <text class="{{item.isLike?'liked':''}}">{{item.thumbNum}}</text>
               </view>
@@ -68,7 +68,8 @@
     };
 
     methods = {
-      bindLike(item){
+      bindLike(index){
+        let item = this.commentList[index];
         let data = {
           'target':'05',
           'targetId':item.id
@@ -84,6 +85,7 @@
           }
           item.isLike = !item.isLike;
           this.$apply();
+          this.isReComments = true;
         })
       },
       bindViewReply(commentItem){
@@ -158,6 +160,9 @@
 
       this.pageType = options.pageType;
       this.id = options.id;
+      if (options.type) {
+        this.type = options.type;
+      }
 
       this.getComments();
     }

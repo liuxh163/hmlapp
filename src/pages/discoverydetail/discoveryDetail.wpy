@@ -53,10 +53,10 @@
     <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;"></view>
     <view class="detail-container">
       <view class="avatar-container">
-        <image class="avatar" src="../../img/swiper1.jpg"></image>
+        <image mode="aspectFill" class="avatar" src="{{item.iconPath}}"></image>
         <view class="name-date">
-          <text>{{item.posterName}}</text>
-          <text>{{item.postDate}} 来自iphone</text>
+          <text>{{item.userName}}</text>
+          <text>{{item.createdAt}}</text>
         </view>
         <view class="location-view">
           <image src="../../img/location_gray.png"/>
@@ -66,10 +66,10 @@
       <view class="swiper-view">
         <swiper bindchange="bindchange" autoplay indicator-dots
                 indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
-          <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
+          <block wx:key="imageItem.id" wx:for-item="imageItem" wx:for="{{item.pictures}}">
             <swiper-item @tap="bindSwiperItemTap">
               <view class="swiper-item">
-                <image mode="aspectFill" src="{{imageItem}}"/>
+                <image mode="aspectFill" src="{{imageItem.path}}"/>
               </view>
             </swiper-item>
           </block>
@@ -79,12 +79,12 @@
       <view class="tag" wx:if="{{item.isHot}}">
         <text>热</text>
       </view>
-      <view class="like-list">
+      <view class="like-list" wx:if="{{likeList.length > 0}}">
         <image src="../../img/icon_like.png"/>
-        <block wx:key="likeItem" wx:for-item="likeItem" wx:for="{{item.likeList}}">
+        <block wx:key="likeItem" wx:for-item="likeItem" wx:for="{{likeList}}">
           <text>{{likeItem}}</text>
-          <text wx:if="{{index != (item.likeList.length - 1)}}">，</text>
-          <text wx:else>等{{item.likeList.length}}人赞过</text>
+          <text wx:if="{{index != (likeList.length - 1)}}">，</text>
+          <text wx:else>等{{item.thumbNum}}人赞过</text>
         </block>
       </view>
     </view>
@@ -95,36 +95,39 @@
     </view>
     <view class="main">
       <view class="comments-view">
-        <block wx:key="commentItem.id" wx:for-item="commentItem" wx:for="{{item.commentList}}">
+        <block wx:key="commentItem.id" wx:for-item="commentItem" wx:for="{{wonderfulCommentList}}" wx:if="{{wonderfulCommentList.length > 0}}">
           <view class="comment-item">
             <view>
-              <image class="avatar" src="{{commentItem.avatar}}"/>
+              <image mode="aspectFill" class="avatar" src="{{commentItem.iconPath}}"/>
             </view>
             <view class="content">
               <view class="first-line">
                 <view class="left">
-                  <text>{{commentItem.nickname}}</text>
-                  <text>{{commentItem.date}}</text>
+                  <text>{{commentItem.userName}}</text>
+                  <text>{{commentItem.createdAt}}</text>
                 </view>
-                <view @tap="bindLike({{commentItem}})" class="right">
-                  <image src="{{commentItem.isLiked == 'true'?'../../img/icon_liked.png':'../../img/icon_like.png'}}"/>
-                  <text class="{{commentItem.isLiked == 'true'?'liked':''}}">{{commentItem.likeNum}}</text>
+                <view @tap="bindLike('05',{{commentItem.id}},{{index}})" class="right">
+                  <image src="{{commentItem.isLike?'../../img/icon_liked.png':'../../img/icon_like.png'}}"/>
+                  <text class="{{commentItem.isLike?'liked':''}}">{{commentItem.thumbNum}}</text>
                 </view>
               </view>
-              <text class="comment-content">{{commentItem.commentContent}}</text>
+              <text class="comment-content">{{commentItem.content}}</text>
               <view class="replies-view" wx:if="{{commentItem.replyList && commentItem.replyList.length>0}}">
-                <block wx:key="replyItem.replyID" wx:for-item="replyItem" wx:for="{{commentItem.replyList}}">
+                <block wx:key="replyItem.id" wx:for-index="itemIndex" wx:if="{{itemIndex < 2}}" wx:for-item="replyItem" wx:for="{{commentItem.replyList}}">
                   <view class="reply-item">
                     <text class="reply-name">{{replyItem.replyNickname}}{{replyItem.beReplyNickname?'':': '}}</text>
                     <text class="reply-text" wx:if="{{replyItem.beReplyNickname}}"> 回复 </text>
                     <text class="be-reply-name" wx:if="{{replyItem.beReplyNickname}}">@{{replyItem.beReplyNickname}}</text>
-                    <text class="reply-content">{{replyItem.beReplyNickname?': ':''}}{{replyItem.replayContent}}</text>
+                    <text class="reply-content">{{replyItem.beReplyNickname?': ':''}}{{replyItem.content}}</text>
                   </view>
                 </block>
                 <text @tap="bindViewReply({{commentItem}})" class="view-reply">查看{{commentItem.replyList.length}}条回复 ></text>
               </view>
             </view>
           </view>
+        </block>
+        <block wx:if="{{wonderfulCommentList.length <= 0}}">
+          <view class="empty-data-view">还没有精彩评论，快去评论吧！</view>
         </block>
       </view>
       <view class="send-comment">
@@ -136,14 +139,14 @@
             <image src="../../img/icon_view.png"/>
             <text>{{item.viewNum}}</text>
           </view>
-          <view class="common like-view">
-            <image src="../../img/icon_like.png"/>
-            <text>{{item.likeNum}}</text>
+          <view class="common like-view" @tap="bindLike('02',{{item.id}})">
+            <image src="{{item.isLike?'../../img/icon_liked.png':'../../img/icon_like.png'}}"/>
+            <text>{{item.thumbNum}}</text>
           </view>
-          <navigator url="comments?type=1">
+          <navigator url="comments?type=1&pageType=02&id={{item.id}}">
           <view class="common comment-view">
             <image src="../../img/comment.png"/>
-            <text>{{item.commentNum}}</text>
+            <text>{{commentList.length}}</text>
           </view>
           </navigator>
         </view>
@@ -168,156 +171,44 @@
     data = {
       inputFocus:false,
       inputValue:"",
-      item:{
-        id:'2001',
-        location:'日本 东京',
-        content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
-        posterName:'Amanda',
-        postDate:'12-23',
-        imageList:[
-          '../../img/swiper1.jpg',
-          '../../img/swiper2.jpg',
-          '../../img/swiper3.jpg',
-          '../../img/swiper2.jpg',
-          '../../img/swiper3.jpg',
-        ],
-        likeList:["风的福利之路","BAsing","Evilang","才爸","跑不赢兔子的果妞","卡特的老虎","足球宝贝"],
-        viewNum:120,
-        likeNum:3,
-        commentNum:15,
-        isHot:false,
-        commentList: [
-          {
-            id: '1001',
-            avatar: '../../img/swiper1.jpg',
-            nickname: 'Amanda',
-            date: '12-23',
-            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-            likeNum: '3',
-            isLiked: 'true',
-            replyList: []
-          },
-          {
-            id: '1002',
-            avatar: '../../img/swiper1.jpg',
-            nickname: 'Amanda',
-            date: '12-23',
-            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-            likeNum: '3',
-            isLiked: 'false',
-            replyList: [
-              {
-                replyID:'2004',
-                replyNickname: '中华美少女',
-                beReplyNickname: '',
-                replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-              },
-              {
-                replyID:'2005',
-                replyNickname: '礼花',
-                beReplyNickname: '中华美少女',
-                replayContent: '不错不错，我也安排。',
-              },
-              {
-                replyID:'2006',
-                replyNickname: '礼花',
-                beReplyNickname: '中华美少女',
-                replayContent: '不错不错，我也安排。',
-              },
-            ]
-          },
-          {
-            id: '1003',
-            avatar: '../../img/swiper1.jpg',
-            nickname: 'Amanda',
-            date: '12-23',
-            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-            likeNum: '3',
-            isLiked: 'true',
-            replyList: [
-              {
-                replyID:'2007',
-                replyNickname: '中华美少女',
-                beReplyNickname: '',
-                replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-              },
-              {
-                replyID:'2008',
-                replyNickname: '礼花',
-                beReplyNickname: '中华美少女',
-                replayContent: '不错不错，我也安排。',
-              },
-              {
-                replyID:'2009',
-                replyNickname: '礼花',
-                beReplyNickname: '中华美少女',
-                replayContent: '不错不错，我也安排。',
-              },
-            ]
-          },
-          {
-            id: '1004',
-            avatar: '../../img/swiper1.jpg',
-            nickname: 'Amanda',
-            date: '12-23',
-            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-            likeNum: '3',
-            isLiked: 'true',
-            replyList: [
-              {
-                replyID:'2010',
-                replyNickname: '中华美少女',
-                beReplyNickname: '',
-                replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-              },
-              {
-                replyID:'2011',
-                replyNickname: '礼花',
-                beReplyNickname: '中华美少女',
-                replayContent: '不错不错，我也安排。',
-              },
-              {
-                replyID:'2012',
-                replyNickname: '礼花',
-                beReplyNickname: '中华美少女',
-                replayContent: '不错不错，我也安排。',
-              },
-            ]
-          },
-          {
-            id: '1005',
-            avatar: '../../img/swiper1.jpg',
-            nickname: 'Amanda',
-            date: '12-23',
-            commentContent: '东京健康体检之旅开始啦健康体检之旅开始东京健康体检之旅开始啦健康体检之旅开始啦。',
-            likeNum: '3',
-            isLiked: 'true',
-            replyList: [
-              {
-                replyID:'2013',
-                replyNickname: '中华美少女',
-                beReplyNickname: '',
-                replayContent: '不错不错，我也安排一次。不错不 错，我也安排一次。',
-              },
-              {
-                replyID:'2014',
-                replyNickname: '礼花',
-                beReplyNickname: '中华美少女',
-                replayContent: '不错不错，我也安排。',
-              },
-              {
-                replyID:'2015',
-                replyNickname: '礼花',
-                beReplyNickname: '中华美少女',
-                replayContent: '不错不错，我也安排。',
-              },
-            ]
-          },
-        ],
-      },
+      item:{},
+      commentList: [],
+      wonderfulCommentList:[],
+      likeList:[],
     };
 
     methods = {
+      bindLike(target,targetId,index){
+        let data = {
+          'target':target,
+          'targetId':targetId
+        };
+        this.sendRequest(httpUrl.thumbs,'PUT',data,res =>{
+          if (target == '02') {
+            if (this.item.isLike){
+              this.item.thumbNum--;
+              if (this.item.thumbNum < 0){
+                this.item.thumbNum = 0;
+              }
+            }else {
+              this.item.thumbNum++;
+            }
+            this.item.isLike = !this.item.isLike;
+          }else {
+            let commentItem = this.wonderfulCommentList[index];
+            if (commentItem.isLike){
+              commentItem.thumbNum--;
+              if (commentItem.thumbNum < 0){
+                commentItem.thumbNum = 0;
+              }
+            }else {
+              commentItem.thumbNum++;
+            }
+            commentItem.isLike = !commentItem.isLike;
+          }
+          this.$apply();
+        })
+      },
       bindSend(){
         if (!this.inputValue) {
           wx.showToast({
@@ -326,8 +217,17 @@
           });
           return;
         }
-        console.log(this.inputValue);
-        this.inputValue = '';
+        // console.log(this.inputValue);
+        let data = {
+          'target':'02',
+          'targetId':this.item.id,
+          'content':this.inputValue
+        };
+        this.sendRequest(httpUrl.comments,'POST',data,res =>{
+          this.inputValue = '';
+          this.$apply();
+          this.getComments();
+        })
       },
       bindinput(e){
         this.inputValue = e.detail.value;
@@ -353,12 +253,51 @@
       }
     };
 
-    toLogin() {
-      this.$navigate('../login');
+    initData(){
+      this.getLikeList();
+      this.getComments();
     }
 
-    onShow() {
-      this.$preload('item', this.item);
+    getLikeList(){
+      let data = {
+        'id':this.item.id,
+      };
+      this.sendRequest(httpUrl.getLikeList,'GET',data,res =>{
+        this.likeList = res;
+        this.$apply();
+      })
+    }
+
+    getWonderfulComments(){
+      this.wonderfulCommentList = this.commentList.filter(function (item) {
+        return item.thumbNum > 0;
+      });
+
+      this.wonderfulCommentList = this.wonderfulCommentList.sort(function (a,b) {
+        return a.thumbNum - b.thumbNum;
+      });
+      console.log("wonderfulCommentList",this.wonderfulCommentList);
+      this.$apply();
+    }
+
+    getComments(){
+      let data = {
+        'target':'02',
+        'targetId':this.item.id,
+        'page':1,
+        'number':10000
+      };
+      this.sendRequest(httpUrl.comments,'GET',data,res =>{
+        this.commentList = res;
+        this.$apply();
+        if (this.commentList.length > 0){
+          this.getWonderfulComments();
+        }
+      })
+    }
+
+    toLogin() {
+      this.$navigate('../login');
     }
 
     onUnload(){
@@ -375,6 +314,10 @@
       }
       this.$wxpage.options = options;
 
+      this.item = options.preload.item;
+      this.$apply();
+
+      this.initData();
     }
   }
 </script>

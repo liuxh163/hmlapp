@@ -33,7 +33,7 @@
         <text>{{medicalExam.desc}}</text>
       </view>
       <view class="desc">
-        <text>日本体检优势项目，适合40岁以上人群</text>
+        <text>体检优势项目，适合40岁以上人群</text>
         <text>体检时长：4.5 小时</text>
         <text>免费提供全球意外险</text>
       </view>
@@ -135,6 +135,7 @@
       htmlContent1:'',
       htmlContent2:'',
       htmlContent3:'',
+      content2:'<img src="http://hmmedical.oss-cn-beijing.aliyuncs.com/3f174b40-18b1-11e9-8778-3b8a604f48f3.png">',
       topTabs:0,
       top0:0,
       top1:0,
@@ -255,7 +256,8 @@
 
       this.htmlContent0 = this.medicalExam.hospital;
       this.htmlContent1 = this.medicalExam.item;
-      this.htmlContent2 = this.medicalExam.experts;
+      this.htmlContent2 = this.content2;
+      console.log(this.htmlContent2);
       this.htmlContent3 = this.medicalExam.operations;
       this.$apply();
       this.$invoke('html2wxml', 'htmlParserNotice');

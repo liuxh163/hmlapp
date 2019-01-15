@@ -14,6 +14,8 @@ page {
       margin-left: px2rpx(11);
       margin-right: px2rpx(15);
       margin-bottom: px2rpx(20);
+      padding-bottom: px2rpx(10);
+      border-bottom: 1px #F2F2F2 solid;
       .avatar{
         width: px2rpx(32);
         height: px2rpx(32);
@@ -95,7 +97,7 @@ page {
             }
           }
           .view-reply{
-            margin: px2rpx(15) px2rpx(15) px2rpx(15) auto;
+            margin: px2rpx(10) px2rpx(15) px2rpx(10) auto;
             color: #FE9F05;
             font-size: px2rpx(12);
           }

@@ -2,7 +2,7 @@
 </style>
 <template>
   <view class="nation-products">
-    <view class="swiper-view">
+    <view class="swiper-view" wx:if="{{carousels.length > 0}}">
       <swiper bindchange="bindchange" autoplay indicator-dots
               indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#fff">
         <block wx:key="{{item.id}}" wx:for="{{carousels}}">
@@ -15,22 +15,22 @@
       </swiper>
     </view>
     <view class="recommend-view">
-      <block wx:key="item.id" wx:for="{{recommendList}}">
-        <view class="recommend-item" @tap="bindItemRecommend">
-          <image class="thumb" src="{{item.cover_path}}"/>
+      <block wx:key="item.id" wx:for="{{recommendList}}" wx:if="{{recommendList.length > 0}}">
+        <view class="recommend-item" @tap="bindItemRecommend({{item}})">
+          <image class="thumb" src="{{item.coverPic[0].path}}"/>
           <view class="desc-container">
-            <text class="desc">{{item.slogan}}</text>
+            <text class="desc">{{item.desc}}</text>
             <view class="like-comment">
               <image src="../img/icon_like.png"/>
-              <text>{{item.praise_num}}</text>
-              <view @tap="bindTurnComment({{item.id}})" class="comment-container">
+              <text>{{item.thumbNum}}</text>
+              <view class="comment-container">
                 <image class="comment-image" src="../img/comment.png"/>
-                <text>{{item.comment_num}}</text>
+                <text>{{item.commentNum}}</text>
               </view>
             </view>
           </view>
           <view class="data">
-            <text class="price">¥ {{item.price}}</text>
+            <text class="price">¥ {{item.adultPrice}}</text>
             <text class="unit"> ／人起</text>
             <view class="tag">
               <text>混浴汤泉</text>
@@ -54,6 +54,9 @@
           <!--</view>-->
         </view>
       </block>
+      <block wx:if="{{recommendList.length <= 0}}">
+        <view class="empty-data-view">暂无数据，请稍后再来</view>
+      </block>
     </view>
   </view>
 </template>
@@ -65,36 +68,16 @@
 
   export default class nationProducts extends wepy.page {
     config = {
-      navigationBarTitleText: '日本康养之旅'
+      navigationBarTitleText: '',
+      enablePullDownRefresh:true,
     };
     components = {};
 
     data = {
       nation:'',
+      carouselNation:'',
       carousels:[],
-      imgUrls: [
-        '../img/swiper1.jpg',
-        '../img/swiper2.jpg',
-        '../img/swiper3.jpg'
-      ],
-      recommendList: [
-        {
-          id: '1001',
-          cover_path: '../img/swiper1.jpg',
-          slogan: '联合大阪阪和医院特别推出高品质体检',
-          price: '28600',
-          comment_num: '15',
-          praise_num: '3'
-        },
-        {
-          id: '1002',
-          cover_path: '../img/swiper2.jpg',
-          slogan: '联合大阪阪和医院特别推出高品质体检体检舒适行',
-          price: '28600',
-          comment_num: '15',
-          praise_num: '3'
-        },
-      ],
+      recommendList: [],
     };
 
     mixins = [commonApi];
@@ -106,6 +89,9 @@
       bindSwiperItemTap(item){
 
       },
+      bindItemRecommend(item){
+        this.$navigate("medicalExamDetail?id=" + item.id);
+      }
     };
 
     toLogin() {
@@ -114,7 +100,7 @@
 
     getCarousels(){
       let data = {
-        location:this.nation,
+        location:this.carouselNation,
         productId:'',
       };
       this.sendRequest(httpUrl.getCarousels,'GET',data,res =>{
@@ -130,8 +116,13 @@
         sort_type:'01',
       };
       this.sendRequest(httpUrl.getProducts,'GET',data,res =>{
-
+        this.recommendList = res.products;
+        this.$apply();
       });
+    }
+
+    onPullDownRefresh(){
+      this.getProducts();
     }
 
     onLoad(options, data) {
@@ -141,6 +132,7 @@
       this.$wxpage.options = options;
 
       this.nation = options.nation;
+      this.carouselNation = options.carouselNation;
       console.log('nation',this.nation);
       wx.setNavigationBarTitle({
         title: options.title

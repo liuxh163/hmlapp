@@ -174,7 +174,10 @@
         this.showPreviewImage = false;
       },
       next(){
-        this.$redirect('publishPost?pageType=1&photoImageSrc=' + this.photoImageSrc);
+        let photoImages = [];
+        photoImages.push(this.photoImageSrc);
+        this.$preload('photoImages',photoImages);
+        this.$redirect('publishPost?type=1');
         let t = this;
         setTimeout(function () {
           t.showPreviewImage = false;
@@ -190,6 +193,8 @@
             // tempFilePath可以作为img标签的src属性显示图片
             const tempFilePaths = res.tempFilePaths;
             console.log("tempFilePaths",tempFilePaths);
+            this.$preload('photoImages',tempFilePaths);
+            this.$redirect('publishPost?type=1');
           }
         })
       },
@@ -204,14 +209,18 @@
         })
       },
       takeVideo(){
-        wx.chooseVideo({
-          sourceType: ['album', 'camera'],
-          maxDuration: 60,
-          camera: 'back',
-          success(res) {
-            console.log(res.tempFilePath)
-          }
-        })
+        wx.showToast({
+          title: '视频功能即将上线，敬请期待',
+          icon: 'none'
+        });
+        // wx.chooseVideo({
+        //   sourceType: ['album', 'camera'],
+        //   maxDuration: 60,
+        //   camera: 'back',
+        //   success(res) {
+        //     console.log(res.tempFilePath)
+        //   }
+        // })
       },
       error(e){
         console.log("error",e);
