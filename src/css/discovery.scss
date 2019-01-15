@@ -159,6 +159,12 @@
       margin: px2rpx(10) px2rpx(15);
       color: #333333;
       font-size: px2rpx(12);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      align-content: center;
     }
     .image-container{
       background-color: white;
