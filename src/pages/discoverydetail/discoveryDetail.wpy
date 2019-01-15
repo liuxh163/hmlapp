@@ -140,7 +140,7 @@
             <image src="../../img/icon_like.png"/>
             <text>{{item.likeNum}}</text>
           </view>
-          <navigator url="comments?isReply=false&pageType=2">
+          <navigator url="comments?type=1">
           <view class="common comment-view">
             <image src="../../img/comment.png"/>
             <text>{{item.commentNum}}</text>
@@ -340,7 +340,7 @@
       },
       bindViewReply(commentItem){
         this.$preload('commentItem', commentItem);
-        this.$navigate('comments?isReply=true&pageType=2');
+        this.$navigate('reply?type=2');
       },
       previewImage(currentPath,paths){
         wx.previewImage({
@@ -359,6 +359,14 @@
 
     onShow() {
       this.$preload('item', this.item);
+    }
+
+    onUnload(){
+      let pages = getCurrentPages();
+      let prevPage = pages[pages.length - 2];  //上一个页面
+      if (prevPage){
+        prevPage.initData();
+      }
     }
 
     onLoad(options, data) {

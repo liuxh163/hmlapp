@@ -116,7 +116,7 @@
                 <image src="../img/location.png"/>
                 <text>{{item.location}}</text>
               </view>
-              <image class="thumb" src="{{item.pictures[0].path}}"/>
+              <image mode="aspectFill" class="thumb" src="{{item.pictures[0].path}}"/>
               <text class="desc">{{item.content}}</text>
               <view class="info">
                 <view class="avatar-container">

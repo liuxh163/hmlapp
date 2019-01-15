@@ -83,7 +83,7 @@
             <image src="../../img/like.png"/>
             <text>{{item.likeNum}}</text>
           </view>
-          <navigator url="comments?isReply=false">
+          <navigator url="comments">
           <view class="common comment-view">
             <image src="../../img/comment.png"/>
             <text>{{item.commentNum}}</text>
@@ -282,7 +282,7 @@
       },
       bindViewReply(commentItem){
         this.$preload('commentItem', commentItem);
-        this.$navigate('comments?isReply=true');
+        this.$navigate('reply');
       },
       previewImage(currentPath,paths){
         wx.previewImage({

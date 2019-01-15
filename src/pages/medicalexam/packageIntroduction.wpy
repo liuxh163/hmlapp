@@ -26,7 +26,8 @@
   }
 </style>
 <template>
-  <scroll-view class="medical-exam" bindscroll="bindScroll" scroll-into-view="{{toView}}" scroll-with-animation scroll-y>
+  <scroll-view class="medical-exam" bindscroll="bindScroll" scroll-into-view="{{toView}}"
+               enable-back-to-top scroll-with-animation scroll-y>
     <view class="header">
       <view class="title">
         <text>{{medicalExam.desc}}</text>
@@ -146,9 +147,7 @@
     methods = {
       bindScroll(e){
         this.pageScrollTop = e.detail.scrollTop;
-        if (this.pageScrollTop >= this.top4) {
-          this.active = 4;
-        }else if (this.pageScrollTop >= this.top3){
+        if (this.pageScrollTop >= this.top3){
           this.active = 3;
         }else if (this.pageScrollTop >= this.top2){
           this.active = 2;
@@ -158,6 +157,7 @@
           this.active = 0;
         }
         // console.log("active",this.active);
+        this.toView = '';
         this.$apply();
       },
       onChange(e){
@@ -231,16 +231,6 @@
         // res[0].top       // #the-id节点的上边界坐标
         // res[1].scrollTop // 显示区域的竖直滚动位置
       });
-
-      var query4 = wx.createSelectorQuery();
-      query4.select('#view4').boundingClientRect();
-      query4.selectViewport().scrollOffset();
-      query4.exec(function(res){
-        _this.top4 = res[0].top;
-        console.log("view4",res[0].top);
-        // res[0].top       // #the-id节点的上边界坐标
-        // res[1].scrollTop // 显示区域的竖直滚动位置
-      });
     }
 
     toLogin(){
@@ -253,6 +243,7 @@
       }
       this.$wxpage.options = options;
 
+      console.log(options);
       this.medicalExam = options.preload.medicalExam;
       let t = this;
       wx.getSystemInfo({

@@ -9,8 +9,9 @@ let httpUrl = {
   "getCarousels":"/api/v1/carousels",     // 获取轮播图
   "getMine":"/api/v1/users/mine",         // 获取用户信息
   "upload":"/api/v1/upload",              // 上传文件
-  "comments":"/api/v1/comments",       // 发表评论
+  "comments":"/api/v1/comments",          // 发表评论
   "getTags":"/api/v1/tags",               // 查询标签列表
   "thumbs":"/api/v1/thumbs",              // 点赞
+  "getMinePosts":"/api/v1/posts/get/mine",//获取我的帖子
 };
 export {httpUrl}

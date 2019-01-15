@@ -37,7 +37,8 @@
         'pages/mine',   // 我的
         'pages/hmgold/healthGold',  // 海马金
         'pages/hmgold/productIntroduction', // 海马金介绍和申请
-        'pages/discoverydetail/comments',   // 评论和回复
+        'pages/discoverydetail/comments',   // 评论
+        'pages/discoverydetail/reply',   // 回复
         'pages/nationProducts',   // 国家产品列表
         'pages/medicalExamDetail',  // 体检详情
         'pages/medicalexam/packageIntroduction',  // 套餐介绍

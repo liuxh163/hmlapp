@@ -15,12 +15,12 @@
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>
                   </view>
-                  <image class="thumb" src="{{item.pictures[0].path}}"/>
+                  <image mode="aspectFill" class="thumb" src="{{item.pictures[0].path}}"/>
                   <text class="desc">{{item.content}}</text>
                   <view class="info">
                     <view class="avatar-container">
-                      <image src="{{item.avatar}}"/>
-                      <text>{{item.posterName}}</text>
+                      <image mode="aspectFill" src="{{item.iconPath}}"/>
+                      <text>{{item.userName}}</text>
                     </view>
                     <view class="like-container">
                       <image src="../img/icon_view.png"/>
@@ -32,17 +32,17 @@
             </view>
             <view class="right-container content-container">
               <block wx:key="item.id" wx:for="{{discoveryListRight}}">
-                <view class="discovery-item" @tap="bindItem(1,{{item.id}})">
+                <view class="discovery-item" @tap="bindItem(1,{{item}})">
                   <view class="location">
                     <image src="../img/location.png"/>
                     <text>{{item.location}}</text>
                   </view>
-                  <image class="thumb" src="{{item.pictures[0].path}}"/>
+                  <image mode="aspectFill" class="thumb" src="{{item.pictures[0].path}}"/>
                   <text class="desc">{{item.content}}</text>
                   <view class="info">
                     <view class="avatar-container">
-                      <image src="{{item.avatar}}"/>
-                      <text>{{item.posterName}}</text>
+                      <image mode="aspectFill" src="{{item.iconPath}}"/>
+                      <text>{{item.userName}}</text>
                     </view>
                     <view class="like-container">
                       <image src="../img/icon_view.png"/>
@@ -58,16 +58,16 @@
       <van-tab title="说说">
         <view class="talk-about">
           <block wx:key="item.id" wx:for="{{talkAboutList}}">
-            <view class="item-view" @tap="bindItem(2,{{item.id}})">
+            <view class="item-view" @tap="bindItem(2,{{item}})">
               <view class="avatar-container">
-                <image class="avatar" src="../img/swiper1.jpg"></image>
-                <text>{{item.posterName}}</text>
+                <image class="avatar" src="{{item.iconPath}}"></image>
+                <text>{{item.userName}}</text>
               </view>
               <text class="content">{{item.content}}</text>
               <view class="image-container">
                 <view class="image-list">
-                  <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
-                    <image catchtap="previewImage({{imageItem}},{{item.imageList}})" src="{{imageItem}}"></image>
+                  <block wx:key="imageItem.id" wx:for-item="imageItem" wx:for="{{item.pictures}}">
+                    <image mode="aspectFill" catchtap="previewImage({{imageItem.path}},{{item.pictures}})" src="{{imageItem.path}}"></image>
                   </block>
                 </view>
                 <view class="operate-view">
@@ -81,7 +81,7 @@
                     </view>
                     <view class="common like-view">
                       <image src="../img/like.png"/>
-                      <text>{{item.likeNum}}</text>
+                      <text>{{item.thumbNum}}</text>
                     </view>
                     <view class="common comment-view">
                       <image src="../img/comment.png"/>
@@ -134,106 +134,8 @@
       scrolling:false,
       discoveryListLeft: [],
       discoveryListRight: [],
-      discoveryList: [
-        {
-          id: '1001',
-          image: '../img/swiper1.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1002',
-          image: '../img/swiper1.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1003',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1004',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1005',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1006',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        }
-      ],
-      talkAboutList:[
-        {
-          id:'2001',
-          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
-          posterName:'Amanda',
-          imageList:[
-            '../img/swiper1.jpg',
-            '../img/swiper2.jpg',
-            '../img/swiper3.jpg',
-            '../img/swiper2.jpg',
-            '../img/swiper3.jpg',
-          ],
-          viewNum:120,
-          likeNum:3,
-          commentNum:15,
-          isHot:true,
-        },
-        {
-          id:'2002',
-          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
-          posterName:'Amanda',
-          imageList:[
-            '../img/swiper1.jpg',
-            '../img/swiper2.jpg',
-            '../img/swiper3.jpg',
-          ],
-          viewNum:120,
-          likeNum:3,
-          commentNum:15,
-          isHot:true,
-        },
-        {
-          id:'2003',
-          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
-          posterName:'Amanda',
-          imageList:[
-            '../img/swiper1.jpg',
-            '../img/swiper2.jpg',
-          ],
-          viewNum:120,
-          likeNum:3,
-          commentNum:15
-        },
-      ],
+      discoveryList: [],
+      talkAboutList:[],
       currentIndex:0,
     };
 

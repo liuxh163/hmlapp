@@ -57,7 +57,7 @@
       </view>
     </view>
     <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 52rpx"></view>
-    <view class="my-discovery">
+    <view id="tabs" class="my-discovery">
       <van-tabs custom-class="custom-class" animated sticky color="#FFC207"
                 line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="{{ 0 }}"
                 bind:change="onChange">
@@ -71,16 +71,16 @@
                       <image src="../img/location.png"/>
                       <text>{{item.location}}</text>
                     </view>
-                    <image class="thumb" src="{{item.image}}"/>
-                    <text class="desc">{{item.title}}</text>
+                    <image mode="aspectFill" class="thumb" src="{{item.pictures[0].path}}"/>
+                    <text class="desc">{{item.content}}</text>
                     <view class="info">
                       <view class="avatar-container">
-                        <image src="{{item.avatar}}"/>
-                        <text>{{item.posterName}}</text>
+                        <image mode="aspectFill" src="{{item.iconPath}}"/>
+                        <text>{{item.userName}}</text>
                       </view>
                       <view class="like-container">
                         <image src="../img/icon_view.png"/>
-                        <text>{{item.view_num}}</text>
+                        <text>{{item.viewNum}}</text>
                       </view>
                     </view>
                   </view>
@@ -93,16 +93,16 @@
                       <image src="../img/location.png"/>
                       <text>{{item.location}}</text>
                     </view>
-                    <image class="thumb" src="{{item.image}}"/>
-                    <text class="desc">{{item.title}}</text>
+                    <image mode="aspectFill" class="thumb" src="{{item.pictures[0].path}}"/>
+                    <text class="desc">{{item.content}}</text>
                     <view class="info">
                       <view class="avatar-container">
-                        <image src="{{item.avatar}}"/>
-                        <text>{{item.posterName}}</text>
+                        <image mode="aspectFill" src="{{item.iconPath}}"/>
+                        <text>{{item.userName}}</text>
                       </view>
                       <view class="like-container">
                         <image src="../img/icon_view.png"/>
-                        <text>{{item.view_num}}</text>
+                        <text>{{item.viewNum}}</text>
                       </view>
                     </view>
                   </view>
@@ -116,14 +116,14 @@
             <block wx:key="item.id" wx:for="{{talkAboutList}}">
               <view class="item-view" @tap="bindItem(2,{{item}})">
                 <view class="avatar-container">
-                  <image class="avatar" src="{{personalInfo.iconPath}}"></image>
+                  <image class="avatar" mode="aspectFill" src="{{personalInfo.iconPath}}"></image>
                   <text>{{personalInfo.userName}}</text>
                 </view>
                 <text class="content">{{item.content}}</text>
                 <view class="image-container">
                   <view class="image-list">
-                    <block wx:key="imageItem" wx:for-item="imageItem" wx:for="{{item.imageList}}">
-                      <image catchtap="previewImage({{imageItem}},{{item.imageList}})" src="{{imageItem}}"></image>
+                    <block wx:key="imageItem.id" wx:for-item="imageItem" wx:for="{{item.pictures}}">
+                      <image mode="aspectFill" catchtap="previewImage({{imageItem.path}},{{item.pictures}})" src="{{imageItem.path}}"></image>
                     </block>
                   </view>
                   <view class="operate-view">
@@ -137,7 +137,7 @@
                       </view>
                       <view class="common like-view">
                         <image src="../img/like.png"/>
-                        <text>{{item.likeNum}}</text>
+                        <text>{{item.thumbNum}}</text>
                       </view>
                       <view class="common comment-view">
                         <image src="../img/comment.png"/>
@@ -192,131 +192,45 @@
       lineWidth:188,
       discoveryListLeft: [],
       discoveryListRight: [],
-      discoveryList: [
-        {
-          id: '1001',
-          image: '../img/swiper1.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1002',
-          image: '../img/swiper1.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1003',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1004',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1005',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        },
-        {
-          id: '1006',
-          image: '../img/swiper2.jpg',
-          title: '东京健康体检之旅开始啦健康体检之旅开始啦',
-          avatar: '../img/swiper1.jpg',
-          posterName: 'Amanda',
-          view_num: '3',
-          location: '日本 东京'
-        }
-      ],
-      talkAboutList:[
-        {
-          id:'2001',
-          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
-          imageList:[
-            '../img/swiper1.jpg',
-            '../img/swiper2.jpg',
-            '../img/swiper3.jpg',
-            '../img/swiper2.jpg',
-            '../img/swiper3.jpg',
-          ],
-          viewNum:120,
-          likeNum:3,
-          commentNum:15,
-          isHot:true,
-        },
-        {
-          id:'2002',
-          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
-          imageList:[
-            '../img/swiper1.jpg',
-            '../img/swiper2.jpg',
-            '../img/swiper3.jpg',
-          ],
-          viewNum:120,
-          likeNum:3,
-          commentNum:15,
-          isHot:true,
-        },
-        {
-          id:'2003',
-          content:'东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开始啦康体检之旅开始啦。东京健康体检之旅开始啦健康体检之旅开始啦康体检之旅开',
-          imageList:[
-            '../img/swiper1.jpg',
-            '../img/swiper2.jpg',
-          ],
-          viewNum:120,
-          likeNum:3,
-          commentNum:15
-        }
-      ],
+      discoveryList: [],
+      talkAboutList:[],
       personalInfo:{
         isApplyed:false
       },
+      topTabs:0,
     };
 
     methods = {
       onChange(e){
         let detail = e.detail;
         console.log("tap index",detail.index);
-        let t = this;
-        if (detail.index == 0){
-          this.flag1 = true;
-          this.flag2 = false;
-          setTimeout(function() {
-            wx.pageScrollTo({
-              scrollTop: t.tab1ScrollTop,
-              duration: 0
-            });
-          },150);
-        }else {
-          this.flag2 = true;
-          this.flag1 = false;
-          setTimeout(function() {
-            wx.pageScrollTo({
-              scrollTop: t.tab2ScrollTop,
-              duration: 0
-            });
-          },150);
+        if (this.scrollTop >= this.topTabs){
+          let t = this;
+          if (detail.index == 0){
+            this.flag1 = true;
+            this.flag2 = false;
+            if (t.tab1ScrollTop < this.topTabs) {
+              t.tab1ScrollTop = this.topTabs;
+            }
+            setTimeout(function() {
+              wx.pageScrollTo({
+                scrollTop: t.tab1ScrollTop,
+                duration: 0
+              });
+            },150);
+          }else {
+            this.flag2 = true;
+            this.flag1 = false;
+            if (t.tab2ScrollTop < this.topTabs) {
+              t.tab2ScrollTop = this.topTabs;
+            }
+            setTimeout(function() {
+              wx.pageScrollTo({
+                scrollTop: t.tab2ScrollTop,
+                duration: 0
+              });
+            },150);
+          }
         }
       },
       previewImage(currentPath,paths){
@@ -376,6 +290,35 @@
 
     initData(){
       this.getMine();
+      this.getPosts(1);
+      this.getPosts(2);
+    }
+
+    getTop(){
+      let _this = this;
+      var queryTab = wx.createSelectorQuery();
+      queryTab.select('#tabs').boundingClientRect();
+      queryTab.selectViewport().scrollOffset();
+      queryTab.exec(function(res){
+        _this.topTabs = res[0].top;
+        console.log("tabs",res[0].top);
+        // res[0].top       // #the-id节点的上边界坐标
+        // res[1].scrollTop // 显示区域的竖直滚动位置
+      });
+    }
+
+    getPosts(topicId){
+      this.sendRequest(httpUrl.getMinePosts,'GET',{'topicId':topicId},res =>{
+        if (res) {
+          if (topicId == 1){
+            this.discoveryList = res;
+            this.analyticalDiscoveryData(this.discoveryList);
+          }else {
+            this.talkAboutList = res;
+          }
+          this.$apply();
+        }
+      })
     }
 
     getMine(){
@@ -386,6 +329,7 @@
         this.thumbNum = res.thumbNum;
         this.commentNum = res.commentNum;
         this.$apply();
+        this.getTop();
 
         wx.setStorageSync('personalInfo',this.personalInfo);
       },err =>{
@@ -413,7 +357,8 @@
         }
       });
       this.initData();
-      this.analyticalDiscoveryData(this.discoveryList);
+
+      this.getTop();
     }
   }
 </script>
