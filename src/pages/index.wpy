@@ -81,15 +81,23 @@
               <view class="offer staging">
                 <text>分</text>
                 <text>支持分期</text>
+                <view class="desc">
+                  <import src="../wxparse/wxParse.wxml"/>
+                  <html2wxml :parserName="html" :parserContent.sync="htmlContent"/>
+                </view>
               </view>
               <view class="offer card">
                 <text>卡</text>
                 <text>出行卡</text>
+                <view class="desc">
+                  <import src="../wxparse/wxParse.wxml"/>
+                  <html2wxml1 :parserName="html1" :parserContent.sync="htmlContent1"/>
+                </view>
               </view>
             </view>
-            <view class="right">
-              <text class="offer-introduction">可根据实际款项进行分期,最低</text><text class="offer-introduction price">3000</text><text class="offer-introduction">即走下订单,每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>
-            </view>
+            <!--<view class="right">-->
+              <!--<text class="offer-introduction">可根据实际款项进行分期,最低</text><text class="offer-introduction price">3000</text><text class="offer-introduction">即走下订单,每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>-->
+            <!--</view>-->
           </view>
         </view>
       </block>
@@ -162,6 +170,7 @@
   import wepy from 'wepy'
   import commonApi from '../mixins/commonApi'
   import {httpUrl} from '../utils/httpUrl'
+  import html2wxml from '../components/html2wxml'
 
   export default class Index extends wepy.page {
     config = {
@@ -169,7 +178,10 @@
       enablePullDownRefresh:true,
       backgroundTextStyle:'dark'
     };
-    components = {};
+    components = {
+      html2wxml: html2wxml,
+      html2wxml1: html2wxml,
+    };
 
     mixins = [commonApi];
 
@@ -207,6 +219,8 @@
       discoveryList: [],
       postsReqOver:false,
       productsReqOver:false,
+      htmlContent:'',
+      htmlContent1:'',
     };
 
     methods = {

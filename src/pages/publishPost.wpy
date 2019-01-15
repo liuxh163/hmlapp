@@ -1,26 +1,98 @@
 <style lang="scss">
   @import "../css/base";
+  .publish-post{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .input-class{
-    height: px2rpx(100);
-    width: 100%;
+    padding: px2rpx(10);
+    margin-top: px2rpx(11);
+    margin-bottom: px2rpx(10);
+    border: 1px #CCCCCC solid;
+    height: px2rpx(106);
+    width: px2rpx(330);
+    border-radius: px2rpx(4);
+    color: #333333;
+    font-size: px2rpx(13);
+  }
+  .location{
+    display: flex;
+    align-items: center;
+    image{
+      width: px2rpx(9);
+      height: px2rpx(13);
+    }
+    text{
+      margin-left: px2rpx(5);
+      display: block;
+      color: #333333;
+      font-size: px2rpx(11);
+    }
+  }
+  .images{
+    margin-top: px2rpx(10);
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+    .add-view{
+      border: 1px #CCCCCC solid;
+      width: px2rpx(60);
+      height: px2rpx(60);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: px2rpx(4);
+      text{
+        color: #CCCCCC;
+        font-size: px2rpx(11);
+      }
+    }
+    .photo{
+      width: px2rpx(60);
+      height: px2rpx(60);
+      border-radius: px2rpx(4);
+      margin-left: px2rpx(10);
+      margin-bottom: px2rpx(10);
+    }
+  }
+  .submit{
+    position: absolute;
+    bottom: px2rpx(10);
+    left: px2rpx(15);
+    right: px2rpx(15);
+    background-color: #FE9F05;
+    border-radius: px2rpx(4);
+    color: white;
+    font-size: px2rpx(19);
   }
 </style>
 <template>
   <view class="publish-post">
+    <view style="border-top: 1px #DCDCDC solid;position: fixed;top: 0;left: 0;right: 0;"></view>
     <form bindsubmit="formSubmit">
-      <van-cell-group>
-        <textarea
-                name="content"
-                placeholder="写点儿什么..."
-                maxlength="500"
-                class="input-class"
-                bindinput="bindInput"
-        />
-      </van-cell-group>
-      <image mode="widthFix" src="{{photoImages[0]}}"></image>
-      <!--<button @tap="chooseLocation">选择位置</button>-->
-      <text style="display: block">{{address}}</text>
-      <button form-type="submit" class="submit">确定</button>
+      <textarea
+              name="content"
+              placeholder="分享你的想法 ..."
+              maxlength="500"
+              class="input-class"
+              bindinput="bindInput"
+      />
+      <view class="location">
+        <image src="../img/location_gray.png"/>
+        <text class="location">{{address}}</text>
+      </view>
+      <view class="images">
+        <view class="add-view" @tap="chooseImage">
+          <van-icon color="#CCCCCC" size="28rpx" name="plus" />
+          <text>上传照片</text>
+        </view>
+        <block wx:key="imageItem" wx:for="{{photoImages}}">
+          <image class="photo" mode="aspectFill" src="{{imageItem}}"></image>
+        </block>
+      </view>
+      <button form-type="submit" class="submit">发布</button>
     </form>
   </view>
 </template>
@@ -37,8 +109,7 @@
     config = {
       navigationBarTitleText: '发表说说',
       "usingComponents": {
-        "van-field": "../components/vant/field/index",
-        "van-cell-group": "../components/vant/cell-group/index",
+        "van-icon": "../components/vant/icon/index",
       }
     };
     components = {};
@@ -50,6 +121,7 @@
       qqmapsdk:null,
       uploadPromise:null,
       type:2,
+      count: 9,
     };
 
     mixins = [commonApi,utils,upload];
@@ -131,6 +203,22 @@
           }
         }
       },
+      chooseImage(){
+        let t = this;
+        wx.chooseImage({
+          count: t.count,
+          sizeType: ['compressed'],
+          sourceType: ['album', 'camera'],
+          success(res) {
+            // tempFilePath可以作为img标签的src属性显示图片
+            const tempFilePaths = res.tempFilePaths;
+            t.photoImages.concat(tempFilePaths);
+            t.count = 9 - t.photoImages.length;
+            t.$apply();
+            console.log("photoImages",t.photoImages);
+          }
+        });
+      },
       bindInput(e){
 
       }
@@ -206,9 +294,16 @@
         this.photoImages.concat(options.photoImages);
       }
       console.log("photoImages", this.photoImages);
+      let title = '说说';
       if (options.type) {
         this.type = options.type;
+        if (this.type == 1) {
+          title = '发现'
+        }
       }
+      wx.setNavigationBarTitle({
+        title: title
+      });
       this.$apply();
 
     }

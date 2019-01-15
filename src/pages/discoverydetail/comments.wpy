@@ -2,6 +2,7 @@
 </style>
 <template>
   <view class="main">
+    <view style="border-top: 1px #DCDCDC solid;position: fixed;top: 0;left: 0;right: 0;"></view>
     <view class="comments-view">
       <block wx:key="item.id" wx:for="{{commentList}}">
         <view class="comment-item" @tap="bindViewReply({{item}})">
