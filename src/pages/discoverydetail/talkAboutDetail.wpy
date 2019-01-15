@@ -38,7 +38,7 @@
     </view>
     <view class="main">
       <view class="comments-view">
-        <block wx:key="commentItem.id" wx:for-item="commentItem" wx:for="{{wonderfulCommentList}}" wx:if="{{wonderfulCommentList.length > 0}}">
+        <block wx:key="commentItem.id" wx:for-item="commentItem" wx:for="{{wonderfulCommentList}}" wx:if="{{wonderfulCommentList.length > 0 && index < 10}}">
           <view class="comment-item">
             <view>
               <image mode="aspectFill" class="avatar" src="{{commentItem.iconPath}}"/>
@@ -214,7 +214,7 @@
       });
 
       this.wonderfulCommentList = this.wonderfulCommentList.sort(function (a,b) {
-        return a.thumbNum - b.thumbNum;
+        return b.thumbNum - a.thumbNum;
       });
       console.log("wonderfulCommentList",this.wonderfulCommentList);
       this.$apply();
