@@ -108,7 +108,7 @@
         <button id="login" disabled="{{loginBtnLoading}}" loading="{{loginBtnLoading}}" form-type="submit" class="login-btn">登录</button>
       </form>
     </view>
-    <view class="wechat-login">
+    <view class="wechat-login" @tap="bindWxLogin">
       <image src="../img/icon_wechat.png"/>
       <text>微信登录</text>
     </view>
@@ -196,6 +196,12 @@
             this.$apply();
           },false)
         }
+      },
+      bindWxLogin(){
+        wx.showToast({
+          title: '即将上线，敬请期待',
+          icon: 'none'
+        });
       }
     };
 

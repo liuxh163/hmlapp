@@ -118,7 +118,7 @@
   <view class="personal-detail">
     <view class="personal-information">
       <view class="avatar-container">
-        <image class="avatar" src="{{item.picFileId}}"></image>
+        <image class="avatar" src="{{item.picFileId?item.picFileId:'../../img/icon_avatar.svg'}}"></image>
         <text>{{item.name}}</text>
       </view>
     </view>

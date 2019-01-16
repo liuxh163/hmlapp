@@ -23,7 +23,7 @@
     <van-cell-group>
       <van-cell bind:click="chooseImage" custom-class="avatar-class" title=" " value="更换头像" is-link>
         <view slot="icon">
-          <image mode="aspectFill" class="avatar" src="{{personalInfo.iconPath}}"/>
+          <image mode="aspectFill" class="avatar" src="{{personalInfo.iconPath?personalInfo.iconPath:'../../img/icon_avatar.svg'}}"/>
         </view>
       </van-cell>
       <navigator url="modifyInput?username={{personalInfo.userName}}">

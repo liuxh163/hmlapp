@@ -109,6 +109,11 @@
         align-self: center;
       }
     }
+    .common{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
   .next-btn-container{
     position: fixed;

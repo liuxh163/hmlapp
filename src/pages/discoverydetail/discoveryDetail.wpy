@@ -53,7 +53,7 @@
     <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;"></view>
     <view class="detail-container">
       <view class="avatar-container">
-        <image mode="aspectFill" class="avatar" src="{{item.iconPath}}"></image>
+        <image mode="aspectFill" class="avatar" src="{{item.iconPath?item.iconPath:'../../img/icon_avatar.svg'}}"></image>
         <view class="name-date">
           <text>{{item.userName}}</text>
           <text>{{item.createdAt}}</text>
@@ -98,7 +98,7 @@
         <block wx:key="commentItem.id" wx:for-item="commentItem" wx:for="{{wonderfulCommentList}}" wx:if="{{wonderfulCommentList.length > 0 && index < 10}}">
           <view class="comment-item">
             <view>
-              <image mode="aspectFill" class="avatar" src="{{commentItem.iconPath}}"/>
+              <image mode="aspectFill" class="avatar" src="{{commentItem.iconPath?commentItem.iconPath:'../../img/icon_avatar.svg'}}"/>
             </view>
             <view class="content">
               <view class="first-line">
@@ -243,9 +243,12 @@
         this.$navigate('reply?type=2');
       },
       previewImage(currentPath,paths){
+        let pathStrings = paths.map(function (item) {
+          return item.path;
+        });
         wx.previewImage({
           current:currentPath,
-          urls: paths // 需要预览的图片http链接列表
+          urls: pathStrings // 需要预览的图片http链接列表
         })
       },
       bindSwiperItemTap(){

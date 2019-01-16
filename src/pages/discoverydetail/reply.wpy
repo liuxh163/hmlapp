@@ -6,7 +6,7 @@
       <block wx:key="item.id" wx:for="{{commentItem.replyList}}">
         <view class="comment-item" @tap="bindViewReply({{item}})">
           <view>
-            <image mode="aspectFill" class="avatar" src="{{item.iconPath}}"/>
+            <image mode="aspectFill" class="avatar" src="{{item.iconPath?item.iconPath:'../../img/icon_avatar.svg'}}"/>
           </view>
           <view class="content">
             <view class="first-line">

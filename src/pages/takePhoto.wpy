@@ -192,7 +192,6 @@
           success(res) {
             // tempFilePath可以作为img标签的src属性显示图片
             const tempFilePaths = res.tempFilePaths;
-            console.log("tempFilePaths",tempFilePaths);
             this.$preload('photoImages',tempFilePaths);
             this.$redirect('publishPost?type=1');
           }

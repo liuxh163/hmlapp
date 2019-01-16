@@ -1,11 +1,13 @@
 <style lang="scss">
   @import "../css/base";
-  .publish-post{
+
+  .input-container {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  .input-class{
+
+  .input-class {
     padding: px2rpx(10);
     margin-top: px2rpx(11);
     margin-bottom: px2rpx(10);
@@ -16,26 +18,31 @@
     color: #333333;
     font-size: px2rpx(13);
   }
-  .location{
+
+  .location {
+    margin-left: px2rpx(10);
+    align-self: flex-start;
     display: flex;
     align-items: center;
-    image{
+    image {
       width: px2rpx(9);
       height: px2rpx(13);
     }
-    text{
+    text {
       margin-left: px2rpx(5);
       display: block;
       color: #333333;
       font-size: px2rpx(11);
     }
   }
-  .images{
+
+  .images {
     margin-top: px2rpx(10);
     display: flex;
     flex-flow: row wrap;
     align-content: flex-start;
-    .add-view{
+    .add-view {
+      margin-left: px2rpx(10);
       border: 1px #CCCCCC solid;
       width: px2rpx(60);
       height: px2rpx(60);
@@ -44,20 +51,29 @@
       align-items: center;
       justify-content: center;
       border-radius: px2rpx(4);
-      text{
+      text {
         color: #CCCCCC;
         font-size: px2rpx(11);
       }
     }
-    .photo{
-      width: px2rpx(60);
-      height: px2rpx(60);
-      border-radius: px2rpx(4);
-      margin-left: px2rpx(10);
-      margin-bottom: px2rpx(10);
+    .photo-view{
+      position: relative;
+      .photo {
+        width: px2rpx(60);
+        height: px2rpx(60);
+        border-radius: px2rpx(4);
+        margin-left: px2rpx(10);
+        margin-bottom: px2rpx(10);
+      }
+      .icon-class{
+        position: absolute;
+        top: px2rpx(-5);
+        right: px2rpx(-5);
+      }
     }
   }
-  .submit{
+
+  .submit {
     position: absolute;
     bottom: px2rpx(10);
     left: px2rpx(15);
@@ -72,27 +88,31 @@
   <view class="publish-post">
     <view style="border-top: 1px #DCDCDC solid;position: fixed;top: 0;left: 0;right: 0;"></view>
     <form bindsubmit="formSubmit">
-      <textarea
+      <view class="input-container">
+        <textarea
               name="content"
               placeholder="分享你的想法 ..."
               maxlength="500"
               class="input-class"
-              bindinput="bindInput"
-      />
-      <view class="location">
-        <image src="../img/location_gray.png"/>
-        <text class="location">{{address}}</text>
+              bindinput="bindInput"/>
+        <view class="location">
+          <image src="../img/location_gray.png"/>
+          <text class="location">{{address}}</text>
+        </view>
       </view>
       <view class="images">
         <view class="add-view" @tap="chooseImage">
-          <van-icon color="#CCCCCC" size="28rpx" name="plus" />
+          <van-icon color="#CCCCCC" size="28rpx" name="plus"/>
           <text>上传照片</text>
         </view>
-        <block wx:key="imageItem" wx:for="{{photoImages}}">
-          <image class="photo" mode="aspectFill" src="{{imageItem}}"></image>
+        <block wx:key="item" wx:for="{{photoImages}}">
+          <view class="photo-view">
+            <image @tap="previewImage({{item}},{{photoImages}})" class="photo" mode="aspectFill" src="{{item}}"></image>
+            <van-icon @tap="removePhoto({{index}})" custom-class="icon-class" color="#F44" size="28rpx" name="clear"/>
+          </view>
         </block>
       </view>
-      <button form-type="submit" class="submit">发布</button>
+      <button form-type="submit" disabled="{{submitDisable}}" loading="{{submitLoading}}" class="submit">发布</button>
     </form>
   </view>
 </template>
@@ -102,12 +122,12 @@
   import commonApi from '../mixins/commonApi';
   import utils from '../mixins/utils'
   import upload from '../mixins/upload'
-  import { httpUrl } from '../utils/httpUrl';
+  import {httpUrl} from '../utils/httpUrl';
   import QQMapWX from '../libs/qqmap-wx-jssdk.min'
 
   export default class publishPost extends wepy.page {
     config = {
-      navigationBarTitleText: '发表说说',
+      navigationBarTitleText: '',
       "usingComponents": {
         "van-icon": "../components/vant/icon/index",
       }
@@ -115,95 +135,141 @@
     components = {};
 
     data = {
-      photoImages:[],
-      uploadedImages:'',
-      address:'',
-      qqmapsdk:null,
-      uploadPromise:null,
-      type:2,
+      photoImages: [],
+      uploadedImages: '',
+      address: '',
+      qqmapsdk: null,
+      uploadPromise: null,
+      type: 2,
       count: 9,
+      submitLoading:false,
+      submitDisable:true,
+      inputValue:'',
     };
 
-    mixins = [commonApi,utils,upload];
+    mixins = [commonApi, utils, upload];
+
+    watch = {
+      inputValue(newValue, oldValue){
+        if (this.type == 2) {
+          // 说说
+          if (newValue) {
+            this.submitDisable = false;
+          }else {
+            this.submitDisable = true;
+          }
+          this.$apply();
+        }
+      },
+      photoImages(newValue,oldValue){
+        if (this.type == 1) {
+          // 发现
+          if (newValue && newValue.length > 0) {
+            this.submitDisable = false;
+          }else {
+            this.submitDisable = true;
+          }
+          this.$apply();
+        }
+      }
+    };
 
     methods = {
-      formSubmit(e){
+      formSubmit(e) {
         let value = e.detail.value;
         let content = value.content;
 
-        if (this.type == 1){
+        if (this.type == 1) {
           // 发现
           if (this.photoImages && this.photoImages.length > 0) {
-            this.uploadImage(this.photoImages,ids =>{
+            this.uploadImage(this.photoImages, ids => {
               this.uploadedImages = this.convertArrayByComma(ids);
-              console.log('uploadedIds',this.uploadedImages);
+              console.log('uploadedIds', this.uploadedImages);
               let data = {
-                "content":content,
-                "location":this.address,
-                "picIds":this.uploadedImages,
+                "content": content,
+                "location": this.address,
+                "picIds": this.uploadedImages,
               };
-              this.sendRequest(httpUrl.posts.replace(":id",this.type),'POST',data,res =>{
+              this.submitLoading = true;
+              this.sendRequest(httpUrl.posts.replace(":id", this.type), 'POST', data, res => {
+                this.submitLoading = false;
+                this.$apply();
                 wx.showToast({
                   title: '发表成功',
                   icon: 'none'
                 });
-                setTimeout(function() {
-                  wx.navigateBack();
-                },1000)
-              });
+                this.reloadPrevPageData();
+                wx.navigateBack();
+              },err =>{
+                this.submitLoading = false;
+                this.$apply();
+              },false);
+              this.$apply();
             });
-          }else {
+          } else {
             wx.showToast({
-              title: '请选择图片',
+              title: '请选择要发表的照片',
               icon: 'none'
             });
           }
-        }else {
+        } else {
           // 说说
-          if (content){
+          if (content) {
             if (this.photoImages && this.photoImages.length > 0) {
-              this.uploadImage(this.photoImages,ids =>{
+              this.uploadImage(this.photoImages, ids => {
                 this.uploadedImages = this.convertArrayByComma(ids);
-                console.log('uploadedIds',this.uploadedImages);
+                console.log('uploadedIds', this.uploadedImages);
                 let data = {
-                  "content":content,
-                  "location":this.address,
-                  picIds:this.uploadedImages,
+                  "content": content,
+                  "location": this.address,
+                  picIds: this.uploadedImages,
                 };
-                this.sendRequest(httpUrl.posts.replace(":id",this.type),'POST',data,res =>{
+                this.submitLoading = true;
+                this.sendRequest(httpUrl.posts.replace(":id", this.type), 'POST', data, res => {
+                  this.submitLoading = false;
+                  this.$apply();
                   wx.showToast({
                     title: '发表成功',
                     icon: 'none'
                   });
-                  setTimeout(function() {
-                    wx.navigateBack();
-                  },1000)
-                });
+                  this.reloadPrevPageData();
+                  wx.navigateBack();
+                },err =>{
+                  this.submitLoading = false;
+                  this.$apply();
+                },false);
+                this.$apply();
               });
-            }else {
+            } else {
               let data = {
-                "content":content,
-                "location":this.address,
+                "content": content,
+                "location": this.address,
               };
-              this.sendRequest(httpUrl.posts.replace(":id",this.type),'POST',data,res =>{
+              this.submitLoading = true;
+              this.sendRequest(httpUrl.posts.replace(":id", this.type), 'POST', data, res => {
+                this.submitLoading = false;
+                this.$apply();
                 wx.showToast({
                   title: '发表成功',
                   icon: 'none'
                 });
-                setTimeout(function() {
-                  wx.navigateBack();
-                },1000)
-              });
+                this.reloadPrevPageData();
+                wx.navigateBack();
+              },err =>{
+                this.submitLoading = false;
+                this.$apply();
+              },false);
+              this.$apply();
             }
-          }else {
+          } else {
             wx.showToast({
-              title: '请写点儿什么',
+              title: '',
               icon: 'none'
             });
           }
         }
       },
-      chooseImage(){
+      chooseImage() {
         let t = this;
         wx.chooseImage({
           count: t.count,
@@ -212,21 +278,32 @@
           success(res) {
             // tempFilePath可以作为img标签的src属性显示图片
             const tempFilePaths = res.tempFilePaths;
-            t.photoImages.concat(tempFilePaths);
+            console.log("tempFilePaths",tempFilePaths);
+            t.photoImages = t.photoImages.concat(tempFilePaths);
             t.count = 9 - t.photoImages.length;
             t.$apply();
-            console.log("photoImages",t.photoImages);
+            console.log("photoImages", t.photoImages);
           }
         });
       },
-      bindInput(e){
-
+      previewImage(currentPath,paths){
+        wx.previewImage({
+          current:currentPath,
+          urls: paths // 需要预览的图片http链接列表
+        })
+      },
+      removePhoto(index){
+        this.photoImages.splice(index,1);
+        this.$apply();
+      },
+      bindInput(e) {
+        this.inputValue = e.detail.value;
       }
     };
 
-    chooseLocation(){
+    chooseLocation() {
       wx.getLocation({
-        success:res =>{
+        success: res => {
           var _this = this;
           _this.qqmapsdk.reverseGeocoder({
             //位置坐标，默认获取当前位置，非必须参数
@@ -234,16 +311,16 @@
               latitude: res.latitude,
               longitude: res.longitude
             },
-            success: function(res) {//成功后的回调
-              console.log("location success",res);
+            success: function (res) {//成功后的回调
+              console.log("location success", res);
               let address_component = res.result.address_component;
-              _this.address = address_component.nation + "，" +address_component.province;
+              _this.address = address_component.nation + "，" + address_component.province;
               _this.$apply();
             },
-            fail: function(error) {
-              console.error("location error",error);
+            fail: function (error) {
+              console.error("location error", error);
             },
-            complete: function(res) {
+            complete: function (res) {
               // console.log(res);
             }
           })
@@ -251,24 +328,24 @@
       })
     }
 
-    uploadImage(paths,success){
-      if (this.uploadPromise == null){
+    uploadImage(paths, success) {
+      if (this.uploadPromise == null) {
         console.log("转化promise对象");
         this.uploadPromise = this.promisify(this.upload);
       }
 
       this.uploadFiles({
-        uploadPromise:this.uploadPromise,
+        uploadPromise: this.uploadPromise,
         url: wepy.$instance.globalData.BASE_URL + this.httpUrl.upload,
-        paths:paths,
-        name:'filex',
-        success:datas =>{
+        paths: paths,
+        name: 'filex',
+        success: datas => {
           // 服务器返回的路径
           let ids = datas.map(data => {
-            console.log('id',data.id[0]);
-            return data.id[0];
+            console.log('id', data.id);
+            return data.id;
           });
-          console.log("uploadedPaths",ids);
+          console.log("uploadedPaths", ids);
 
           success && success(ids)
         }
@@ -277,6 +354,14 @@
 
     toLogin() {
       this.$navigate('login');
+    }
+
+    reloadPrevPageData(){
+      let pages = getCurrentPages();
+      let prevPage = pages[pages.length - 2];  //上一个页面
+      if (prevPage){
+        prevPage.initData();
+      }
     }
 
     onLoad(options, data) {
@@ -290,8 +375,8 @@
       });
       this.chooseLocation();
 
-      if (options.photoImages && options.photoImages.length > 0) {
-        this.photoImages.concat(options.photoImages);
+      if (options.preload.photoImages && options.preload.photoImages.length > 0) {
+        this.photoImages = this.photoImages.concat(options.preload.photoImages);
       }
       console.log("photoImages", this.photoImages);
       let title = '说说';

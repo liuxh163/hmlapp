@@ -74,28 +74,31 @@
     </view>
     <form bindsubmit="formSubmit">
       <view class="content">
-        <view class="panel" wx:if="{{currentStep == 1}}">
-          <import src="../../wxparse/wxParse.wxml"/>
-          <html2wxml :parserName="name" :parserContent.sync="htmlContent"/>
+        <view class="panel common" wx:if="{{currentStep == 1}}">
+          <!--<import src="../../wxparse/wxParse.wxml"/>-->
+          <!--<html2wxml :parserName="name" :parserContent.sync="htmlContent"/>-->
+          <image mode="widthFix" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/0af28640-1938-11e9-b695-fbfb42b66448.png"></image>
+          <image mode="widthFix" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/2bbfbdc0-1938-11e9-b695-fbfb42b66448.png"></image>
         </view>
-        <view class="panel step2" wx:if="{{currentStep == 2}}">
-          <view class="title">
-            <view class="title-icon"></view>
-            <text>分期与利率</text>
-          </view>
-          <text class="desc">
-            医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说 明及整改措施 (4500
-            XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-          </text>
-          <view class="title title2">
-            <view class="title-icon"></view>
-            <text>使用政策</text>
-          </view>
-          <text class="desc">
-            医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说 明及整改措施 (4500
-            XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。
-          </text>
-          <image class="desc-image" src="../../img/swiper1.jpg"/>
+        <view class="panel common step2" wx:if="{{currentStep == 2}}">
+          <!--<view class="title">-->
+            <!--<view class="title-icon"></view>-->
+            <!--<text>分期与利率</text>-->
+          <!--</view>-->
+          <!--<text class="desc">-->
+            <!--医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说 明及整改措施 (4500-->
+            <!--XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。-->
+          <!--</text>-->
+          <!--<view class="title title2">-->
+            <!--<view class="title-icon"></view>-->
+            <!--<text>使用政策</text>-->
+          <!--</view>-->
+          <!--<text class="desc">-->
+            <!--医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说 明及整改措施 (4500-->
+            <!--XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。-->
+          <!--</text>-->
+          <image mode="widthFix" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/39163350-1938-11e9-b695-fbfb42b66448.png"/>
+          <image mode="widthFix" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/55586470-1938-11e9-b695-fbfb42b66448.png"/>
         </view>
         <view class="panel step3" wx:if="{{currentStep == 3}}">
           <van-field name="name" id="name" bind:input="bindInput" maxlength="10" label="真实姓名" placeholder="请填写姓名"
@@ -148,9 +151,7 @@
       currentStep: 1,
       lineSelectedLeft: '0',
       htmlContent: '',
-      remoteData: "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>" +
-          "<img src='../../img/swiper1.jpg'><img src='../../img/swiper2.jpg'><img src='../../img/swiper3.jpg'>" +
-          "<div><span class='text'>测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据测试解析Html数据</span></div>",
+      remoteData: "",
       sexArray: ["男", "女"],
       sexSelectIndex: -1,
       region: ["", "", ""],
@@ -234,7 +235,7 @@
           }
           if (isSuccess) {
             wx.showToast({
-              title: '调用提交申请接口',
+              title: '申请功能即将上线，敬请期待',
               icon: 'none'
             });
           }
@@ -305,7 +306,6 @@
       }
       this.$wxpage.options = options;
 
-      this.parseHtml();
     }
   }
 </script>

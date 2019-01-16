@@ -19,7 +19,7 @@
                   <text class="desc">{{item.content}}</text>
                   <view class="info">
                     <view class="avatar-container">
-                      <image mode="aspectFill" src="{{item.iconPath}}"/>
+                      <image mode="aspectFill" src="{{item.iconPath?item.iconPath:'../img/icon_avatar.svg'}}"/>
                       <text>{{item.userName}}</text>
                     </view>
                     <view class="like-container">
@@ -41,7 +41,7 @@
                   <text class="desc">{{item.content}}</text>
                   <view class="info">
                     <view class="avatar-container">
-                      <image mode="aspectFill" src="{{item.iconPath}}"/>
+                      <image mode="aspectFill" src="{{item.iconPath?item.iconPath:'../img/icon_avatar.svg'}}"/>
                       <text>{{item.userName}}</text>
                     </view>
                     <view class="like-container">
@@ -60,7 +60,7 @@
           <block wx:key="item.id" wx:for="{{talkAboutList}}">
             <view class="item-view" @tap="bindItem(2,{{item}})">
               <view class="avatar-container">
-                <image mode="aspectFill" class="avatar" src="{{item.iconPath}}"></image>
+                <image mode="aspectFill" class="avatar" src="{{item.iconPath?item.iconPath:'../img/icon_avatar.svg'}}"></image>
                 <text>{{item.userName}}</text>
               </view>
               <text class="content">{{item.content}}</text>
@@ -141,9 +141,12 @@
 
     methods = {
       previewImage(currentPath,paths){
+        let pathStrings = paths.map(function (item) {
+          return item.path;
+        });
         wx.previewImage({
           current:currentPath,
-          urls: paths // 需要预览的图片http链接列表
+          urls: pathStrings // 需要预览的图片http链接列表
         })
       },
       bindItem(type,item){
