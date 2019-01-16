@@ -87,6 +87,7 @@
       recommendList: [],
       htmlContent:'',
       htmlContent1:'',
+      showLoading:true,
     };
 
     mixins = [commonApi];
@@ -131,7 +132,7 @@
         this.parseHtml();
       },err =>{
         wx.stopPullDownRefresh();
-      });
+      },this.showLoading);
     }
 
     parseHtml() {
@@ -155,10 +156,11 @@
     }
 
     onPullDownRefresh(){
-      this.initData();
+      this.initData(true);
     }
 
-    initData(){
+    initData(showLoading){
+      this.showLoading = showLoading;
       this.getProducts();
     }
 
@@ -176,7 +178,7 @@
       });
 
       this.getCarousels();
-      this.initData();
+      this.initData(true);
     }
   }
 </script>
