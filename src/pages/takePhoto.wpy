@@ -185,6 +185,7 @@
         },500);
       },
       takeAlbum(){
+        let t = this;
         wx.chooseImage({
           count: 9,
           sizeType: ['compressed'],
@@ -192,8 +193,8 @@
           success(res) {
             // tempFilePath可以作为img标签的src属性显示图片
             const tempFilePaths = res.tempFilePaths;
-            this.$preload('photoImages',tempFilePaths);
-            this.$redirect('publishPost?type=1');
+            t.$preload('photoImages',tempFilePaths);
+            t.$redirect('publishPost?type=1');
           }
         })
       },

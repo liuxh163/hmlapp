@@ -107,6 +107,13 @@
           color: #FE585A;
           font-size: px2rpx(11);
         }
+        .desc{
+          view{
+            display: flex;
+          }
+          margin-left: px2rpx(10);
+          display: flex;
+        }
       }
       .staging{
         text:first-child{

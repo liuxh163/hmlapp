@@ -30,7 +30,7 @@
     </view>
     <view class="black-card shadow">
       <text class="name">海马黑卡</text>
-      <text class="apply" hidden="{{personalInfo.isApplyed}}">申请</text>
+      <text class="apply" hidden="{{personalInfo.isApplyed}}" @tap="bindApplyCard">申请</text>
       <view class="money-view">
         <text>可用额度: </text>
         <text>{{money}}</text>
@@ -257,6 +257,9 @@
           // 说说
           this.$navigate("discoverydetail/talkAboutDetail");
         }
+      },
+      bindApplyCard(){
+        this.$navigate("hmgold/productIntroduction");
       }
     };
 

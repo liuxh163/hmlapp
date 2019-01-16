@@ -8,12 +8,13 @@
   }
 
   .input-class {
-    padding: px2rpx(10);
+    padding-left: px2rpx(5);
+    padding-right: px2rpx(5);
     margin-top: px2rpx(11);
     margin-bottom: px2rpx(10);
     border: 1px #CCCCCC solid;
     height: px2rpx(106);
-    width: px2rpx(330);
+    width: px2rpx(340);
     border-radius: px2rpx(4);
     color: #333333;
     font-size: px2rpx(13);
@@ -375,7 +376,7 @@
       });
       this.chooseLocation();
 
-      if (options.preload.photoImages && options.preload.photoImages.length > 0) {
+      if (options.preload && options.preload.photoImages && options.preload.photoImages.length > 0) {
         this.photoImages = this.photoImages.concat(options.preload.photoImages);
       }
       console.log("photoImages", this.photoImages);

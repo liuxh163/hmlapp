@@ -78,26 +78,21 @@
           </view>
           <view class="offer-view">
             <view class="left">
-              <view class="offer staging">
-                <text>分</text>
-                <text>支持分期</text>
-                <view class="desc">
-                  <import src="../wxparse/wxParse.wxml"/>
-                  <html2wxml :parserName="html" :parserContent.sync="htmlContent"/>
+              <block wx:key="activityItem.id" wx:for-index="activityIndex" wx:for-item="activityItem" wx:for="{{item.operations}}">
+                <view class="offer {{activityItem.type == '01'?'staging':'card'}}">
+                  <text>{{activityItem.type == '01'?'分':'卡'}}</text>
+                  <text>{{activityItem.name}}</text>
+                  <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                    <import src="../wxparse/wxParse.wxml"/>
+                    <html2wxml :parserName="html" :parserContent.sync="htmlContent"/>
+                  </view>
+                  <view class="desc" wx:else>
+                    <import src="../wxparse/wxParse.wxml"/>
+                    <html2wxml1 :parserName="html1" :parserContent.sync="htmlContent1"/>
+                  </view>
                 </view>
-              </view>
-              <view class="offer card">
-                <text>卡</text>
-                <text>出行卡</text>
-                <view class="desc">
-                  <import src="../wxparse/wxParse.wxml"/>
-                  <html2wxml1 :parserName="html1" :parserContent.sync="htmlContent1"/>
-                </view>
-              </view>
+              </block>
             </view>
-            <!--<view class="right">-->
-              <!--<text class="offer-introduction">可根据实际款项进行分期,最低</text><text class="offer-introduction price">3000</text><text class="offer-introduction">即走下订单,每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>-->
-            <!--</view>-->
           </view>
         </view>
       </block>
@@ -196,20 +191,20 @@
           desc: '日本康养的特点特色介绍',
         },
         {
-          id: '1002',
-          carouselNation:'03',
-          nation:'02',
-          thumbImage: 'http://hmmedical.oss-cn-beijing.aliyuncs.com/a3aebd50-18a1-11e9-a94d-6d629684dd2c.jpg',
-          title: '韩国康养之旅',
-          desc: '韩国康养的特点特色介绍',
-        },
-        {
           id: '1003',
           carouselNation:'04',
           nation:'03',
           thumbImage: 'http://hmmedical.oss-cn-beijing.aliyuncs.com/b15cefd0-18a1-11e9-a94d-6d629684dd2c.jpg',
           title: '泰国康养之旅',
           desc: '泰国康养的特点特色介绍',
+        },
+        {
+          id: '1002',
+          carouselNation:'03',
+          nation:'02',
+          thumbImage: 'http://hmmedical.oss-cn-beijing.aliyuncs.com/a3aebd50-18a1-11e9-a94d-6d629684dd2c.jpg',
+          title: '韩国康养之旅',
+          desc: '韩国康养的特点特色介绍',
         },
       ],
       currentIndex: 0,
@@ -229,6 +224,13 @@
         this.$navigate("medicalExamDetail?id=" + item.id);
       },
       bindSwiperItemTap(item) {
+        if (item.nation == '02'){
+          wx.showToast({
+            title: '即将上线，敬请期待',
+            icon: 'none'
+          });
+          return;
+        }
         this.$navigate("nationProducts?nation=" + item.nation+"&title=" + item.title+"&carouselNation="+item.carouselNation);
       },
       bindTurnSearch() {
@@ -254,10 +256,6 @@
       bindchange(e) {
         this.currentIndex = e.detail.current;
       },
-      bindTurnComment(id) {
-        console.log('id', id);
-        this.$navigate("discoverydetail/comments");
-      },
       bindDiscoveryItem(item){
         this.$preload('item', item);
         this.$navigate("discoverydetail/discoveryDetail");
@@ -277,11 +275,30 @@
       this.$apply();
     }
 
+    parseHtml() {
+      for (let i = 0;i< this.recommendList.length;i++){
+        let item = this.recommendList[i];
+        if (item.operations && item.operations.length > 0){
+          for (let j = 0; j < item.operations.length; j++) {
+            let activityItem = item.operations[j];
+            if (activityItem.type == '01') {
+              this.htmlContent = activityItem.content;
+            }else {
+              this.htmlContent1 = activityItem.content;
+            }
+          }
+        }
+      }
+      this.$apply();
+      //调用通知接口通知组件更新数据
+      this.$invoke('html2wxml', 'htmlParserNotice');
+      this.$invoke('html2wxml1', 'htmlParserNotice');
+    }
+
     // 获取发现新鲜数据
     getPosts() {
       let postData = {
-        "page": 1,
-        "number": 20,
+        "isMainPage":"01",
       };
       this.postsReqOver = false;
       this.sendRequest(httpUrl.posts.replace(":id","1"), 'GET', postData, res => {
@@ -295,6 +312,7 @@
           this.analyticalDiscoveryData(this.discoveryList);
           this.$apply();
         }
+        this.parseHtml();
       },err =>{
         this.postsReqOver = true;
         if (this.productsReqOver) {
@@ -306,9 +324,7 @@
     // 获取推荐数据
     getRecommendData(){
       let data = {
-        "sort": "03",
-        "page":1,
-        "number":2,
+        "isMainPage":"01",
       };
       this.productsReqOver = false;
       this.sendRequest(httpUrl.getProducts, 'GET', data, res => {
@@ -320,6 +336,7 @@
         if (res && res.products && res.products.length > 0) {
           this.recommendList = res.products;
           this.$apply();
+          this.parseHtml();
         }
       },err =>{
         this.productsReqOver = true;

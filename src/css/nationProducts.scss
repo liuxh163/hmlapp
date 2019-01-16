@@ -56,6 +56,12 @@
         margin-right: px2rpx(5);
         color: #333333;
         font-size: px2rpx(12);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        align-content: center;
       }
       .like-comment{
         margin-left: auto;
@@ -85,7 +91,6 @@
       align-items: center;
       margin-left: px2rpx(16);
       margin-top: px2rpx(11);
-      margin-bottom: px2rpx(15);
       text{
         display: inline-block;
       }
@@ -105,7 +110,6 @@
           padding: px2rpx(7) px2rpx(15);
           background-color: #FFF6DA;
           color: #F19F00;
-
         }
         text:nth-child(2){
           margin-left: px2rpx(10);
@@ -133,6 +137,13 @@
             margin-left: px2rpx(4);
             color: #FE585A;
             font-size: px2rpx(11);
+          }
+          .desc{
+            view{
+              display: flex;
+            }
+            margin-left: px2rpx(10);
+            display: flex;
           }
         }
         .staging{

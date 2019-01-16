@@ -64,7 +64,7 @@
 </style>
 <template>
   <view class="archives-image">
-    <image class="banner" src="../img/banner.png"></image>
+    <image class="banner" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/b47f8eb0-1974-11e9-881a-87d346d584a0.png"></image>
     <!--<text class="desc">拥有德国最先进的博物馆级别艺术品扫描设备，像素在16亿像素级别，是世界迄今为止超高清的扫描设备，扫描出的效果超高清，并且每年数千张的扫描数据档案，可发送X光片,核磁共振CT片扫描，免去您的后顾之忧。-->
     <!--</text>-->
     <image class="desc" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/f7be5cc0-18a1-11e9-a94d-6d629684dd2c.png"></image>

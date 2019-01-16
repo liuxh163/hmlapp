@@ -31,17 +31,20 @@
       </view>
       <view class="offer-view">
         <view class="left">
-          <view class="offer staging">
-            <text>分</text>
-            <text>支持分期</text>
-          </view>
-          <view class="offer card">
-            <text>卡</text>
-            <text>出行卡</text>
-          </view>
-        </view>
-        <view class="right">
-          <text class="offer-introduction">可根据实际款项进行分期，最低</text><text class="offer-introduction price">3000</text><text class="offer-introduction">即走下订单，每人立送5000日元 JR东日本 西瓜卡沙发沙发。</text>
+          <block wx:key="activityItem.id" wx:for-index="activityIndex" wx:for-item="activityItem" wx:for="{{medicalExam.operations}}">
+            <view class="offer {{activityItem.type == '01'?'staging':'card'}}">
+              <text>{{activityItem.type == '01'?'分':'卡'}}</text>
+              <text>{{activityItem.name}}</text>
+              <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                <import src="../wxparse/wxParse.wxml"/>
+                <html2wxmlac1 :parserName="htmlac1" :parserContent.sync="htmlContentac1"/>
+              </view>
+              <view class="desc" wx:else>
+                <import src="../wxparse/wxParse.wxml"/>
+                <html2wxmlac2 :parserName="htmlac2" :parserContent.sync="htmlContentac2"/>
+              </view>
+            </view>
+          </block>
         </view>
       </view>
       <view class="operate-view">
@@ -177,6 +180,8 @@
       html2wxml2: html2wxml,
       html2wxml3: html2wxml,
       html2wxml4: html2wxml,
+      html2wxmlac1: html2wxml,
+      html2wxmlac2: html2wxml,
     };
 
     mixins = [commonApi,utils];
@@ -217,6 +222,8 @@
       htmlContent2:'',
       htmlContent3:'',
       htmlContent4:'',
+      htmlContentac1:'',
+      htmlContentac2:'',
       active:0,
       commentList:[],
     };
@@ -344,6 +351,23 @@
       });
     }
 
+    parseHtml() {
+      if (this.medicalExam.operations && this.medicalExam.operations.length > 0){
+        for (let j = 0; j < this.medicalExam.operations.length; j++) {
+          let activityItem = this.medicalExam.operations[j];
+          if (activityItem.type == '01') {
+            this.htmlContentac1 = activityItem.content;
+          }else {
+            this.htmlContentac2 = activityItem.content;
+          }
+        }
+      }
+      this.$apply();
+      //调用通知接口通知组件更新数据
+      this.$invoke('html2wxmlac1', 'htmlParserNotice');
+      this.$invoke('html2wxmlac2', 'htmlParserNotice');
+    }
+
     getProductInfo(){
       this.sendRequest(httpUrl.getProducts + '/' + this.id,'GET',{},res =>{
         wx.stopPullDownRefresh();
@@ -360,6 +384,7 @@
         this.$invoke('html2wxml2', 'htmlParserNotice');
         this.$invoke('html2wxml3', 'htmlParserNotice');
         this.$invoke('html2wxml4', 'htmlParserNotice');
+        this.parseHtml();
 
         wx.setNavigationBarTitle({
           title: this.medicalExam.desc

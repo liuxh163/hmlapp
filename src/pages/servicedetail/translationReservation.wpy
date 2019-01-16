@@ -41,6 +41,7 @@
   }
 
   .translation-reservation{
+    padding-bottom: px2rpx(60);
     .submit-bar{
       position: fixed;
       left: 0;
@@ -152,7 +153,7 @@
       align-items: flex-start;
       margin-left: px2rpx(15);
       .circle{
-        margin-top: px2rpx(4);
+        margin-top: px2rpx(5);
         display: block;
         width: px2rpx(4);
         height: px2rpx(4);
@@ -260,7 +261,9 @@
       </van-cell>
       <view class="notice">
         <view class="circle"></view>
-        <text>不接受hpv一秒注射者：某某情况文字表示某某情况文字表示某某情况文字表示,某某情况文字表示某某情况文字表示某某情况文字表示。</text>
+        <text>我们的翻译工作全部由人工完成，严禁使用电脑自动翻译。所有的译件均有人工逐字逐句严格校对，文字和专业双重审核，并对其进行编辑。该过程将消除错译、漏译、拼写、打字和语法上的错误，保证用词贴切与一致性，把错误降到最低。正常翻译时间为5-10个工作日，如果翻译项目需要在更短的时间内交付，视情况而定，额外收取20%～30％的费用。
+
+          陪同翻译会根据每次行程安排进行完善的前期准备工作，并按照规定时间到岗，进行相关工作。</text>
       </view>
 
       <view class="terms-service-container">

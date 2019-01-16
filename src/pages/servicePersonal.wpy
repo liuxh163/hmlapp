@@ -10,7 +10,7 @@
 </style>
 <template>
   <view class="service-personal">
-    <image class="banner" src="../img/banner.png"></image>
+    <image class="banner" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/4d31e700-1968-11e9-8df2-4d1641606c16.png"></image>
     <view class="tab-bar">
       <view class="category" hidden="{{true}}">
         <text>翻译人员</text>
@@ -79,70 +79,6 @@
       popupShow: false,
       scrollTop: 0,
       lineWidth: 93,
-      // personalList: [
-      //   {
-      //     id: '1001',
-      //     picFileId: '../img/swiper1.jpg',
-      //     isRecommend: true,
-      //     isHot: false,
-      //     type: "01,02",
-      //     tags:["购物达人","美食家"],
-      //     name: '张小可',
-      //     likeNum: 3,
-      //     commentNum: 15,
-      //     schoolName: '东京大学',
-      //     sex: '1',
-      //     desc:'Hi，我是Mike，这次是我为您提供的翻译服务，希望我的服务能帮助到您。',
-      //   },
-      //   {
-      //     id: '1002',
-      //     picFileId: '../img/swiper2.jpg',
-      //     isRecommend: false,
-      //     isHot: true,
-      //     type: "01,02",
-      //     name: '张小可',
-      //     likeNum: 3,
-      //     commentNum: 15,
-      //     schoolName: '东京大学',
-      //     sex: '0'
-      //   },
-      //   {
-      //     id: '1003',
-      //     picFileId: '../img/swiper3.jpg',
-      //     isRecommend: false,
-      //     isHot: false,
-      //     type: "01,02",
-      //     name: '张小可',
-      //     likeNum: 3,
-      //     commentNum: 15,
-      //     schoolName: '东京大学',
-      //     sex: '1'
-      //   },
-      //   {
-      //     id: '1004',
-      //     picFileId: '../img/swiper1.jpg',
-      //     isRecommend: false,
-      //     isHot: false,
-      //     type: "01,02",
-      //     name: '张小可',
-      //     likeNum: 3,
-      //     commentNum: 15,
-      //     schoolName: '东京大学',
-      //     sex: '0'
-      //   },
-      //   {
-      //     id: '1005',
-      //     picFileId: '../img/swiper2.jpg',
-      //     isRecommend: true,
-      //     isHot: false,
-      //     type: "01,02",
-      //     name: '张小可',
-      //     likeNum: 3,
-      //     commentNum: 15,
-      //     schoolName: '东京大学',
-      //     sex: '0'
-      //   }
-      // ],
       personalList:[],
       currentNation:"01",
       currentType:'00'
