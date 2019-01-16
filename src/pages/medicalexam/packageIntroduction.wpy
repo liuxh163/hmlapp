@@ -106,17 +106,17 @@
       </view>
       <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 10rpx"></view>
     </view>
-    <view class="bottom-view">
-      <button id='contact' open-type="contact" size="mini" plain='true' hidden='{{true}}'></button>
-      <label for='contact'>
-        <view class="customer-service">
-          <image src="../../img/icon_contcat.png"/>
-          <text>在线客服</text>
-        </view>
-      </label>
-      <button @tap="booking">马上预定</button>
-    </view>
   </scroll-view>
+  <view class="bottom-view">
+    <button id='contact' open-type="contact" size="mini" plain='true' hidden='{{true}}'></button>
+    <label for='contact'>
+      <view class="customer-service">
+        <image src="../../img/icon_contcat.png"/>
+        <text>在线客服</text>
+      </view>
+    </label>
+    <button @tap="booking">马上预定</button>
+  </view>
 </template>
 
 <script>

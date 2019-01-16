@@ -184,7 +184,7 @@
       <view class="terms-service-container">
         <van-checkbox name="terms_service" checked-color="#FFC207" value="{{ checked }}" bind:change="onCheckBoxChange"></van-checkbox>
         <text>您已经阅读并同意</text>
-        <navigator class="term-service-text" url="archivesImage">
+        <navigator class="term-service-text">
           服务条款
         </navigator>
       </view>

@@ -168,7 +168,7 @@
           let item  =  this.personalList[i];
           item.types = item.type.split(",");
         }
-        console.log('personalList',this.personalList);
+        // console.log('personalList',this.personalList);
         this.$apply();
       });
     }
