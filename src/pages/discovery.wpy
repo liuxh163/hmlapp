@@ -137,6 +137,7 @@
       discoveryList: [],
       talkAboutList:[],
       currentIndex:0,
+      showLoading:true,
     };
 
     methods = {
@@ -257,10 +258,11 @@
         }
       },err =>{
         wx.stopPullDownRefresh();
-      })
+      },this.showLoading)
     }
 
-    initData(){
+    initData(showLoading){
+      this.showLoading = showLoading;
       this.getPosts(1);
       this.getPosts(2);
     }
@@ -270,7 +272,7 @@
     }
 
     onPullDownRefresh(){
-      this.initData();
+      this.initData(true);
     }
 
     onLoad(options,data) {
@@ -286,7 +288,7 @@
         }
       });
 
-      this.initData();
+      this.initData(true);
     }
   }
 </script>

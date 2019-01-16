@@ -199,6 +199,7 @@
         isApplyed:false
       },
       topTabs:0,
+      showLoading:true,
     };
 
     methods = {
@@ -293,10 +294,11 @@
 
     onPullDownRefresh(){
       this.getMine();
-      this.initData();
+      this.initData(true);
     }
 
-    initData(){
+    initData(showLoading){
+      this.showLoading = showLoading;
       this.getPosts(1);
       this.getPosts(2);
     }
@@ -325,7 +327,9 @@
           }
           this.$apply();
         }
-      })
+      },err =>{
+
+      },this.showLoading)
     }
 
     getMine(){
@@ -364,7 +368,7 @@
         }
       });
       this.getMine();
-      this.initData();
+      this.initData(true);
 
       this.getTop();
     }
