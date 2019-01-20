@@ -10,7 +10,7 @@
 </style>
 <template>
   <view class="service-personal">
-    <image class="banner" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/4d31e700-1968-11e9-8df2-4d1641606c16.png"></image>
+    <image class="banner" src="http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/4d31e700-1968-11e9-8df2-4d1641606c16.png"></image>
     <view class="tab-bar">
       <view class="category" hidden="{{true}}">
         <text>翻译人员</text>

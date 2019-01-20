@@ -64,10 +64,10 @@
 </style>
 <template>
   <view class="archives-image">
-    <image class="banner" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/b47f8eb0-1974-11e9-881a-87d346d584a0.png"></image>
+    <image class="banner" src="http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/b47f8eb0-1974-11e9-881a-87d346d584a0.png"></image>
     <!--<text class="desc">拥有德国最先进的博物馆级别艺术品扫描设备，像素在16亿像素级别，是世界迄今为止超高清的扫描设备，扫描出的效果超高清，并且每年数千张的扫描数据档案，可发送X光片,核磁共振CT片扫描，免去您的后顾之忧。-->
     <!--</text>-->
-    <image class="desc" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/f7be5cc0-18a1-11e9-a94d-6d629684dd2c.png"></image>
+    <image class="desc" src="http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/f7be5cc0-18a1-11e9-a94d-6d629684dd2c.png"></image>
     <view class="title-view">
       <image src="../img/title_icon.png"/>
       <text>样例</text>
@@ -94,12 +94,12 @@
 
     data = {
       imageList:[
-        'http://hmmedical.oss-cn-beijing.aliyuncs.com/cf41ad60-18a1-11e9-a94d-6d629684dd2c.jpg',
-        'http://hmmedical.oss-cn-beijing.aliyuncs.com/dc8229f0-18a1-11e9-a94d-6d629684dd2c.jpg',
-        'http://hmmedical.oss-cn-beijing.aliyuncs.com/eb1712f0-18a1-11e9-a94d-6d629684dd2c.jpg',
-        'http://hmmedical.oss-cn-beijing.aliyuncs.com/0809f670-18a2-11e9-a94d-6d629684dd2c.jpg',
-        'http://hmmedical.oss-cn-beijing.aliyuncs.com/13b74fe0-18a2-11e9-a94d-6d629684dd2c.jpg',
-        'http://hmmedical.oss-cn-beijing.aliyuncs.com/20102b90-18a2-11e9-a94d-6d629684dd2c.jpg',
+        'http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/cf41ad60-18a1-11e9-a94d-6d629684dd2c.jpg',
+        'http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/dc8229f0-18a1-11e9-a94d-6d629684dd2c.jpg',
+        'http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/eb1712f0-18a1-11e9-a94d-6d629684dd2c.jpg',
+        'http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/0809f670-18a2-11e9-a94d-6d629684dd2c.jpg',
+        'http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/13b74fe0-18a2-11e9-a94d-6d629684dd2c.jpg',
+        'http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/20102b90-18a2-11e9-a94d-6d629684dd2c.jpg',
       ],
     };
 

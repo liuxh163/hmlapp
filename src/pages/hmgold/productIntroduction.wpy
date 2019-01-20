@@ -77,8 +77,8 @@
         <view class="panel common" wx:if="{{currentStep == 1}}">
           <!--<import src="../../wxparse/wxParse.wxml"/>-->
           <!--<html2wxml :parserName="name" :parserContent.sync="htmlContent"/>-->
-          <image mode="widthFix" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/0af28640-1938-11e9-b695-fbfb42b66448.png"></image>
-          <image mode="widthFix" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/2bbfbdc0-1938-11e9-b695-fbfb42b66448.png"></image>
+          <image mode="widthFix" src="http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/0af28640-1938-11e9-b695-fbfb42b66448.png"></image>
+          <image mode="widthFix" src="http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/2bbfbdc0-1938-11e9-b695-fbfb42b66448.png"></image>
         </view>
         <view class="panel common step2" wx:if="{{currentStep == 2}}">
           <!--<view class="title">-->
@@ -97,8 +97,8 @@
             <!--医院关于1-4月份医保费用超标情况说 明及整改措施 (4500 XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局医院关于1-4月份医保费用超标情况说 明及整改措施 (4500-->
             <!--XX医院关于1-4 月份医保费用超标情况说明及整改措施 尊敬的XXX社会保障局。-->
           <!--</text>-->
-          <image mode="widthFix" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/39163350-1938-11e9-b695-fbfb42b66448.png"/>
-          <image mode="widthFix" src="http://hmmedical.oss-cn-beijing.aliyuncs.com/55586470-1938-11e9-b695-fbfb42b66448.png"/>
+          <image mode="widthFix" src="http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/39163350-1938-11e9-b695-fbfb42b66448.png"/>
+          <image mode="widthFix" src="http://hm101.oss-cn-zhangjiakou.aliyuncs.com/public/55586470-1938-11e9-b695-fbfb42b66448.png"/>
         </view>
         <view class="panel step3" wx:if="{{currentStep == 3}}">
           <van-field name="name" id="name" bind:input="bindInput" maxlength="10" label="真实姓名" placeholder="请填写姓名"
