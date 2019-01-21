@@ -43,15 +43,15 @@
         <text>我的订单</text>
       </view>
       <view class="order-menu">
-        <view class="common">
+        <view class="common" @tap="bindOrder(0)">
           <image src="../img/icon_my_order.png"/>
           <text>我的订单</text>
         </view>
-        <view class="common">
+        <view class="common" @tap="bindOrder(0)">
           <image src="../img/icon_pending_payment.png"/>
           <text>待付款</text>
         </view>
-        <view class="common">
+        <view class="common" @tap="bindOrder(2)">
           <image src="../img/icon_refund_form.png"/>
           <text>退款单</text>
         </view>
@@ -203,6 +203,9 @@
     };
 
     methods = {
+      bindOrder(active){
+        this.$navigate('order/myOrder?active=' + active);
+      },
       onChange(e){
         let detail = e.detail;
         console.log("tap index",detail.index);

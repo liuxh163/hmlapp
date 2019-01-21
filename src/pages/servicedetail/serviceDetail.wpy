@@ -132,7 +132,7 @@
         <text>好评</text>
       </view>
       <view class="common">
-        <van-rate custom-class="rate-icon" value="{{ item.score }}" count="5" size="13" />
+        <van-rate custom-class="rate-icon" value="{{ item.score }}" count="5" size="13" readonly/>
         <text>评级</text>
       </view>
     </view>

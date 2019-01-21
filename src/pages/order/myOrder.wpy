@@ -1,0 +1,245 @@
+<style lang="scss" src="../../css/myOrder.scss">
+</style>
+<template>
+  <view class="my-order">
+    <view class="tabs">
+      <van-tabs custom-class="tabs-class" animated sticky color="#FFC207"
+                line-width="{{lineWidth}}" scroll-top="{{ scrollTop }}" active="{{active}}"
+                bind:change="onChange">
+        <van-tab title="待付款">
+          <view class="tab-item">
+            <block wx:key="item.id" wx:for="{{listData}}">
+              <view class="list-item" @tap="bindItemClick({{item}})">
+                <view class="row1">
+                  <view class="left">
+                    <image src="{{item.type=='01'?'../../img/icon_travel.png':item.type=='02'?'../../img/icon_translation.png':'../../img/order_archives_image.png'}}"></image>
+                    <text>{{item.title}}</text>
+                  </view>
+                  <text class="price">¥ {{item.price}}</text>
+                </view>
+                <view class="row-common">
+                  <text>{{item.completeDate}}{{item.type=='01'?'出发':'完成'}}</text>
+                  <text>已成交</text>
+                </view>
+                <view class="row-common">
+                  <text>订单号：{{item.orderNumber}}</text>
+                  <text>预订日期：{{item.bookingDate}}</text>
+                </view>
+                <view class="row-last">
+                  <button class="btn-pay" catchtap="bindBtnClick({{item}},{{1}})">去支付</button>
+                </view>
+              </view>
+            </block>
+          </view>
+        </van-tab>
+        <van-tab title="已付款">
+          <view class="tab-item">
+            <block wx:key="item.id" wx:for="{{listData}}">
+              <view class="list-item" @tap="bindItemClick({{item}})">
+                <view class="row1">
+                  <view class="left">
+                    <image src="{{item.type=='01'?'../../img/icon_travel.png':item.type=='02'?'../../img/icon_translation.png':'../../img/order_archives_image.png'}}"></image>
+                    <text>{{item.title}}</text>
+                  </view>
+                  <text class="price">¥ {{item.price}}</text>
+                </view>
+                <view class="row-common">
+                  <text>{{item.completeDate}}{{item.type=='01'?'出发':'完成'}}</text>
+                  <text>已成交</text>
+                </view>
+                <view class="row-common">
+                  <text>订单号：{{item.orderNumber}}</text>
+                  <text>预订日期：{{item.bookingDate}}</text>
+                </view>
+              </view>
+            </block>
+          </view>
+        </van-tab>
+        <van-tab title="退款单">
+          <view class="tab-item">
+            <block wx:key="item.id" wx:for="{{listData}}">
+              <view class="list-item" @tap="bindItemClick({{item}})">
+                <view class="row1">
+                  <view class="left">
+                    <image src="{{item.type=='01'?'../../img/icon_travel.png':item.type=='02'?'../../img/icon_translation.png':'../../img/order_archives_image.png'}}"></image>
+                    <text>{{item.title}}</text>
+                  </view>
+                  <text class="price">¥ {{item.price}}</text>
+                </view>
+                <view class="row-common">
+                  <text>{{item.completeDate}}{{item.type=='01'?'出发':'完成'}}</text>
+                  <text>已成交</text>
+                </view>
+                <view class="row-common">
+                  <text>订单号：{{item.orderNumber}}</text>
+                  <text>预订日期：{{item.bookingDate}}</text>
+                </view>
+              </view>
+            </block>
+          </view>
+        </van-tab>
+        <van-tab title="待点评">
+          <view class="tab-item">
+            <block wx:key="item.id" wx:for="{{listData}}">
+              <view class="list-item" @tap="bindItemClick({{item}})">
+                <view class="row1">
+                  <view class="left">
+                    <image src="{{item.type=='01'?'../../img/icon_travel.png':item.type=='02'?'../../img/icon_translation.png':'../../img/order_archives_image.png'}}"></image>
+                    <text>{{item.title}}</text>
+                  </view>
+                  <text class="price">¥ {{item.price}}</text>
+                </view>
+                <view class="row-common">
+                  <text>{{item.completeDate}}{{item.type=='01'?'出发':'完成'}}</text>
+                  <text>已成交</text>
+                </view>
+                <view class="row-common">
+                  <text>订单号：{{item.orderNumber}}</text>
+                  <text>预订日期：{{item.bookingDate}}</text>
+                </view>
+                <view class="row-last">
+                  <button class="btn-pay" catchtap="bindBtnClick({{item}},{{4}})">去点评</button>
+                </view>
+              </view>
+            </block>
+          </view>
+        </van-tab>
+      </van-tabs>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class myOrder extends wepy.page {
+    config = {
+      navigationBarTitleText: '我的订单',
+      backgroundColor:'#F2F2F2',
+      'usingComponents': {
+        'van-tab': '../../components/vant/tab/index',
+        'van-tabs': '../../components/vant/tabs/index',
+        "van-rate": "../../components/vant/rate/index",
+      }
+    };
+    components = {};
+
+    data = {
+      active:0,
+      scrollTop: 0,
+      lineWidth: 74,
+      listData:[
+        {
+          id:'1001',
+          type:'01',
+          title:'大阪6天5晚健康行',
+          price:'4600',
+          completeDate:'01-21',
+          bookingDate:'2018-12-09',
+          status:'01',
+          orderNumber:'288938933',
+        },
+        {
+          id:'1002',
+          type:'02',
+          title:'陪同翻译',
+          price:'1800',
+          completeDate:'01-21',
+          bookingDate:'2018-12-09',
+          status:'01',
+          orderNumber:'288938933',
+        },
+        {
+          id:'1003',
+          type:'03',
+          title:'胶片影像',
+          price:'260',
+          completeDate:'01-21',
+          bookingDate:'2018-12-09',
+          status:'01',
+          orderNumber:'288938933',
+        },
+        {
+          id:'1001',
+          type:'01',
+          title:'大阪6天5晚健康行',
+          price:'4600',
+          completeDate:'01-21',
+          bookingDate:'2018-12-09',
+          status:'01',
+          orderNumber:'288938933',
+        },
+        {
+          id:'1002',
+          type:'02',
+          title:'陪同翻译',
+          price:'1800',
+          completeDate:'01-21',
+          bookingDate:'2018-12-09',
+          status:'01',
+          orderNumber:'288938933',
+        },
+        {
+          id:'1003',
+          type:'03',
+          title:'胶片影像',
+          price:'260',
+          completeDate:'01-21',
+          bookingDate:'2018-12-09',
+          status:'01',
+          orderNumber:'288938933',
+        },
+      ]
+    };
+
+    methods = {
+      onChange(e){
+        let index  =  e.detail.index;
+      },
+      bindItemClick(item){
+        wx.showToast({
+          title: 'item' + item.id,
+          icon: 'none'
+        });
+      },
+      bindBtnClick(item,tabIndex){
+        switch (tabIndex) {
+          case 1:
+            // 待支付
+            break;
+          case 4:
+            // 去点评
+            this.$preload("item",item);
+            this.$navigate('review');
+            break;
+        }
+      }
+    };
+
+    onPageScroll(e) {
+      this.scrollTop = e.scrollTop;
+      this.$apply();
+    }
+
+    toLogin() {
+      this.$navigate('../login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+
+      let t = this;
+      wx.getSystemInfo({
+        success(res) {
+          t.lineWidth = res.screenWidth / 4;
+        }
+      });
+
+      this.active = options.active;
+      this.$apply();
+    }
+  }
+</script>

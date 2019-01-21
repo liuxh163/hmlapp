@@ -54,6 +54,8 @@
         'pages/discoverydetail/discoveryDetail',  // 发现详情
         'pages/takePhoto',  // 拍照
         'pages/publishPost',  // 发表帖子
+        'pages/order/myOrder',  // 我的订单
+        'pages/order/review',  // 点评
         'pages/webView', // 示例
       ],
       window: {

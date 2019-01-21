@@ -1,0 +1,321 @@
+<style lang="scss">
+  @import "../../css/base";
+  page{
+    background-color: #F2F2F2;
+  }
+  text{
+    font-weight: 500;
+  }
+  .title-view{
+    height: px2rpx(148);
+    background: linear-gradient(20deg, #FFC207, #FFE698);
+    display: flex;
+    flex-direction: column;
+    padding-left: px2rpx(15);
+    padding-right: px2rpx(15);
+    text:first-child{
+      margin-top: px2rpx(25);
+      color: #333333;
+      font-size: px2rpx(18);
+      font-weight: bold;
+    }
+    text:nth-child(2){
+      margin-top: px2rpx(10);
+      color: #333333;
+      font-size: px2rpx(12);
+      text-indent: px2rpx(30);
+    }
+  }
+  .common-card{
+    background-color: white;
+    border-radius: px2rpx(4);
+    width: px2rpx(345);
+    min-height: px2rpx(300);
+    margin-top: px2rpx(-35);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .title{
+      margin-top: px2rpx(20);
+      color: #999999;
+      font-size: px2rpx(12);
+      margin-bottom: px2rpx(25);
+    }
+    .rate-view:nth-of-type(n+2){
+      margin-top: px2rpx(30);
+    }
+    .rate-view{
+      display: flex;
+      align-items: center;
+      text:first-child{
+        color: #333333;
+        font-size: px2rpx(15);
+      }
+      .rate-icon{
+        margin-left: px2rpx(23);
+        margin-top: px2rpx(4);
+      }
+    }
+    .total-score{
+      margin-bottom: px2rpx(30);
+      margin-top: px2rpx(30);
+      text:first-child{
+        color: #333333;
+        font-size: px2rpx(15);
+        font-weight: 400;
+      }
+      text:nth-child(2){
+        color: #FFC207;
+        font-weight: 600;
+        font-size: px2rpx(40);
+      }
+      text:nth-child(3){
+        color: #333333;
+        font-size: px2rpx(15);
+        font-weight: 400;
+      }
+    }
+  }
+  .common-card:nth-of-type(n+2){
+    margin-top: px2rpx(10);
+  }
+  .input-class {
+    padding-left: px2rpx(5);
+    padding-right: px2rpx(5);
+    margin-top: px2rpx(10);
+    border: 1px #CCCCCC solid;
+    height: px2rpx(84);
+    width: px2rpx(335);
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: px2rpx(4);
+    color: #333333;
+    font-size: px2rpx(13);
+  }
+  .submit-view{
+    margin-top: px2rpx(10);
+    padding: px2rpx(10) px2rpx(15);
+    background-color: white;
+    button{
+      width: px2rpx(345);
+      background-color: #FE9F05;
+      border-radius: px2rpx(4);
+      color: white;
+      font-size: px2rpx(19);
+    }
+  }
+</style>
+<template>
+  <view class="review">
+    <view class="title-view">
+      <text>{{item.title}}</text>
+      <text>{{item.desc}}</text>
+    </view>
+    <form bindsubmit="formSubmit">
+      <view class="common-card shadow">
+        <text class="title">为整体服务打分</text>
+        <view class="rate-view">
+          <text>医院环境</text>
+          <van-rate id="rate1_1" name="rate1_1" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="rate-view">
+          <text>体检服务</text>
+          <van-rate id="rate1_2" name="rate1_2" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="rate-view">
+          <text>医生服务</text>
+          <van-rate id="rate1_3" name="rate1_3" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="rate-view">
+          <text>行程舒适</text>
+          <van-rate id="rate1_4" name="rate1_4" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="total-score">
+          <text>总分:</text>
+          <text> {{rate1.totalScore}} </text>
+          <text>分</text>
+        </view>
+      </view>
+      <view class="common-card shadow">
+        <text class="title">为整体服务打分</text>
+        <view class="rate-view">
+          <text>医院环境</text>
+          <van-rate id="rate2_1" name="rate2_1" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="rate-view">
+          <text>体检服务</text>
+          <van-rate id="rate2_2" name="rate2_2" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="rate-view">
+          <text>医生服务</text>
+          <van-rate id="rate2_3" name="rate2_3" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="total-score">
+          <text>总分:</text>
+          <text> {{rate2.totalScore}} </text>
+          <text>分</text>
+        </view>
+      </view>
+      <view class="common-card shadow">
+        <text class="title">为整体服务打分</text>
+        <view class="rate-view">
+          <text>医院环境</text>
+          <van-rate id="rate3_1" name="rate3_1" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="rate-view">
+          <text>体检服务</text>
+          <van-rate id="rate3_2" name="rate3_2" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="rate-view">
+          <text>医生服务</text>
+          <van-rate id="rate3_3" name="rate3_3" void-icon="star" custom-class="rate-icon"
+                    void-color="#D8D8D8" color="#FFC207" @change="rateChange"/>
+        </view>
+        <view class="total-score">
+          <text>总分:</text>
+          <text> {{rate3.totalScore}} </text>
+          <text>分</text>
+        </view>
+      </view>
+      <textarea
+              name="content"
+              placeholder="我也想评论几句"
+              maxlength="500"
+              class="input-class"/>
+      <view class="submit-view">
+        <button form-type="submit" disabled="{{submitDisable}}" loading="{{submitLoading}}">提交</button>
+      </view>
+    </form>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class review extends wepy.page {
+    config = {
+      navigationBarTitleText: '点评',
+      backgroundColor:'#F2F2F2',
+      'usingComponents': {
+        "van-rate": "../../components/vant/rate/index",
+      }
+    };
+    components = {};
+
+    data = {
+      submitLoading:false,
+      submitDisable:false,
+      item:{
+        title:'健康大阪6天5夜  感受不一样的大阪',
+        desc:'Hi，我是Mike，一句话打招呼，周到及时，温馨的为您提供力所能及的服务。',
+      },
+      rate1:{
+        totalScore:0,
+        unitScore:5,
+        score1:0,
+        score2:0,
+        score3:0,
+        score4:0,
+      },
+      rate2:{
+        totalScore:0,
+        unitScore:5,
+        score1:0,
+        score2:0,
+        score3:0,
+      },
+      rate3:{
+        totalScore:0,
+        unitScore:5,
+        score1:0,
+        score2:0,
+        score3:0,
+      }
+    };
+
+    methods = {
+      formSubmit(e) {
+        let value = e.detail.value;
+        console.log(value);
+        let content = value.content;
+      },
+      rateChange(e){
+        console.log(e);
+        let value = e.detail;
+        let id = e.target.id;
+        if (id.indexOf("rate1") === 0){
+          console.log("rate1");
+          switch (id) {
+            case "rate1_1":
+              this.rate1.score1 = this.rate1.unitScore * value;
+              break;
+            case "rate1_2":
+              this.rate1.score2 = this.rate1.unitScore * value;
+              break;
+            case "rate1_3":
+              this.rate1.score3 = this.rate1.unitScore * value;
+              break;
+            case "rate1_4":
+              this.rate1.score4 = this.rate1.unitScore * value;
+              break;
+          }
+          this.rate1.totalScore = this.rate1.score1 + this.rate1.score2 + this.rate1.score3 + this.rate1.score4;
+        }else if (id.indexOf("rate2") === 0) {
+          console.log("rate2");
+          switch (id) {
+            case "rate2_1":
+              this.rate2.score1 = this.rate2.unitScore * value;
+              break;
+            case "rate2_2":
+              this.rate2.score2 = this.rate2.unitScore * value;
+              break;
+            case "rate2_3":
+              this.rate2.score3 = this.rate2.unitScore * value;
+              break;
+          }
+          this.rate2.totalScore = this.rate2.score1 + this.rate2.score2 + this.rate2.score3;
+        }else if (id.indexOf("rate3") === 0) {
+          console.log("rate3");
+          switch (id) {
+            case "rate3_1":
+              this.rate3.score1 = this.rate3.unitScore * value;
+              break;
+            case "rate3_2":
+              this.rate3.score2 = this.rate3.unitScore * value;
+              break;
+            case "rate3_3":
+              this.rate3.score3 = this.rate3.unitScore * value;
+              break;
+          }
+          this.rate3.totalScore = this.rate3.score1 + this.rate3.score2 + this.rate3.score3;
+        }
+        this.$apply();
+      },
+    };
+
+    toLogin() {
+      this.$navigate('login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+
+      // console.log(options.preload);
+    }
+  }
+</script>

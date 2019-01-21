@@ -155,7 +155,7 @@
           <image class="avatar" src="{{item.picFileId?item.picFileId:'../img/icon_avatar.svg'}}"/>
           <view class="name-container">
             <text>{{item.name}}</text>
-            <van-rate value="{{item.score}}" count="5" size="13"></van-rate>
+            <van-rate value="{{item.score}}" count="5" size="13" readonly></van-rate>
           </view>
           <text class="school-name">{{item.schoolName}}</text>
           <view class="types">

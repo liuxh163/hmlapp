@@ -1,0 +1,103 @@
+@import "base";
+
+page{
+  background-color: #F2F2F2;
+}
+
+.my-order{
+  .tabs{
+    .tab-item{
+      .list-item{
+        margin-top: px2rpx(10);
+        background-color: white;
+        padding: px2rpx(12);
+        display: flex;
+        flex-direction: column;
+        .row1{
+          display: flex;
+          align-items: center;
+          .left{
+            display: flex;
+            align-items: center;
+            image{
+              width: px2rpx(19);
+              height: px2rpx(19);
+            }
+            text{
+              color: #333333;
+              font-size: px2rpx(15);
+              margin-left: px2rpx(5);
+              font-weight: bold;
+            }
+          }
+          .price{
+            margin-left: auto;
+            color: #F19F00;
+            font-size: px2rpx(15);
+          }
+        }
+        .row-common{
+          display: flex;
+          align-items: center;
+          margin-top: px2rpx(10);
+          text{
+            display: block;
+            color: #999999;
+            font-size: px2rpx(12);
+            font-weight: 500;
+          }
+          text:nth-child(2){
+            margin-left: auto;
+          }
+        }
+        .row-last{
+          margin-top: px2rpx(10);
+          display: flex;
+          align-items: center;
+          .btn-pay{
+            display: inline-block;
+            margin-right: 0;
+            width: px2rpx(57);
+            height: px2rpx(30);
+            padding: 0;
+            color: #FE9F05;
+            font-size: px2rpx(12);
+            font-weight: 500;
+            border: 1px solid #FFC207;
+            border-radius: 0;
+            background-color: white;
+          }
+          .btn-pay:active{
+            color: white;
+            background-color: #FE9F05;
+          }
+        }
+      }
+    }
+    .tabs-class{
+      .van-tab{
+        color: #333333 !important;
+        font-size: px2rpx(15) !important;
+        line-height: px2rpx(40) !important;
+      }
+      .van-tab--active{
+        color: #F19F00 !important;
+      }
+      .van-hairline--top-bottom::after{
+        border-top-width: 0 !important;
+      }
+      .van-hairline--top-bottom::after{
+        //margin-left: px2rpx(127.5);
+        border-bottom-width: px2rpx(4) !important;
+        border-bottom-color: #E3E3E3 !important;
+      }
+      .van-tabs__wrap{
+        //position: fixed !important;
+        // margin-left: px2rpx(96);
+      }
+      .van-tabs__wrap{
+        height: px2rpx(40) !important;
+      }
+    }
+  }
+}
