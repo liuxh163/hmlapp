@@ -14,7 +14,7 @@
                  placeholder="请填写手机号" type="number" error-message="{{errMsg.phone}}" border="{{false}}"/>
       <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;"></view>
       <view class="traveler">
-        <van-cell custom-class="title" title-class="title-text" title="联系人">
+        <van-cell custom-class="title" title-class="title-text" title="出行人">
           <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
         </van-cell>
         <button class="add-traveler">+ 添加出行人</button>
@@ -27,21 +27,73 @@
               <text>{{item.personStatus == '01'?'成人':'儿童'}}</text>
               <van-tag class="{{item.type == '01'?'tag1':'tag2'}}">{{item.type == '01'?'体检':'随行'}}</van-tag>
             </view>
-            <image slot="right-icon" class="edit-icon" src="../../img/icon_like.png"/>
+            <image slot="right-icon" class="edit-icon" src="../../img/icon_edit.svg"/>
           </van-cell>
           <view class="project-list" wx:if="{{item.type == '01'}}">
-            <block wx:key="pItem.id" wx:for-index="pIndex" wx:for-item="pItem" wx:for="{{projectList}}">
-              <van-cell custom-class="cell-project" title="{{pItem.name}}" label="约 ¥ {{pItem.price}}／人" border="{{!pIndex == (projectList.length - 1)}}">
-                <view slot="right-icon" class="right-icon" @tap="bindRight({{pItem}})">
-                  <image class="edit-icon" src="../../img/icon_liked.png"/>
-                </view>
-              </van-cell>
-            </block>
+            <van-checkbox-group value="{{projectCheckList}}" bind:change="onCheckboxChange">
+              <block wx:key="pItem.id" wx:for-index="pIndex" wx:for-item="pItem" wx:for="{{projectList}}">
+                <van-cell custom-class="cell-project" title="{{pItem.name}}" label="约 ¥ {{pItem.price}}／人" border="{{!pIndex == (projectList.length - 1)}}">
+                  <view slot="right-icon" class="right-icon">
+                    <van-checkbox checked-color="#FFC207" name="{{pItem.id}}"></van-checkbox>
+                  </view>
+                </van-cell>
+              </block>
+            </van-checkbox-group>
             <van-cell custom-class="cell-bottom"></van-cell>
           </view>
         </block>
       </view>
       <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 10rpx"></view>
+      <van-cell custom-class="title choice-date" title-class="title-text" title="选择日期">
+        <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
+        <text slot="" class="date-value">＊最终时间由我们客服与您确认</text>
+      </van-cell>
+      <view class="date bottom-border">
+        <picker id="startDate" mode="date" value="{{startDate}}" bindchange="bindDateChange">
+          <view class="date-view">
+            <text>最早可到日期</text>
+            <text>{{startDate}}</text>
+            <text wx:if="{{errMsg.startDate}}" class="term-service-err-msg">{{errMsg.startDate}}</text>
+          </view>
+        </picker>
+      </view>
+      <view class="date">
+        <picker id="endDate" start="{{endStartDate}}" mode="date" value="{{endDate}}" bindchange="bindDateChange">
+          <view class="date-view">
+            <text>最晚可到日期</text>
+            <text>{{endDate}}</text>
+            <text wx:if="{{errMsg.endDate}}" class="term-service-err-msg">{{errMsg.endDate}}</text>
+          </view>
+        </picker>
+      </view>
+      <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 40rpx"></view>
+      <van-cell title-class="title-text" title="重要须知" border="{{false}}">
+        <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
+      </van-cell>
+      <block wx:for="{{projectList}}">
+        <view class="notice">
+            <view class="circle"></view>
+            <text>我们的翻译工作全部由人工完成，严禁使用电脑自动翻译。所有的译件均有人工逐字逐句严格校对，文字和专业双重审核，并对其进行编辑。该过程将消除错译、漏译、拼写、打字和语法上的错误，保证用词贴切与一致性，把错误降到最低。正常翻译时间为5-10个工作日，如果翻译项目需要在更短的时间内交付，视情况而定，额外收取20%～30％的费用。
+            </text>
+        </view>
+      </block>
+      <view class="terms-service-container">
+        <van-checkbox name="terms_service" checked-color="#FFC207" value="{{ checked }}" bind:change="binTermServiceChange"></van-checkbox>
+        <text>您已经阅读并同意</text>
+        <navigator class="term-service-text">
+          服务条款
+        </navigator>
+      </view>
+      <view class="staging-container">
+        <text class="staging-icon">分</text>
+        <text class="staging-icon-desc">支持分期</text>
+        <view class="staging-desc-container">
+          <text class="staging-desc">首付最低</text>
+          <text class="staging-desc price">3455.4</text>
+          <text class="staging-desc">即可成行</text>
+          <navigator class="staging-desc choice">选择分期 ></navigator>
+        </view>
+      </view>
       <submitbar :priceRMB.sync="priceRMB" :priceJPY.sync="priceJPY" :buyListCount.sync="buyListCount"></submitbar>
     </form>
   </view>
@@ -69,13 +121,19 @@
 
     data = {
       title:'健康大阪6天5夜 感受不一样的大阪',
+      startDate:'',
+      endDate:'',
+      endStartDate:'',
       priceRMB:'0',
       priceJPY:'0',
       buyListCount:0,
+      checked:false,
       errMsg:{
         contact:'',
         phone:'',
         termService:'',
+        startDate:'',
+        endDate:'',
       },
       travelerList:[
         {
@@ -107,6 +165,7 @@
           isChecked:false
         },
       ],
+      projectCheckList:[],
     };
 
     methods = {
@@ -114,11 +173,25 @@
         let value = e.detail.value;
         console.log("value", value);
       },
-      bindRight(pItem){
-        wx.showToast({
-          title: 'bindRight' + pItem.id,
-          icon: 'none'
-        });
+      onCheckboxChange(e){
+        this.projectCheckList = e.detail;
+      },
+      binTermServiceChange(e){
+        this.checked = e.detail;
+        this.errMsg.termService = '';
+      },
+      bindDateChange(e){
+        // console.log('e', e);
+        if (e.currentTarget.id == 'startDate') {
+          this.startDate = e.detail.value;
+          this.errMsg.startDate = '';
+          this.endStartDate = this.addDate(this.startDate);
+          console.log(this.endStartDate);
+        }else {
+          this.endDate = e.detail.value;
+          this.errMsg.endDate = '';
+        }
+
       },
       bindInput(e){
         switch (e.currentTarget.id) {
