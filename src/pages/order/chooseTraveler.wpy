@@ -1,8 +1,90 @@
 <style lang="scss">
+  @import "../../css/base";
+  .choose-traveler{
+    .van-checkbox__icon--round{
+      border-radius: px2rpx(2);
+      transform: scale(.7);
+    }
+    .van-checkbox__label{
+      line-height: 0 !important;
+    }
+    .van-checkbox__icon{
+      border-color: #FFC207;
+    }
+    .van-checkbox{
+      line-height: 0;
+    }
+    .bottom-border{
+      border-bottom: 0.5px solid #eee;
+      padding-bottom: px2rpx(10);
+    }
+    text{
+      color: #333333;
+      font-weight: 500;
+    }
+    .notice{
+      height: px2rpx(31);
+      background-color: #E9E9E9;
+      text-align: center;
+      line-height: px2rpx(31);
+      color: #999999;
+      font-size: px2rpx(12);
+    }
+    .choose-traveler-container{
+      padding-left: px2rpx(15);
+      padding-right: px2rpx(15);
+      .title-view{
+        margin-top: px2rpx(20);
+        display: flex;
+        align-items: center;
+        text{
+          color: #FE9F05;
+          font-size: px2rpx(12);
+        }
+        .column1{
+          display: flex;
+          align-items: center;
+          image{
+            width: px2rpx(30);
+            height: px2rpx(26);
+          }
+          text{
+            margin-left: px2rpx(5);
+          }
+        }
+        .column2{
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          image{
+            width: px2rpx(20);
+            height: px2rpx(20);
+          }
+          text{
+            margin-left: px2rpx(5);
+          }
+        }
+      }
+    }
+  }
 </style>
 <template>
   <view class="choose-traveler">
-
+    <view class="notice">
+      ＊为了您顺利出行，请务必保证所填写项与出游所持证件一致
+    </view>
+    <view class="choose-traveler-container">
+      <view class="title-view bottom-border">
+        <view class="column1" @tap="bindAdd({{1}})">
+          <image src="../../img/icon_camera.svg"></image>
+          <text>扫描证件增加</text>
+        </view>
+        <view class="column2" @tap="bindAdd({{2}})">
+          <image src="../../img/icon_pen.svg"></image>
+          <text>手动输入增加</text>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -14,6 +96,10 @@
   export default class chooseTraveler extends wepy.page {
     config = {
       navigationBarTitleText: '选择出行人',
+      "usingComponents": {
+        "van-checkbox": "../../components/vant/checkbox/index",
+        "van-checkbox-group": "../../components/vant/checkbox-group/index",
+      },
     };
     components = {};
 
@@ -21,7 +107,21 @@
 
     data = {};
 
-    methods = {};
+    methods = {
+      bindAdd(type){
+        switch (type) {
+          case 1:
+            wx.showToast({
+              title: '扫描证件功能即将上线，敬请期待',
+              icon: 'none'
+            });
+            break;
+          case 2:
+            this.$navigate('editTraveler');
+            break;
+        }
+      }
+    };
 
     toLogin() {
       this.$navigate('../login');
