@@ -1,6 +1,36 @@
 <style lang="scss">
   @import "../../css/base";
   .choose-traveler{
+    .van-cell__title {
+      font-size: px2rpx(18);
+      color: #333333;
+      align-self: flex-start;
+      margin-top: px2rpx(4);
+    }
+
+    .van-cell__value {
+      color: #333333 !important;
+      font-size: px2rpx(14);
+    }
+
+    .van-cell{
+      width: auto !important;
+      margin-right: px2rpx(15) !important;
+      display: flex;
+      align-items: center;
+    }
+
+    .van-field__body {
+      input {
+        text-align: right;
+      }
+      textarea {
+        text-align: right;
+      }
+    }
+    .van-field__error-message{
+      text-align: right !important;
+    }
     .van-checkbox__icon--round{
       border-radius: px2rpx(2);
       transform: scale(.7);
@@ -66,6 +96,51 @@
         }
       }
     }
+    .traveler-list{
+      .cell-title{
+        display: flex;
+        flex-direction: column;
+        .row1{
+          display: flex;
+          align-items: flex-end;
+          text:nth-child(2){
+            margin-left: px2rpx(15);
+            color: #333333;
+            font-size: px2rpx(18);
+            line-height: px2rpx(18);
+          }
+          text:nth-child(3){
+            line-height: px2rpx(15);
+            color: #CCCCCC;
+            font-size: px2rpx(12);
+            margin-left: px2rpx(10);
+          }
+          .tag1{
+            margin-left: px2rpx(10);
+            .van-tag{
+              background-color: #FE585A !important;
+              border-radius: px2rpx(4);
+            }
+          }
+          .tag2{
+            margin-left: px2rpx(10);
+            .van-tag{
+              background-color: #FFC207 !important;
+              border-radius: px2rpx(4);
+            }
+          }
+        }
+        .label{
+          font-size: px2rpx(12);
+          color: #CCCCCC;
+          margin-top: px2rpx(5);
+        }
+      }
+      .edit-icon{
+        width: px2rpx(18);
+        height: px2rpx(18);
+      }
+    }
   }
 </style>
 <template>
@@ -85,6 +160,23 @@
         </view>
       </view>
     </view>
+    <view class="traveler-list">
+      <van-checkbox-group value="{{travelerCheckList}}" bind:change="onCheckboxChange">
+        <block wx:key="{{item.id}}" wx:for="{{travelerList}}">
+          <van-cell>
+            <view class="cell-title" slot="title">
+              <view class="row1">
+                <van-checkbox checked-color="#FFC207" name="{{item.id}}"></van-checkbox>
+                <text>{{item.name}}</text>
+                <text>{{item.personStatus == '01'?'成人':'儿童'}}</text>
+                <van-tag class="{{item.type == '01'?'tag1':'tag2'}}">{{item.type == '01'?'体检':'随行'}}</van-tag>
+              </view>
+            </view>
+            <image slot="right-icon" class="edit-icon" src="../../img/icon_edit.svg"/>
+          </van-cell>
+        </block>
+      </van-checkbox-group>
+    </view>
   </view>
 </template>
 
@@ -97,17 +189,38 @@
     config = {
       navigationBarTitleText: '选择出行人',
       "usingComponents": {
+        "van-cell": "../../components/vant/cell/index",
         "van-checkbox": "../../components/vant/checkbox/index",
         "van-checkbox-group": "../../components/vant/checkbox-group/index",
+        "van-tag": "../../components/vant/tag/index",
       },
     };
     components = {};
 
     mixins = [commonApi, utils];
 
-    data = {};
+    data = {
+      travelerList:[
+        {
+          id:'1001',
+          name:'张萌',
+          personStatus:'01',
+          type:'01',
+        },
+        {
+          id:'1002',
+          name:'张小萌',
+          personStatus:'02',
+          type:'02',
+        },
+      ],
+      travelerCheckList:[],
+    };
 
     methods = {
+      onCheckboxChange(e){
+        this.travelerCheckList = e.detail;
+      },
       bindAdd(type){
         switch (type) {
           case 1:
@@ -125,6 +238,10 @@
 
     toLogin() {
       this.$navigate('../login');
+    }
+
+    onUnload(){
+      console.log(this.travelerCheckList);
     }
 
     onLoad(options, data) {

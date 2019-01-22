@@ -29,16 +29,6 @@
   text-align: right !important;
 }
 
-.van-stepper__minus::after, .van-stepper__minus::before,
-.van-stepper__plus::after, .van-stepper__plus::before{
-  background-color: white !important;
-}
-
-.van-stepper__minus--disabled::after,.van-stepper__minus--disabled::before,
-.van-stepper__plus--disabled::after,.van-stepper__plus--disabled::before {
-  background-color:#c9c9c9 !important;
-}
-
 .fill-order{
   display: flex;
   flex-direction: column;
@@ -97,31 +87,40 @@
   .traveler-list{
     .cell-title{
       display: flex;
-      align-items: flex-end;
-      text:first-child{
-        color: #333333;
-        font-size: px2rpx(18);
-        line-height: px2rpx(18);
+      flex-direction: column;
+      .row1{
+        display: flex;
+        align-items: flex-end;
+        text:first-child{
+          color: #333333;
+          font-size: px2rpx(18);
+          line-height: px2rpx(18);
+        }
+        text:nth-child(2){
+          line-height: px2rpx(15);
+          color: #CCCCCC;
+          font-size: px2rpx(12);
+          margin-left: px2rpx(10);
+        }
+        .tag1{
+          margin-left: px2rpx(10);
+          .van-tag{
+            background-color: #FE585A !important;
+            border-radius: px2rpx(4);
+          }
+        }
+        .tag2{
+          margin-left: px2rpx(10);
+          .van-tag{
+            background-color: #FFC207 !important;
+            border-radius: px2rpx(4);
+          }
+        }
       }
-      text:nth-child(2){
-        line-height: px2rpx(15);
-        color: #CCCCCC;
+      .label{
         font-size: px2rpx(12);
-        margin-left: px2rpx(10);
-      }
-      .tag1{
-        margin-left: px2rpx(10);
-        .van-tag{
-          background-color: #FE585A !important;
-          border-radius: px2rpx(4);
-        }
-      }
-      .tag2{
-        margin-left: px2rpx(10);
-        .van-tag{
-          background-color: #FFC207 !important;
-          border-radius: px2rpx(4);
-        }
+        color: #CCCCCC;
+        margin-top: px2rpx(5);
       }
     }
     .edit-icon{

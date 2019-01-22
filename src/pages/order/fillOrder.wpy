@@ -17,21 +17,27 @@
         <van-cell custom-class="title" title-class="title-text" title="出行人">
           <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
         </van-cell>
-        <button class="add-traveler">+ 添加出行人</button>
+        <navigator url="chooseTraveler">
+          <button class="add-traveler">+ 添加出行人</button>
+        </navigator>
+
       </view>
       <view class="traveler-list">
         <block wx:key="{{item.id}}" wx:for="{{travelerList}}">
-          <van-cell label="身份证号：{{errMsg.x_ray}}" border="{{!index == (travelerList.length - 1)}}">
+          <van-cell border="{{!index == (travelerList.length - 1)}}">
             <view class="cell-title" slot="title">
-              <text>{{item.name}}</text>
-              <text>{{item.personStatus == '01'?'成人':'儿童'}}</text>
-              <van-tag class="{{item.type == '01'?'tag1':'tag2'}}">{{item.type == '01'?'体检':'随行'}}</van-tag>
+              <view class="row1">
+                <text>{{item.name}}</text>
+                <text>{{item.personStatus == '01'?'成人':'儿童'}}</text>
+                <van-tag class="{{item.type == '01'?'tag1':'tag2'}}">{{item.type == '01'?'体检':'随行'}}</van-tag>
+              </view>
+              <text class="label">身份证号：{{item.identityNumber}}</text>
             </view>
             <image slot="right-icon" class="edit-icon" src="../../img/icon_edit.svg"/>
           </van-cell>
           <view class="project-list" wx:if="{{item.type == '01'}}">
             <van-checkbox-group value="{{projectCheckList}}" bind:change="onCheckboxChange">
-              <block wx:key="pItem.id" wx:for-index="pIndex" wx:for-item="pItem" wx:for="{{projectList}}">
+              <block wx:key="{{pItem.id}}" wx:for-index="pIndex" wx:for-item="pItem" wx:for="{{projectList}}">
                 <van-cell custom-class="cell-project" title="{{pItem.name}}" label="约 ¥ {{pItem.price}}／人" border="{{!pIndex == (projectList.length - 1)}}">
                   <view slot="right-icon" class="right-icon">
                     <van-checkbox checked-color="#FFC207" name="{{pItem.id}}"></van-checkbox>
