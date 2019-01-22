@@ -8,9 +8,9 @@
       <van-cell custom-class="title" title-class="title-text" title="联系人">
         <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
       </van-cell>
-      <van-field name="contact" id="contact" bind:input="bindInput" maxlength="10" label="姓名"
-                 placeholder="请填写联系人姓名" error-message="{{errMsg.contact}}"/>
-      <van-field name="phone" id="phone" bind:input="bindInput" maxlength="11" label="手机号码"
+      <van-field name="name" id="name" bind:input="bindInput" maxlength="10" label="姓名" clearable
+                 placeholder="请填写联系人姓名" error-message="{{errMsg.name}}"/>
+      <van-field name="phone" id="phone" bind:input="bindInput" maxlength="11" label="手机号码" clearable
                  placeholder="请填写手机号" type="number" error-message="{{errMsg.phone}}" border="{{false}}"/>
       <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;"></view>
       <view class="traveler">
@@ -54,25 +54,13 @@
         <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
         <text slot="" class="date-value">＊最终时间由我们客服与您确认</text>
       </van-cell>
-      <view class="date bottom-border">
-        <picker id="startDate" mode="date" value="{{startDate}}" bindchange="bindDateChange">
-          <view class="date-view">
-            <text>最早可到日期</text>
-            <text>{{startDate}}</text>
-            <text wx:if="{{errMsg.startDate}}" class="term-service-err-msg">{{errMsg.startDate}}</text>
-          </view>
-        </picker>
-      </view>
-      <view class="date">
-        <picker id="endDate" start="{{endStartDate}}" mode="date" value="{{endDate}}" bindchange="bindDateChange">
-          <view class="date-view">
-            <text>最晚可到日期</text>
-            <text>{{endDate}}</text>
-            <text wx:if="{{errMsg.endDate}}" class="term-service-err-msg">{{errMsg.endDate}}</text>
-          </view>
-        </picker>
-      </view>
-      <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 40rpx"></view>
+      <picker id="startDate" mode="date" value="{{startDate}}" bindchange="bindDateChange">
+        <van-cell custom-class="cell-date" title="最早可到日期" value="{{startDate}}" label="{{errMsg.startDate}}" />
+      </picker>
+      <picker id="endDate" start="{{endStartDate}}" mode="date" value="{{endDate}}" bindchange="bindDateChange">
+        <van-cell custom-class="cell-date" title="最晚可到日期" value="{{endDate}}" label="{{errMsg.endDate}}" border="{{false}}" />
+      </picker>
+      <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 20rpx"></view>
       <van-cell title-class="title-text" title="重要须知" border="{{false}}">
         <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
       </van-cell>
@@ -139,7 +127,7 @@
       buyListCount:0,
       checked:false,
       errMsg:{
-        contact:'',
+        name:'',
         phone:'',
         termService:'',
         startDate:'',
@@ -205,8 +193,8 @@
       },
       bindInput(e){
         switch (e.currentTarget.id) {
-          case "contact":
-            this.errMsg.contact='';
+          case "name":
+            this.errMsg.name='';
             break;
           case "phone":
             this.errMsg.phone='';

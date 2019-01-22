@@ -31,7 +31,7 @@
   export default class extends wepy.app {
     config = {
       pages: [
-        'pages/order/fillOrder',  // 填写订单
+        'pages/order/editTraveler',  // 填写订单
         'pages/index',  // 首页
         'pages/discovery',  // 发现
         'pages/mine',   // 我的
@@ -57,9 +57,10 @@
         'pages/publishPost',  // 发表帖子
         'pages/order/myOrder',  // 我的订单
         'pages/order/review',  // 点评
-        // 'pages/order/fillOrder',  // 填写订单
+        'pages/order/fillOrder',  // 填写订单
         'pages/order/staging',  // 分期
         'pages/order/chooseTraveler',  // 选择出行人
+        // 'pages/order/editTraveler',  // 选择出行人
         'pages/webView', // 示例
       ],
       window: {

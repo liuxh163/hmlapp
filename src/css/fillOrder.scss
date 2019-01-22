@@ -131,6 +131,9 @@
   .project-list{
     .cell-project{
       margin-left: px2rpx(60) !important;
+      .van-cell__title{
+        font-size: px2rpx(15) !important;
+      }
     }
     .cell-bottom{
       padding: 0 !important;
@@ -157,27 +160,6 @@
     font-size: px2rpx(12);
     line-height: px2rpx(12);
     color: #F44;
-  }
-  .date{
-    margin-top: px2rpx(15);
-    margin-right: px2rpx(15);
-    margin-left: px2rpx(15);
-    .date-view{
-      display: flex;
-      align-items: center;
-      width: 100%;
-      text:first-child{
-        display: inline-block;
-        color: #333333;
-        font-size: px2rpx(18);
-      }
-      text:nth-child(2){
-        display: inline-block;
-        margin-left: auto;
-        color: #CCCCCC;
-        font-size: px2rpx(13);
-      }
-    }
   }
   .notice{
     margin-bottom: px2rpx(10);

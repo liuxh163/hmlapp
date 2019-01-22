@@ -1,0 +1,131 @@
+<style lang="scss">
+  @import "../../css/base";
+  .van-cell__title {
+    font-size: px2rpx(18);
+    color: #333333;
+    align-self: flex-start;
+    margin-top: px2rpx(4);
+  }
+
+  .van-cell__value {
+    color: #333333 !important;
+    font-size: px2rpx(14);
+  }
+
+  .van-cell{
+    width: auto !important;
+    margin-right: px2rpx(15) !important;
+    align-items: center !important;
+  }
+
+  .van-field__body {
+    input {
+      text-align: right;
+    }
+    textarea {
+      text-align: right;
+    }
+  }
+  .van-field__error-message{
+    text-align: right !important;
+  }
+
+  .btn-view{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: px2rpx(10) px2rpx(15);
+    background-color: white;
+    button:first-child{
+      width: px2rpx(345);
+      background-color: #FE9F05;
+      border-radius: px2rpx(4);
+      color: white;
+      font-size: px2rpx(19);
+    }
+    button:nth-child(2){
+      margin-top: px2rpx(10);
+      width: px2rpx(345);
+      background-color: #666666;
+      border-radius: px2rpx(4);
+      color: white;
+      font-size: px2rpx(19);
+    }
+  }
+</style>
+<template>
+  <view class="edit-traveler">
+    <view style="border-top: 1px #DCDCDC solid;position: fixed;top: 0;left: 0;right: 0;"></view>
+    <view style="margin-top: 2px">
+      <form bindsubmit="formSubmit">
+        <van-field name="passportNumber" id="passportNumber" bind:input="bindInput" label="护照号码" clearable
+                   placeholder="请填写证件号码" type="number" error-message="{{errMsg.passportNumber}}"/>
+      </form>
+    </view>
+    <view class="btn-view">
+      <button @tap="bindSave" disabled="{{saveDisable}}" loading="{{saveLoading}}">保存</button>
+      <button @tap="bindDelete" disabled="{{deleteDisable}}" loading="{{deleteLoading}}">删除</button>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import commonApi from '../../mixins/commonApi'
+  import utils from '../../mixins/utils'
+
+  export default class editTraveler extends wepy.page {
+    config = {
+      navigationBarTitleText: '编辑出行人',
+      "usingComponents": {
+        "van-field": "../../components/vant/field/index",
+        "van-cell": "../../components/vant/cell/index",
+      }
+    };
+    components = {};
+
+    mixins = [commonApi, utils];
+
+    data = {
+      saveLoading:false,
+      saveDisable:false,
+      deleteLoading:false,
+      deleteDisable:false,
+      errMsg:{
+        passportNumber:'',
+      }
+    };
+
+    methods = {
+      formSubmit(e){
+        let value = e.detail.value;
+        console.log("value", value);
+        this.errMsg.passportNumber='';
+      },
+      bindInput(e){
+        switch (e.currentTarget.id) {
+          case "passportNumber":
+            this.errMsg.passportNumber='';
+            break;
+        }
+      },
+      bindSave(){
+
+      },
+      bindDelete(){
+
+      },
+    };
+
+    toLogin() {
+      this.$navigate('../login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>
