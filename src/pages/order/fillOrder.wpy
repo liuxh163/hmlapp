@@ -91,7 +91,7 @@
           <text class="staging-desc">首付最低</text>
           <text class="staging-desc price">3455.4</text>
           <text class="staging-desc">即可成行</text>
-          <navigator class="staging-desc choice">选择分期 ></navigator>
+          <navigator url="staging" class="staging-desc choice">选择分期 ></navigator>
         </view>
       </view>
       <submitbar :priceRMB.sync="priceRMB" :priceJPY.sync="priceJPY" :buyListCount.sync="buyListCount"></submitbar>
@@ -101,6 +101,7 @@
 
 <script>
   import wepy from 'wepy'
+  import commonApi from '../../mixins/commonApi'
   import utils from '../../mixins/utils'
   import submitBar from '../../components/submitBar'
 
@@ -115,9 +116,12 @@
         "van-tag": "../../components/vant/tag/index",
       }
     };
+
     components = {
       submitbar:submitBar
     };
+
+    mixins = [commonApi,utils];
 
     data = {
       title:'健康大阪6天5夜 感受不一样的大阪',
@@ -245,7 +249,7 @@
     };
 
     toLogin() {
-      this.$navigate('login');
+      this.$navigate('../login');
     }
 
     onLoad(options, data) {

@@ -1,0 +1,37 @@
+<style lang="scss">
+</style>
+<template>
+  <view class="choose-traveler">
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import commonApi from '../../mixins/commonApi'
+  import utils from '../../mixins/utils'
+
+  export default class chooseTraveler extends wepy.page {
+    config = {
+      navigationBarTitleText: '选择出行人',
+    };
+    components = {};
+
+    mixins = [commonApi, utils];
+
+    data = {};
+
+    methods = {};
+
+    toLogin() {
+      this.$navigate('../login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+    }
+  }
+</script>

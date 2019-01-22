@@ -1,0 +1,258 @@
+<style lang="scss">
+  @import "../../css/base";
+  .staging{
+    padding-bottom: px2rpx(80);
+    .van-checkbox__icon--round{
+      border-radius: px2rpx(2);
+      transform: scale(.7);
+    }
+    .van-checkbox__label{
+      line-height: 0 !important;
+    }
+    .van-checkbox__icon{
+      border-color: #FFC207;
+    }
+    .van-checkbox{
+      line-height: 0;
+    }
+    text{
+      color: #333333;
+      font-weight: 500;
+    }
+    .order-amount{
+      margin-top: px2rpx(20);
+      border-bottom: 0.5px #E3E3E3 solid;
+      padding-bottom: px2rpx(16);
+      margin-left: px2rpx(15);
+      margin-right: px2rpx(15);
+      text-align: center;
+      text:first-child{
+        color: #333333;
+        font-size: px2rpx(12);
+      }
+      text:nth-child(2){
+        margin-left: px2rpx(3);
+        font-size: px2rpx(16);
+      }
+    }
+    .staging-list{
+      .staging-item{
+        margin-top: px2rpx(15);
+        margin-left: px2rpx(15);
+        margin-right: px2rpx(15);
+        display: flex;
+        align-items: flex-start;
+        .column2{
+          margin-top: px2rpx(1);
+          margin-left: px2rpx(15);
+          display: flex;
+          flex-direction: column;
+          .title{
+            font-size: px2rpx(13);
+            font-weight: bold;
+          }
+          .common{
+            margin-top: px2rpx(10);
+            display: flex;
+            align-items: center;
+            text{
+              font-size: px2rpx(12);
+            }
+          }
+          .down-payment{
+            text:nth-child(2){
+              color: #FE585A;
+              margin-left: px2rpx(15);
+            }
+          }
+          .instalment-payment{
+            text:nth-child(2){
+              margin-left: px2rpx(15);
+            }
+          }
+          .repayment-period{
+            width: px2rpx(310);
+            text:nth-child(2){
+              margin-left: px2rpx(100);
+              margin-right: auto;
+            }
+            picker{
+              text{
+                color: #FE9F05;
+              }
+            }
+            text:nth-child(3){
+              margin-left: auto;
+            }
+            text:nth-child(3):active{
+              background-color: #DCDCDC;
+            }
+          }
+          .repayment-amount-period{
+            text:nth-child(2){
+              margin-left: px2rpx(77);
+            }
+          }
+        }
+      }
+      .bottom-border{
+        border-bottom: 0.5px #E3E3E3 solid;
+        padding-bottom: px2rpx(15);
+      }
+    }
+    .save-view{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      padding: px2rpx(10) px2rpx(15);
+      background-color: white;
+      button{
+        width: px2rpx(345);
+        background-color: #FE9F05;
+        border-radius: px2rpx(4);
+        color: white;
+        font-size: px2rpx(19);
+      }
+    }
+  }
+</style>
+<template>
+  <view class="staging">
+    <view style="border-top: 1px #DCDCDC solid;position: fixed;top: 0;left: 0;right: 0;"></view>
+    <view class="order-amount">
+      <text>订单金额：¥</text>
+      <text>{{orderAmount}} 元</text>
+    </view>
+    <view class="staging-list">
+      <van-checkbox-group value="{{stagingCheckList}}">
+        <block wx:key="item.id" wx:for="{{stagingList}}">
+          <view class="staging-item {{index == (stagingList.length - 1)?'':'bottom-border'}}" @tap="bindItem({{item}})">
+            <van-checkbox checked-color="#FFC207" name="{{item.id}}"></van-checkbox>
+            <view class="column2">
+              <text class="title">{{item.name}}</text>
+              <view class="common down-payment">
+                <text>首付{{item.downPaymentPercent}}</text>
+                <text>{{item.downPaymentMoney}}</text>
+              </view>
+              <view class="common instalment-payment">
+                <text>分期支付</text>
+                <text>{{item.instalmentPayment}}</text>
+              </view>
+              <view class="common repayment-period">
+                <text>还款期数</text>
+                <text>{{item.periodArray[item.periodIndex]}}期</text>
+                <picker name="{{item.id}}" bindchange="bindPickerChange({{index}})" value="{{item.periodIndex}}" range="{{item.periodArray}}">
+                  <text>选择期数 ></text>
+                </picker>
+              </view>
+              <view class="common repayment-amount-period">
+                <text>每期还款金额</text>
+                <text>{{item.repaymentAmountPerPeriod}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </van-checkbox-group>
+    </view>
+    <view class="save-view">
+      <button @tap="bindSave" disabled="{{saveDisable}}" loading="{{saveLoading}}">保存</button>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import commonApi from '../../mixins/commonApi'
+  import utils from '../../mixins/utils'
+
+  export default class staging extends wepy.page {
+    config = {
+      navigationBarTitleText: '分期',
+      "usingComponents": {
+        "van-checkbox": "../../components/vant/checkbox/index",
+        "van-checkbox-group": "../../components/vant/checkbox-group/index",
+      }
+    };
+    components = {};
+
+    mixins = [commonApi,utils];
+
+    data = {
+      saveLoading:false,
+      saveDisable:false,
+      orderAmount:23800,
+      stagingList:[
+        {
+          id:'1001',
+          name:'海马金',
+          downPaymentPercent:'10%',
+          downPaymentMoney:'3455.4',
+          instalmentPayment:'2839',
+          repaymentAmountPerPeriod:'280',
+          periodIndex:0,
+          periodArray:[3,6,9,12],
+        },
+        {
+          id:'1002',
+          name:'中信银行健康金融贷',
+          downPaymentPercent:'10%',
+          downPaymentMoney:'3455.4',
+          instalmentPayment:'2839',
+          repaymentPeriod:'10',
+          repaymentAmountPerPeriod:'280',
+          periodIndex:0,
+          periodArray:[3,6,9,12],
+        },
+        {
+          id:'1003',
+          name:'中信银行健康金融贷',
+          downPaymentPercent:'10%',
+          downPaymentMoney:'3455.4',
+          instalmentPayment:'2839',
+          repaymentPeriod:'10',
+          repaymentAmountPerPeriod:'280',
+          periodIndex:0,
+          periodArray:[3,6,9,12],
+        },
+      ],
+      stagingCheckList:[],
+    };
+
+    methods = {
+      bindSave(){
+        console.log(this.stagingCheckList);
+      },
+      bindItem(item){
+        this.stagingCheckList = [];
+        this.stagingCheckList.push(item.id);
+        this.$apply();
+      },
+      onCheckboxChange(e){
+        this.stagingCheckList = e.detail;
+      },
+      bindChoicePeriod(item){
+        console.log(item);
+      },
+      bindPickerChange(index,e){
+        let value = e.detail.value;
+        let item = this.stagingList[index];
+        item.periodIndex = value;
+        this.$apply();
+      }
+    };
+
+    toLogin() {
+      this.$navigate('../login');
+    }
+
+    onLoad(options, data) {
+      if (!options.preload) {
+        options.preload = data.preload;
+      }
+      this.$wxpage.options = options;
+
+      this.orderAmount = this.formatCurrency(this.orderAmount);
+      this.$apply();
+    }
+  }
+</script>
