@@ -1,5 +1,6 @@
 <style lang="scss">
   @import "../../css/base";
+
   .van-cell__title {
     font-size: px2rpx(18);
     color: #333333;
@@ -12,7 +13,13 @@
     font-size: px2rpx(14);
   }
 
-  .van-cell{
+  .van-cell__label{
+    color: #f44 !important;
+    text-align: right !important;
+    margin-right: px2rpx(-20);
+  }
+
+  .van-cell {
     width: auto !important;
     margin-right: px2rpx(15) !important;
     align-items: center !important;
@@ -26,24 +33,45 @@
       text-align: right;
     }
   }
-  .van-field__error-message{
+
+  .van-field__error-message {
     text-align: right !important;
   }
 
-  .btn-view{
+  .sex-slot {
+    text {
+      display: inline-block;
+      width: px2rpx(62);
+      height: px2rpx(30);
+      line-height: px2rpx(30);
+      text-align: center;
+      color: #999999;
+      font-size: px2rpx(12);
+      border: 1px #999999 solid;
+    }
+    text:nth-child(2) {
+      margin-left: px2rpx(15);
+    }
+    .sex-checked {
+      color: #FE9F05;
+      border-color: #FE9F05;
+    }
+  }
+
+  .btn-view {
     position: fixed;
     bottom: 0;
     left: 0;
     padding: px2rpx(10) px2rpx(15);
     background-color: white;
-    button:first-child{
+    button:first-child {
       width: px2rpx(345);
       background-color: #FE9F05;
       border-radius: px2rpx(4);
       color: white;
       font-size: px2rpx(19);
     }
-    button:nth-child(2){
+    button:nth-child(2) {
       margin-top: px2rpx(10);
       width: px2rpx(345);
       background-color: #666666;
@@ -56,16 +84,42 @@
 <template>
   <view class="edit-traveler">
     <view style="border-top: 1px #DCDCDC solid;position: fixed;top: 0;left: 0;right: 0;"></view>
-    <view style="margin-top: 2px">
-      <form bindsubmit="formSubmit">
+    <form bindsubmit="formSubmit">
+      <view style="margin-top: 2px;padding-bottom: {{isAddType?'140':'280'}}rpx">
         <van-field name="passportNumber" id="passportNumber" bind:input="bindInput" label="护照号码" clearable
-                   placeholder="请填写证件号码" type="number" error-message="{{errMsg.passportNumber}}"/>
-      </form>
-    </view>
-    <view class="btn-view">
-      <button @tap="bindSave" disabled="{{saveDisable}}" loading="{{saveLoading}}">保存</button>
-      <button @tap="bindDelete" disabled="{{deleteDisable}}" loading="{{deleteLoading}}">删除</button>
-    </view>
+                   placeholder="请填写证件号码" error-message="{{errMsg.passportNumber}}"/>
+        <picker name="documentPeriod" id="documentPeriod" mode="date" value="{{documentPeriod}}"
+                bindchange="bindDateChange">
+          <van-cell title="证件期限" value="{{documentPeriod}}" label="{{errMsg.documentPeriod}}" is-link/>
+        </picker>
+        <van-field name="cname" id="cname" bind:input="bindInput" label="中文姓名" clearable
+                   placeholder="请填写中文姓名" error-message="{{errMsg.cname}}"/>
+        <van-field name="lastNamePinyin" id="lastNamePinyin" bind:input="bindInput" label="姓氏拼音" clearable
+                   placeholder="Last Name 例：张三 姓氏为：张" error-message="{{errMsg.lastNamePinyin}}"/>
+        <van-field name="firstNamePinyin" id="firstNamePinyin" bind:input="bindInput" label="名字拼音" clearable
+                   placeholder="First Name  例：张三  名字为：三" error-message="{{errMsg.firstNamePinyin}}"/>
+        <van-cell title="性别" label="{{errMsg.sex}}">
+          <view class="sex-slot" slot="">
+            <text @tap="bindSexChange('01')" class="{{sex == '01'?'sex-checked':''}}">男</text>
+            <text @tap="bindSexChange('02')" class="{{sex == '02'?'sex-checked':''}}">女</text>
+          </view>
+        </van-cell>
+        <picker name="birthday" id="birthday" mode="date" value="{{birthday}}" bindchange="bindDateChange">
+          <van-cell title="出生日期" value="{{birthday}}" label="{{errMsg.birthday}}" is-link/>
+        </picker>
+        <van-cell title="出行目的" label="{{errMsg.travelPurpose}}">
+          <view class="sex-slot" slot="">
+            <text @tap="bindTravelChange('01')" class="{{travelPurpose == '01'?'sex-checked':''}}">体检</text>
+            <text @tap="bindTravelChange('02')" class="{{travelPurpose == '02'?'sex-checked':''}}">随行</text>
+          </view>
+        </van-cell>
+      </view>
+      <view class="btn-view">
+        <button form-type="submit" disabled="{{saveDisable}}" loading="{{saveLoading}}">保存</button>
+        <button wx:if="{{!isAddType}}" @tap="bindDelete" disabled="{{deleteDisable}}" loading="{{deleteLoading}}">删除
+        </button>
+      </view>
+    </form>
   </view>
 </template>
 
@@ -87,33 +141,123 @@
     mixins = [commonApi, utils];
 
     data = {
-      saveLoading:false,
-      saveDisable:false,
-      deleteLoading:false,
-      deleteDisable:false,
-      errMsg:{
-        passportNumber:'',
+      saveLoading: false,
+      saveDisable: false,
+      deleteLoading: false,
+      deleteDisable: false,
+      documentPeriod: '',
+      isAddType: false,
+      sex: '',
+      birthday: '',
+      travelPurpose: '',
+      errMsg: {
+        passportNumber: '',
+        documentPeriod: '',
+        cname: '',
+        lastNamePinyin: '',
+        firstNamePinyin: '',
+        sex: '',
+        birthday: '',
+        travelPurpose: '',
       }
     };
 
     methods = {
-      formSubmit(e){
+      formSubmit(e) {
         let value = e.detail.value;
         console.log("value", value);
-        this.errMsg.passportNumber='';
+        this.errMsg.passportNumber = '';
+        this.errMsg.documentPeriod = '';
+        this.errMsg.cname = '';
+        this.errMsg.lastNamePinyin = '';
+        this.errMsg.firstNamePinyin = '';
+        this.errMsg.sex = '';
+        this.errMsg.birthday = '';
+        this.errMsg.travelPurpose = '';
+        let isSuccess = false;
+        if (value.passportNumber && value.documentPeriod && value.cname && value.lastNamePinyin &&
+            value.firstNamePinyin && this.sex && value.birthday && this.travelPurpose) {
+          if (this.checkPassportNumber(value.passportNumber)) {
+            isSuccess = true;
+          } else {
+            this.errMsg.passportNumber = '请填写正确的护照号码';
+          }
+        } else {
+          if (!value.passportNumber) {
+            this.errMsg.passportNumber = '请填写护照号码';
+          }
+          if (!value.documentPeriod) {
+            this.errMsg.documentPeriod = '请选择证件期限';
+          }
+          if (!value.cname) {
+            this.errMsg.cname = '请填写中文姓名';
+          }
+          if (!value.lastNamePinyin) {
+            this.errMsg.lastNamePinyin = '请填写姓氏拼音';
+          }
+          if (!value.firstNamePinyin) {
+            this.errMsg.firstNamePinyin = '请填写名字拼音';
+          }
+          if (!this.sex) {
+            this.errMsg.sex = '请选择性别';
+          }
+          if (!value.birthday) {
+            this.errMsg.birthday = '请选择出生日期'
+          }
+          if (!this.travelPurpose) {
+            this.errMsg.travelPurpose = '请选择出行目的';
+          }
+        }
+        if (isSuccess) {
+          wx.showToast({
+            title: '调用编辑出行人接口',
+            icon: 'none'
+          });
+        }
       },
-      bindInput(e){
+      bindDateChange(e) {
+        let id = e.target.id;
+        switch (id) {
+          case "documentPeriod":
+            this.documentPeriod = e.detail.value;
+            this.errMsg.documentPeriod = '';
+            break;
+          case "birthday":
+            this.birthday = e.detail.value;
+            this.errMsg.birthday = '';
+            break;
+        }
+
+      },
+      bindInput(e) {
         switch (e.currentTarget.id) {
           case "passportNumber":
-            this.errMsg.passportNumber='';
+            this.errMsg.passportNumber = '';
+            break;
+          case "cname":
+            this.errMsg.cname = '';
+            break;
+          case "lastNamePinyin":
+            this.errMsg.lastNamePinyin = '';
+            break;
+          case "firstNamePinyin":
+            this.errMsg.firstNamePinyin = '';
             break;
         }
       },
-      bindSave(){
-
+      bindSexChange(value) {
+        this.sex = value;
+        this.errMsg.sex = '';
       },
-      bindDelete(){
-
+      bindTravelChange(value) {
+        this.travelPurpose = value;
+        this.errMsg.travelPurpose = '';
+      },
+      bindDelete() {
+        wx.showToast({
+          title: '调用删除出行人接口',
+          icon: 'none'
+        });
       },
     };
 

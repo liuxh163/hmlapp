@@ -1,6 +1,19 @@
 import wepy from 'wepy'
 
 export default class utils extends wepy.mixin {
+
+  checkPassportNumber(card) {
+    // 护照
+    // 规则： 14/15开头 + 7位数字, G + 8位数字, P + 7位数字, S/D + 7或8位数字,等
+    // 样本： 141234567, G12345678, P1234567
+    let reg = /^([a-zA-z]|[0-9]){5,17}$/;
+    if (reg.test(card) === false) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   // 正则验证手机号格式
   checkPhoneNumber(phoneNumber,isShowToast = true) {
     if (!phoneNumber) {

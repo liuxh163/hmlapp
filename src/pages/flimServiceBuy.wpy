@@ -17,6 +17,7 @@
   }
 
   .van-field__body {
+    margin-left: auto;
     input {
       text-align: right;
     }
@@ -50,6 +51,7 @@
       height: px2rpx(13);
     }
     .title-text{
+      margin-top: px2rpx(1);
       font-size: px2rpx(13);
       color: #FE9F05;
       font-weight: bold;
@@ -59,7 +61,7 @@
       align-items: center;
     }
     .value-class{
-      flex: 2;
+      flex: 1.5;
     }
     .right-value{
       display: flex;
@@ -151,7 +153,7 @@
       <picker name="region" mode="region" value="{{region}}" bindchange="bindRegionChange">
         <van-cell title="所在地区" value="{{region[0]}}{{region[1]}}{{region[2]}}" label="{{errMsg.region}}" is-link/>
       </picker>
-      <van-field name="address" id="address" bind:input="bindInput" maxlength="100" label="收件详细地址"
+      <van-field name="address" id="address" bind:input="bindInput" maxlength="100" label="详细地址"
                  placeholder="详细地址，例16号楼5单元301室" title-width="220rpx" error-message="{{errMsg.address}}"/>
       <van-cell title-class="title-text" title="胶片转印服务购买">
         <image class="title-icon" slot="icon" src="../img/title_icon.png" />
