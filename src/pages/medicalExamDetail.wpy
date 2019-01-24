@@ -260,10 +260,7 @@
         this.$apply();
       },
       booking(){
-        wx.showToast({
-          title: '预订功能即将上线，敬请期待',
-          icon: 'none'
-        });
+        this.$navigate('order/fillOrder');
       },
       bindScroll(e){
         this.pageScrollTop = e.detail.scrollTop;

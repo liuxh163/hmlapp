@@ -186,10 +186,7 @@
         this.$apply();
       },
       booking(){
-        wx.showToast({
-          title: '预订功能即将上线，敬请期待',
-          icon: 'none'
-        });
+        this.$navigate('../order/fillOrder');
       }
     };
 
@@ -250,6 +247,10 @@
       this.$navigate('../login');
     }
 
+    onShow(){
+      this.$preload('medicalExam',this.medicalExam);
+    }
+
     onLoad(options, data) {
       if (!options.preload) {
         options.preload = data.preload;
@@ -258,6 +259,7 @@
 
       console.log(options);
       this.medicalExam = options.preload.medicalExam;
+
       let t = this;
       wx.getSystemInfo({
         success(res) {

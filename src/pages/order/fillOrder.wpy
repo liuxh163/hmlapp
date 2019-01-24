@@ -129,7 +129,7 @@
       startDate: '',
       endDate: '',
       endStartDate: '',
-      priceRMB: '0',
+      priceRMB: 0,
       priceJPY: '0',
       buyListCount: 0,
       checked: false,
@@ -158,6 +158,33 @@
           isChecked: false
         },
       ],
+      medicalExam:{},
+    };
+
+    watch = {
+      travelerList(newValue, oldValue){
+        this.buyListCount = newValue.length;
+        this.priceRMB = 0;
+        for (let item of newValue) {
+          if (item.travelType === '02') {
+            this.priceRMB += this.medicalExam.followPrice;
+          } else {
+            let birthday = new Date(item.birthday);
+            let age = Date.now() - birthday;
+            let date_age = new Date(age);
+            age = date_age.getFullYear() - 1970;
+            if (age < 18) {
+              this.priceRMB += this.medicalExam.childPrice;
+            } else {
+              if (item.gender == '01') {
+                this.priceRMB += this.medicalExam.adultPrice;
+              } else {
+                this.priceRMB += this.medicalExam.womenPrice;
+              }
+            }
+          }
+        }
+      }
     };
 
     methods = {
@@ -215,15 +242,40 @@
         }
 
         if (isSuccess) {
-          wx.showToast({
-            title: '调用支付接口',
-            icon: 'none'
+          let data =  {
+            target:"01",
+            targetId:this.medicalExam.id,
+            contact:value.name,
+            telephone:value.phone,
+            latestAt:value.endDate,
+            earliestAt:value.startDate,
+            servantType:"01",
+            peoples:this.travelerList,
+          };
+          this.sendRequest(httpUrl.orders,'POST',data,res =>{
+            let payData = {
+              orderNumber: res.number,
+            };
+            // console.log(data);
+            this.sendRequest(httpUrl.payOrders,'POST',payData,res =>{
+              wx.showToast({
+                title: '支付成功！',
+              });
+              setTimeout(function () {
+                this.$redirect('myOrder');
+              },500)
+            });
           });
         }
       },
       onCheckboxChange(index, e) {
         let item = this.travelerList[index];
         item.projectCheckList = e.detail;
+        if (e.detail) {
+          this.buyListCount++;
+        }else {
+          this.buyListCount--;
+        }
       },
       binTermServiceChange(e) {
         this.checked = e.detail;
@@ -282,28 +334,6 @@
       }
     }
 
-    computeMoney(item) {
-      if (this.travelType === '02') {
-        order.price += product.companyPrice;
-      } else {
-        let birthday = new Date(this.birthday);
-        let age = Date.now() - birthday;
-        let date_age = new Date(age);
-        age = date_age.getFullYear() - 1970;
-        console.log("age" + age)
-        console.log("1111" + order.price)
-        if (age < 18) {
-          order.price += product.childPrice;
-        } else {
-          if (this.gender === '01') {
-            order.price += product.adultPrice;
-          } else {
-            order.price += product.womenPrice;
-          }
-        }
-      }
-    }
-
     // 日期，在原有日期基础上，增加days天数，默认增加1天
     addDate(date, days) {
       if (days == undefined || days == '') {
@@ -352,6 +382,9 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      this.medicalExam = options.preload.medicalExam;
+      console.log("adultPrice",this.medicalExam.adultPrice);
     }
   }
 </script>

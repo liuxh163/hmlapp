@@ -404,16 +404,12 @@
             "telephone": this.personalInfo.telephone,
           };
           this.sendRequest(httpUrl.orders, 'POST', data, res => {
-            this.$apply();
             wx.showToast({
               title: '订单发布成功',
               icon: 'none'
             });
             this.pay(res.number);
-          },err =>{
-            this.$apply();
-          },false);
-          this.$apply();
+          });
         }
       },
     };
@@ -424,15 +420,13 @@
         "orderNumber": orderid,
       };
       this.sendRequest(httpUrl.payOrders, 'POST', data, res => {
-        this.$apply();
         wx.showToast({
-          title: '获取订单成功',
-          icon: 'none'
+          title: '支付成功',
         });
-      },err =>{
-        this.$apply();
-      },false);
-      this.$apply();
+        setTimeout(function () {
+          this.$redirect('../order/myOrder');
+        },500)
+      });
     };
 
     // 日期，在原有日期基础上，增加days天数，默认增加1天
