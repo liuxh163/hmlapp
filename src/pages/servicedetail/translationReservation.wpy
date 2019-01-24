@@ -282,8 +282,10 @@
 
 <script>
   import wepy from 'wepy';
+  import commonApi from '../../mixins/commonApi'
   import utils from '../../mixins/utils'
   import submitBar from '../../components/submitBar'
+  import {httpUrl} from '../../utils/httpUrl'
 
   export default class translationReservation extends wepy.page {
     config = {
@@ -299,7 +301,7 @@
       submitbar:submitBar
     };
 
-    mixins = [utils];
+    mixins = [utils, commonApi];
 
     data = {
       startDate:'',
@@ -321,6 +323,7 @@
       wordPrice:0,
       wordNum:0,
       interpreterPrice:0,
+      personalInfo:{},
     };
 
     watch = {
@@ -387,12 +390,49 @@
           }
         }
         if (isSuccess) {
-          wx.showToast({
-            title: '支付功能即将上线，敬请期待',
-            icon: 'none'
-          });
+          // wx.showToast({
+          //   title: '支付功能即将上线，敬请期待',
+          //   icon: 'none'
+          // });
+          let data = {
+            "target": "03",
+            "targetId": this.item.id,
+            "latestAt": this.endDate,
+            "earliestAt": this.endStartDate,
+            "servantType": "01",
+            "contact": this.personalInfo.userName,
+            "telephone": this.personalInfo.telephone,
+          };
+          this.sendRequest(httpUrl.orders, 'POST', data, res => {
+            this.$apply();
+            wx.showToast({
+              title: '订单发布成功',
+              icon: 'none'
+            });
+            this.pay(res.number);
+          },err =>{
+            this.$apply();
+          },false);
+          this.$apply();
         }
       },
+    };
+
+    pay(orderid) {
+      // });
+      let data = {
+        "orderNumber": orderid,
+      };
+      this.sendRequest(httpUrl.payOrders, 'POST', data, res => {
+        this.$apply();
+        wx.showToast({
+          title: '获取订单成功',
+          icon: 'none'
+        });
+      },err =>{
+        this.$apply();
+      },false);
+      this.$apply();
     };
 
     // 日期，在原有日期基础上，增加days天数，默认增加1天
@@ -447,6 +487,8 @@
       this.item.id  = options.id;
       this.item.followPrice  = options.followPrice;
       this.item.literPrice  = options.literPrice;
+
+      this.personalInfo = wx.getStorageSync('personalInfo');
       // console.log('item',options);
     }
   }

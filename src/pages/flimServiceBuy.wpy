@@ -201,6 +201,8 @@
   import wepy from 'wepy';
   import utils from '../mixins/utils'
   import submitBar from '../components/submitBar'
+  import commonApi from '../mixins/commonApi'
+  import {httpUrl} from '../utils/httpUrl'
 
   export default class flimServiceBuy extends wepy.page {
     config = {
@@ -217,7 +219,7 @@
       submitbar:submitBar
     };
 
-    mixins = [utils];
+    mixins = [commonApi, utils];
 
     data = {
       checked:false,
@@ -306,9 +308,23 @@
           }
         }
         if (isSuccess) {
-          wx.showToast({
-            title: '支付功能即将上线，敬请期待',
-            icon: 'none'
+          let data = {
+            "contact":contact,
+            "telephone": phone,
+            "target":"02",
+            "targetId":1,
+          };
+          this.sendRequest(httpUrl.orders,'POST',data,res =>{
+            let data = {
+              orderNumber: res.number,
+            };
+            // console.log(data);
+            this.sendRequest(httpUrl.payOrders,'POST',data,res =>{
+              wx.showToast({
+                title: '支付成功！',
+                icon: 'none'
+              });
+            });
           });
         }
       },
