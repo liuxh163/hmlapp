@@ -14,5 +14,7 @@ let httpUrl = {
   "thumbs":"/api/v1/thumbs",              // 点赞
   "getMinePosts":"/api/v1/posts/get/mine",//获取我的帖子
   "getLikeList":"/api/vi/posts/get/getLikerList", // 获取帖子点赞列表
+  "orders":"/api/v1/orders", // 下订单
+  "payOrders":"/api/v1/orders/wxpay",// 订单支付-微信方式
 };
 export {httpUrl}
