@@ -85,26 +85,26 @@
   <view class="edit-traveler">
     <view style="border-top: 1px #DCDCDC solid;position: fixed;top: 0;left: 0;right: 0;"></view>
     <form bindsubmit="formSubmit">
-      <view style="margin-top: 2px;padding-bottom: {{isAddType?'140':'280'}}rpx">
-        <van-field name="passportNumber" id="passportNumber" bind:input="bindInput" label="护照号码" clearable
+      <view style="margin-top: 2px;padding-bottom: {{isAddType == 1?'140':'280'}}rpx">
+        <van-field name="passportNumber" id="passportNumber" bind:input="bindInput" value="{{item.passport}}" label="护照号码" clearable
                    placeholder="请填写证件号码" error-message="{{errMsg.passportNumber}}"/>
         <picker name="documentPeriod" id="documentPeriod" mode="date" value="{{documentPeriod}}"
                 bindchange="bindDateChange">
           <van-cell title="证件期限" value="{{documentPeriod}}" label="{{errMsg.documentPeriod}}" is-link/>
         </picker>
-        <van-field name="cname" id="cname" bind:input="bindInput" label="中文姓名" clearable
-                   placeholder="请填写中文姓名" error-message="{{errMsg.cname}}"/>
-        <van-field name="lastNamePinyin" id="lastNamePinyin" bind:input="bindInput" label="姓氏拼音" clearable
-                   placeholder="Last Name 例：张三 姓氏为：张" error-message="{{errMsg.lastNamePinyin}}"/>
-        <van-field name="firstNamePinyin" id="firstNamePinyin" bind:input="bindInput" label="名字拼音" clearable
-                   placeholder="First Name  例：张三  名字为：三" error-message="{{errMsg.firstNamePinyin}}"/>
+        <!--<van-field name="cname" id="cname" bind:input="bindInput" label="中文姓名" clearable-->
+                   <!--placeholder="请填写中文姓名" error-message="{{errMsg.cname}}"/>-->
+        <van-field name="lastNamePinyin" id="lastNamePinyin" value="{{item.firstName}}" bind:input="bindInput" label="姓氏" clearable
+                   placeholder="例：张三 姓氏为：张" error-message="{{errMsg.lastNamePinyin}}"/>
+        <van-field name="firstNamePinyin" id="firstNamePinyin" value="{{item.lastName}}" bind:input="bindInput" label="名字" clearable
+                   placeholder="例：张三 名字为：三" error-message="{{errMsg.firstNamePinyin}}"/>
         <van-cell title="性别" label="{{errMsg.sex}}">
           <view class="sex-slot" slot="">
             <text @tap="bindSexChange('01')" class="{{sex == '01'?'sex-checked':''}}">男</text>
             <text @tap="bindSexChange('02')" class="{{sex == '02'?'sex-checked':''}}">女</text>
           </view>
         </van-cell>
-        <picker name="birthday" id="birthday" mode="date" value="{{birthday}}" bindchange="bindDateChange">
+        <picker name="birthday" id="birthday" mode="date" end="{{endDate}}" value="{{birthday}}" bindchange="bindDateChange">
           <van-cell title="出生日期" value="{{birthday}}" label="{{errMsg.birthday}}" is-link/>
         </picker>
         <van-cell title="出行目的" label="{{errMsg.travelPurpose}}">
@@ -116,7 +116,7 @@
       </view>
       <view class="btn-view">
         <button form-type="submit" disabled="{{saveDisable}}" loading="{{saveLoading}}">保存</button>
-        <button wx:if="{{!isAddType}}" @tap="bindDelete" disabled="{{deleteDisable}}" loading="{{deleteLoading}}">删除
+        <button wx:if="{{isAddType == 2}}" @tap="bindDelete" disabled="{{deleteDisable}}" loading="{{deleteLoading}}">删除
         </button>
       </view>
     </form>
@@ -125,6 +125,7 @@
 
 <script>
   import wepy from 'wepy'
+  import {httpUrl} from '../../utils/httpUrl'
   import commonApi from '../../mixins/commonApi'
   import utils from '../../mixins/utils'
 
@@ -146,7 +147,7 @@
       deleteLoading: false,
       deleteDisable: false,
       documentPeriod: '',
-      isAddType: false,
+      isAddType: 2,
       sex: '',
       birthday: '',
       travelPurpose: '',
@@ -159,7 +160,10 @@
         sex: '',
         birthday: '',
         travelPurpose: '',
-      }
+      },
+      item:{},
+      index:-1,
+      endDate:'',
     };
 
     methods = {
@@ -175,7 +179,7 @@
         this.errMsg.birthday = '';
         this.errMsg.travelPurpose = '';
         let isSuccess = false;
-        if (value.passportNumber && value.documentPeriod && value.cname && value.lastNamePinyin &&
+        if (value.passportNumber && value.documentPeriod && value.lastNamePinyin &&
             value.firstNamePinyin && this.sex && value.birthday && this.travelPurpose) {
           if (this.checkPassportNumber(value.passportNumber)) {
             isSuccess = true;
@@ -193,10 +197,10 @@
             this.errMsg.cname = '请填写中文姓名';
           }
           if (!value.lastNamePinyin) {
-            this.errMsg.lastNamePinyin = '请填写姓氏拼音';
+            this.errMsg.lastNamePinyin = '请填写姓氏';
           }
           if (!value.firstNamePinyin) {
-            this.errMsg.firstNamePinyin = '请填写名字拼音';
+            this.errMsg.firstNamePinyin = '请填写名字';
           }
           if (!this.sex) {
             this.errMsg.sex = '请选择性别';
@@ -209,10 +213,37 @@
           }
         }
         if (isSuccess) {
-          wx.showToast({
-            title: '调用编辑出行人接口',
-            icon: 'none'
-          });
+          let timestamp = Date.parse(new Date());
+          let birthday = new Date(value.birthday);
+          let age = Date.now() - birthday;
+          let date_age = new Date(age);
+          age = date_age.getFullYear() - 1970;
+          console.log("age",age);
+          let personStatus = "01";
+          if (age < 18) {
+            personStatus = "02";
+          }
+          let item = {
+            id:timestamp,
+            birthday:value.birthday,
+            firstName:value.lastNamePinyin,
+            lastName:value.firstNamePinyin,
+            passport:value.passportNumber,
+            passExpir:value.documentPeriod,
+            gender:this.sex,
+            travelType:this.travelPurpose,
+            personStatus:personStatus,
+          };
+          // console.log(item);
+          if (this.isAddType == 1) {
+            this.prevPageAddTraveler(item);
+          }else {
+            this.prevPageModifyTraveler(item);
+          }
+          // wx.showToast({
+          //   title: '调用编辑出行人接口',
+          //   icon: 'none'
+          // });
         }
       },
       bindDateChange(e) {
@@ -254,12 +285,64 @@
         this.errMsg.travelPurpose = '';
       },
       bindDelete() {
-        wx.showToast({
-          title: '调用删除出行人接口',
-          icon: 'none'
-        });
+        this.prevPageDeleteTraveler();
+        // wx.showToast({
+        //   title: '调用删除出行人接口',
+        //   icon: 'none'
+        // });
       },
     };
+
+    prevPageAddTraveler(item) {
+      let pages = getCurrentPages();
+      let prevPage = pages[pages.length - 2];  //上一个页面
+      if (prevPage) {
+        // console.log("prevPage",prevPage);
+        prevPage.addTraveler(item);
+        wx.showToast({
+          title: '保存成功',
+        });
+        setTimeout(function () {
+          wx.navigateBack();
+        },500);
+      } else {
+        console.log("上一个页面实例为空");
+      }
+    }
+
+    prevPageDeleteTraveler() {
+      let pages = getCurrentPages();
+      let prevPage = pages[pages.length - 2];  //上一个页面
+      if (prevPage) {
+        // console.log("prevPage",prevPage);
+        prevPage.deleteTraveler(this.index);
+        wx.showToast({
+          title: '删除成功',
+        });
+        setTimeout(function () {
+          wx.navigateBack();
+        },500);
+      } else {
+        console.log("上一个页面实例为空");
+      }
+    }
+
+    prevPageModifyTraveler(item) {
+      let pages = getCurrentPages();
+      let prevPage = pages[pages.length - 2];  //上一个页面
+      if (prevPage) {
+        // console.log("prevPage",prevPage);
+        prevPage.modifyTraveler(this.index,item);
+        wx.showToast({
+          title: '保存成功',
+        });
+        setTimeout(function () {
+          wx.navigateBack();
+        },500);
+      } else {
+        console.log("上一个页面实例为空");
+      }
+    }
 
     toLogin() {
       this.$navigate('../login');
@@ -270,6 +353,20 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+
+      this.isAddType = options.isAddType;
+      if (options.preload && options.preload.item) {
+        this.item = options.preload.item;
+        this.documentPeriod = this.item.passExpir;
+        this.birthday = this.item.birthday;
+        this.sex = this.item.gender;
+        this.travelPurpose = this.item.travelType;
+      }
+      if (options.index) {
+        this.index = options.index;
+      }
+      this.endDate = this.formatTime(new Date());
+      this.$apply();
     }
   }
 </script>

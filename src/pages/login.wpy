@@ -183,7 +183,7 @@
             let pages = getCurrentPages();
             let prevPage = pages[pages.length - 2];  //上一个页面
             if (prevPage){
-              console.log("prevPage",prevPage);
+              // console.log("prevPage",prevPage);
               prevPage.onLoad(prevPage.options);
             }else {
               console.log("上一个页面实例为空,跳转到index");

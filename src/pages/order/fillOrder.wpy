@@ -6,7 +6,7 @@
     <text class="page-title">{{title}}</text>
     <form bindsubmit="formSubmit">
       <van-cell custom-class="title" title-class="title-text" title="联系人">
-        <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
+        <image class="title-icon" slot="icon" src="../../img/title_icon.png"/>
       </van-cell>
       <van-field name="name" id="name" bind:input="bindInput" maxlength="10" label="姓名" clearable
                  placeholder="请填写联系人姓名" error-message="{{errMsg.name}}"/>
@@ -15,30 +15,32 @@
       <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;"></view>
       <view class="traveler">
         <van-cell custom-class="title" title-class="title-text" title="出行人">
-          <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
+          <image class="title-icon" slot="icon" src="../../img/title_icon.png"/>
         </van-cell>
-        <navigator url="chooseTraveler">
+        <navigator url="editTraveler?isAddType=1">
           <button class="add-traveler">+ 添加出行人</button>
         </navigator>
-
       </view>
+      <text class="term-service-err-msg" wx:if="{{errMsg.travelerList}}">{{errMsg.travelerList}}</text>
+      <text class="term-service-err-msg" wx:if="{{errMsg.project}}">{{errMsg.project}}</text>
       <view class="traveler-list">
         <block wx:key="{{item.id}}" wx:for="{{travelerList}}">
-          <van-cell border="{{!index == (travelerList.length - 1)}}">
+          <van-cell border="{{!index == (travelerList.length - 1)}}" bind:click="bindCellClick({{item}},{{index}})">
             <view class="cell-title" slot="title">
               <view class="row1">
-                <text>{{item.name}}</text>
+                <text>{{item.firstName + item.lastName}}</text>
                 <text>{{item.personStatus == '01'?'成人':'儿童'}}</text>
-                <van-tag class="{{item.type == '01'?'tag1':'tag2'}}">{{item.type == '01'?'体检':'随行'}}</van-tag>
+                <van-tag class="{{item.travelType == '01'?'tag1':'tag2'}}">{{item.travelType == '01'?'体检':'随行'}}</van-tag>
               </view>
-              <text class="label">身份证号：{{item.identityNumber}}</text>
+              <text class="label">护照号码：{{item.passport}}</text>
             </view>
             <image slot="right-icon" class="edit-icon" src="../../img/icon_edit.svg"/>
           </van-cell>
           <view class="project-list" wx:if="{{item.type == '01'}}">
-            <van-checkbox-group value="{{projectCheckList}}" bind:change="onCheckboxChange">
+            <van-checkbox-group value="{{item.projectCheckList}}" bind:change="onCheckboxChange({{index}})">
               <block wx:key="{{pItem.id}}" wx:for-index="pIndex" wx:for-item="pItem" wx:for="{{projectList}}">
-                <van-cell custom-class="cell-project" title="{{pItem.name}}" label="约 ¥ {{pItem.price}}／人" border="{{!pIndex == (projectList.length - 1)}}">
+                <van-cell custom-class="cell-project" title="{{pItem.name}}" label="约 ¥ {{pItem.price}}／人"
+                          border="{{!pIndex == (projectList.length - 1)}}">
                   <view slot="right-icon" class="right-icon">
                     <van-checkbox checked-color="#FFC207" name="{{pItem.id}}"></van-checkbox>
                   </view>
@@ -51,34 +53,38 @@
       </view>
       <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 10rpx"></view>
       <van-cell custom-class="title choice-date" title-class="title-text" title="选择日期">
-        <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
+        <image class="title-icon" slot="icon" src="../../img/title_icon.png"/>
         <text slot="" class="date-value">＊最终时间由我们客服与您确认</text>
       </van-cell>
-      <picker id="startDate" mode="date" value="{{startDate}}" bindchange="bindDateChange">
-        <van-cell custom-class="cell-date" title="最早可到日期" value="{{startDate}}" label="{{errMsg.startDate}}" />
+      <picker name="startDate" id="startDate" mode="date" value="{{startDate}}" bindchange="bindDateChange">
+        <van-cell custom-class="cell-date" title="最早可到日期" value="{{startDate}}" label="{{errMsg.startDate}}"/>
       </picker>
-      <picker id="endDate" start="{{endStartDate}}" mode="date" value="{{endDate}}" bindchange="bindDateChange">
-        <van-cell custom-class="cell-date" title="最晚可到日期" value="{{endDate}}" label="{{errMsg.endDate}}" border="{{false}}" />
+      <picker name="endDate" id="endDate" start="{{endStartDate}}" mode="date" value="{{endDate}}"
+              bindchange="bindDateChange">
+        <van-cell custom-class="cell-date" title="最晚可到日期" value="{{endDate}}" label="{{errMsg.endDate}}"
+                  border="{{false}}"/>
       </picker>
       <view style="width: 100%;height: 20rpx;background-color: #E9E9E9;margin-top: 20rpx"></view>
       <van-cell title-class="title-text" title="重要须知" border="{{false}}">
-        <image class="title-icon" slot="icon" src="../../img/title_icon.png" />
+        <image class="title-icon" slot="icon" src="../../img/title_icon.png"/>
       </van-cell>
-      <block wx:for="{{projectList}}">
+      <block wx:key="{{item.id}}" wx:for="{{projectList}}">
         <view class="notice">
-            <view class="circle"></view>
-            <text>我们的翻译工作全部由人工完成，严禁使用电脑自动翻译。所有的译件均有人工逐字逐句严格校对，文字和专业双重审核，并对其进行编辑。该过程将消除错译、漏译、拼写、打字和语法上的错误，保证用词贴切与一致性，把错误降到最低。正常翻译时间为5-10个工作日，如果翻译项目需要在更短的时间内交付，视情况而定，额外收取20%～30％的费用。
-            </text>
+          <view class="circle"></view>
+          <text>我们的翻译工作全部由人工完成，严禁使用电脑自动翻译。所有的译件均有人工逐字逐句严格校对，文字和专业双重审核，并对其进行编辑。该过程将消除错译、漏译、拼写、打字和语法上的错误，保证用词贴切与一致性，把错误降到最低。正常翻译时间为5-10个工作日，如果翻译项目需要在更短的时间内交付，视情况而定，额外收取20%～30％的费用。</text>
         </view>
       </block>
       <view class="terms-service-container">
-        <van-checkbox name="terms_service" checked-color="#FFC207" value="{{ checked }}" bind:change="binTermServiceChange"></van-checkbox>
+        <van-checkbox name="terms_service" checked-color="#FFC207" value="{{ checked }}"
+                      bind:change="binTermServiceChange"></van-checkbox>
         <text>您已经阅读并同意</text>
         <navigator class="term-service-text">
           服务条款
         </navigator>
       </view>
-      <view class="staging-container">
+      <text class="term-service-err-msg bottom-view">{{errMsg.termService}}</text>
+
+      <view class="staging-container" wx:if="{{supportStaging}}">
         <text class="staging-icon">分</text>
         <text class="staging-icon-desc">支持分期</text>
         <view class="staging-desc-container">
@@ -95,6 +101,7 @@
 
 <script>
   import wepy from 'wepy'
+  import {httpUrl} from '../../utils/httpUrl'
   import commonApi from '../../mixins/commonApi'
   import utils from '../../mixins/utils'
   import submitBar from '../../components/submitBar'
@@ -112,96 +119,190 @@
     };
 
     components = {
-      submitbar:submitBar
+      submitbar: submitBar
     };
 
-    mixins = [commonApi,utils];
+    mixins = [commonApi, utils];
 
     data = {
-      title:'健康大阪6天5夜 感受不一样的大阪',
-      startDate:'',
-      endDate:'',
-      endStartDate:'',
-      priceRMB:'0',
-      priceJPY:'0',
-      buyListCount:0,
-      checked:false,
-      errMsg:{
-        name:'',
-        phone:'',
-        termService:'',
-        startDate:'',
-        endDate:'',
+      title: '健康大阪6天5夜 感受不一样的大阪',
+      startDate: '',
+      endDate: '',
+      endStartDate: '',
+      priceRMB: '0',
+      priceJPY: '0',
+      buyListCount: 0,
+      checked: false,
+      supportStaging: false,
+      errMsg: {
+        name: '',
+        phone: '',
+        travelerList: '',
+        project: '',
+        startDate: '',
+        endDate: '',
+        termService: '',
       },
-      travelerList:[
+      travelerList: [],
+      projectList: [
         {
-          id:'1001',
-          name:'张萌',
-          personStatus:'01',
-          type:'01',
-          identityNumber:'128819198712235434',
+          id: '2001',
+          name: '子宫体部细胞诊断',
+          price: '1562',
+          isChecked: false
         },
         {
-          id:'1002',
-          name:'张小萌',
-          personStatus:'02',
-          type:'02',
-          identityNumber:'128819198712235434',
-        },
-      ],
-      projectList:[
-        {
-          id:'2001',
-          name:'子宫体部细胞诊断',
-          price:'1562',
-          isChecked:false
-        },
-        {
-          id:'2002',
-          name:'子宫体部细胞诊断',
-          price:'1562',
-          isChecked:false
+          id: '2002',
+          name: '子宫体部细胞诊断',
+          price: '1562',
+          isChecked: false
         },
       ],
-      projectCheckList:[],
     };
 
     methods = {
-      formSubmit(e){
+      formSubmit(e) {
         let value = e.detail.value;
         console.log("value", value);
+        let isSuccess = false;
+        this.errMsg.name = '';
+        this.errMsg.phone = '';
+        this.errMsg.travelerList = '';
+        this.errMsg.project = '';
+        this.errMsg.startDate = '';
+        this.errMsg.endDate = '';
+        this.errMsg.termService = '';
+
+        if (value.name && value.phone && value.startDate && value.endDate && this.checked && this.travelerList && this.travelerList.length > 0) {
+          if (this.travelerList && this.travelerList.length > 0) {
+            isSuccess = true;
+            // let emptyProjectTravelerList = this.travelerList.filter(item => {
+            //   return (item.travelType == '01' && (!item.projectCheckList || item.projectCheckList.length === 0));
+            // });
+            // if (emptyProjectTravelerList.length <= 0) {
+            //   isSuccess = true;
+            // } else {
+            //   this.errMsg.project = '请选择出行人项目';
+            //   wx.pageScrollTo({
+            //     scrollTop: 0,
+            //     duration: 300
+            //   });
+            // }
+          }
+        } else {
+          if (!value.name) {
+            this.errMsg.name = '请填写联系人姓名';
+          }
+          if (!value.phone) {
+            this.errMsg.phone = '请填写手机号';
+          }
+          if (!this.travelerList || this.travelerList.length <= 0){
+            this.errMsg.travelerList = '请选择出行人';
+          }
+          if (!value.startDate) {
+            this.errMsg.startDate = '请选择最早可到日期';
+          }
+          if (!value.endDate) {
+            this.errMsg.endDate = '请选择最晚可到日期';
+          }
+          if (!this.checked) {
+            this.errMsg.termService = '请阅读并同意服务条款';
+          }
+          wx.pageScrollTo({
+            scrollTop: 0,
+            duration: 300
+          });
+        }
+
+        if (isSuccess) {
+          wx.showToast({
+            title: '调用支付接口',
+            icon: 'none'
+          });
+        }
       },
-      onCheckboxChange(e){
-        this.projectCheckList = e.detail;
+      onCheckboxChange(index, e) {
+        let item = this.travelerList[index];
+        item.projectCheckList = e.detail;
       },
-      binTermServiceChange(e){
+      binTermServiceChange(e) {
         this.checked = e.detail;
         this.errMsg.termService = '';
       },
-      bindDateChange(e){
+      bindDateChange(e) {
         // console.log('e', e);
         if (e.currentTarget.id == 'startDate') {
           this.startDate = e.detail.value;
           this.errMsg.startDate = '';
           this.endStartDate = this.addDate(this.startDate);
           console.log(this.endStartDate);
-        }else {
+        } else {
           this.endDate = e.detail.value;
           this.errMsg.endDate = '';
         }
 
       },
-      bindInput(e){
+      bindInput(e) {
         switch (e.currentTarget.id) {
           case "name":
-            this.errMsg.name='';
+            this.errMsg.name = '';
             break;
           case "phone":
-            this.errMsg.phone='';
+            this.errMsg.phone = '';
             break;
         }
       },
+      bindCellClick(item,index){
+        this.$preload("item",item);
+        this.$navigate('editTraveler?isAddType=2&index=' + index);
+      },
     };
+
+    // 添加出行人
+    addTraveler(item){
+      this.travelerList.push(item);
+      this.errMsg.travelerList = '';
+      this.$apply();
+    }
+
+    // 删除出行人
+    deleteTraveler(index){
+      if (index >= 0) {
+        this.travelerList.splice(index,1);
+        this.$apply();
+      }
+    }
+
+    // 修改出行人
+    modifyTraveler(index,item){
+      if (index >= 0) {
+        this.travelerList.splice(index,1,item);
+        console.log(this.travelerList);
+        this.$apply();
+      }
+    }
+
+    computeMoney(item) {
+      if (this.travelType === '02') {
+        order.price += product.companyPrice;
+      } else {
+        let birthday = new Date(this.birthday);
+        let age = Date.now() - birthday;
+        let date_age = new Date(age);
+        age = date_age.getFullYear() - 1970;
+        console.log("age" + age)
+        console.log("1111" + order.price)
+        if (age < 18) {
+          order.price += product.childPrice;
+        } else {
+          if (this.gender === '01') {
+            order.price += product.adultPrice;
+          } else {
+            order.price += product.womenPrice;
+          }
+        }
+      }
+    }
 
     // 日期，在原有日期基础上，增加days天数，默认增加1天
     addDate(date, days) {

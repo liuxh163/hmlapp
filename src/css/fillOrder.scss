@@ -128,6 +128,13 @@
       height: px2rpx(18);
     }
   }
+  .cell-date{
+    .van-cell__label{
+      color: #f44 !important;
+      text-align: right !important;
+      margin-right: px2rpx(10);
+    }
+  }
   .project-list{
     .cell-project{
       margin-left: px2rpx(60) !important;
@@ -161,6 +168,9 @@
     line-height: px2rpx(12);
     color: #F44;
   }
+  .bottom-view{
+    margin-bottom: px2rpx(40);
+  }
   .notice{
     margin-bottom: px2rpx(10);
     display: flex;
@@ -186,7 +196,6 @@
   }
   .terms-service-container {
     margin-top: px2rpx(10);
-    margin-bottom: px2rpx(35);
     display: flex;
     align-items: center;
     text:nth-child(2){
