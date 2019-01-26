@@ -324,7 +324,7 @@
                 title: '支付成功！',
                 icon: 'none'
               });
-              setTimeout(function () {
+              setTimeout(res =>{
                 this.$redirect('order/myOrder');
               },500)
             });

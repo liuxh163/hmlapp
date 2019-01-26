@@ -111,6 +111,8 @@
 
 <script>
   import wepy from 'wepy'
+  import {httpUrl} from '../../utils/httpUrl'
+  import commonApi from '../../mixins/commonApi'
 
   export default class myOrder extends wepy.page {
     config = {
@@ -123,6 +125,8 @@
       }
     };
     components = {};
+
+    mixins = [commonApi];
 
     data = {
       active:0,
@@ -195,6 +199,20 @@
     methods = {
       onChange(e){
         let index  =  e.detail.index;
+        switch (index) {
+          case 0:
+            this.getOrder();
+            break;
+          case 1:
+            this.getOrder('02');
+            break;
+          case 2:
+            this.getOrder('03');
+            break;
+          case 3:
+            this.getOrder('04');
+            break;
+        }
       },
       bindItemClick(item){
         wx.showToast({
@@ -221,6 +239,18 @@
       this.$apply();
     }
 
+    getOrder(status = '01'){
+      let data = {
+        status:status,
+        page:1,
+        pageNum:10000,
+      };
+
+      this.sendRequest(httpUrl.orders,'GET',data,res =>{
+
+      });
+    }
+
     toLogin() {
       this.$navigate('../login');
     }
@@ -240,6 +270,8 @@
 
       this.active = options.active;
       this.$apply();
+
+      this.getOrder();
     }
   }
 </script>
