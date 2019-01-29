@@ -108,7 +108,8 @@
       isToLogin:false,
       qqmapsdkKey:'DMHBZ-JQOCK-DROJH-APF52-BWMMF-22FZ2',
       // BASE_URL:"http://10.1.99.8:4000", // 测试
-      BASE_URL: "http://47.92.131.110:24651", // 生产
+      // BASE_URL: "http://47.92.131.110:24651", // 演示
+      BASE_URL: "https://hmapi.haima101.com", // 生产
     };
 
     constructor() {
