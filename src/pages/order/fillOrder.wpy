@@ -3,7 +3,7 @@
 <template>
   <view class="fill-order">
     <view style="border-top: 1px #DCDCDC solid;position: fixed;top: 0;left: 0;right: 0;"></view>
-    <text class="page-title">{{title}}</text>
+    <text class="page-title">{{medicalExam.desc}}</text>
     <form bindsubmit="formSubmit">
       <van-cell custom-class="title" title-class="title-text" title="联系人">
         <image class="title-icon" slot="icon" src="../../img/title_icon.png"/>
@@ -125,7 +125,6 @@
     mixins = [commonApi, utils];
 
     data = {
-      title: '健康大阪6天5夜 感受不一样的大阪',
       startDate: '',
       endDate: '',
       endStartDate: '',
