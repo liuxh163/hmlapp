@@ -139,11 +139,11 @@ function wxAutoImageCal (originalWidth, originalHeight, that, bindName) {
 }
 
 function wxParseTemArray (temArrayName, bindNameReg, total, bindDataArr,that) {
-  var array = []
-  var obj = null
-  for (var i = 0; i < total; i++) {
-    var simArr = bindDataArr[i][bindNameReg + i].nodes
-    console.log("simArr",simArr);
+  var array = [];
+  // console.log("bindDataArr",bindDataArr);
+  var obj = null;
+  for (var i = 0; i < bindDataArr.length; i++) {
+    var simArr = bindDataArr[i][bindNameReg + i];
     array.push(simArr)
   }
 
@@ -152,7 +152,7 @@ function wxParseTemArray (temArrayName, bindNameReg, total, bindDataArr,that) {
   obj[temArrayName] = array
   that.setData(obj)
 
-  return array;
+  return simArr;
 }
 
 /**
