@@ -33,8 +33,9 @@
             <text class="price">¥ {{item.adultPrice}}</text>
             <text class="unit"> ／人起</text>
             <view class="tag">
-              <text>混浴汤泉</text>
-              <text>混浴汤泉</text>
+              <block wx:if="{{tagIndex < 2}}" wx:for-index="tagIndex" wx:for-item="tagItem" wx:key="tagItem.id" wx:for="{{item.tags}}">
+                <text>{{tagItem.name}}</text>
+              </block>
             </view>
           </view>
           <view class="offer-view">
@@ -43,14 +44,112 @@
                 <view class="offer {{activityItem.type == '01'?'staging':'card'}}">
                   <text>{{activityItem.type == '01'?'分':'卡'}}</text>
                   <text>{{activityItem.name}}</text>
-                  <view class="desc" wx:if="{{activityItem.type == '01'}}">
-                    <import src="../wxparse/wxParse.wxml"/>
-                    <html2wxml :parserName="html" :parserContent.sync="htmlContent"/>
-                  </view>
-                  <view class="desc" wx:else>
-                    <import src="../wxparse/wxParse.wxml"/>
-                    <html2wxml1 :parserName="html1" :parserContent.sync="htmlContent1"/>
-                  </view>
+                  <blcok wx:if="{{index == 0}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml01 :parserName="activityItem.id" :parserContent.sync="htmlContent01"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml02 :parserName="activityItem.id" :parserContent.sync="htmlContent02"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 1}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml11 :parserName="activityItem.id" :parserContent.sync="htmlContent11"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml12 :parserName="activityItem.id" :parserContent.sync="htmlContent12"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 2}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml21 :parserName="activityItem.id" :parserContent.sync="htmlContent21"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml22 :parserName="activityItem.id" :parserContent.sync="htmlContent22"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 3}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml31 :parserName="activityItem.id" :parserContent.sync="htmlContent31"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml32 :parserName="activityItem.id" :parserContent.sync="htmlContent32"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 4}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml41 :parserName="activityItem.id" :parserContent.sync="htmlContent41"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml42 :parserName="activityItem.id" :parserContent.sync="htmlContent42"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 5}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml51 :parserName="activityItem.id" :parserContent.sync="htmlContent51"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml52 :parserName="activityItem.id" :parserContent.sync="htmlContent52"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 6}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml61 :parserName="activityItem.id" :parserContent.sync="htmlContent61"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml62 :parserName="activityItem.id" :parserContent.sync="htmlContent62"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 7}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml71 :parserName="activityItem.id" :parserContent.sync="htmlContent71"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml72 :parserName="activityItem.id" :parserContent.sync="htmlContent72"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 8}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml81 :parserName="activityItem.id" :parserContent.sync="htmlContent81"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml82 :parserName="activityItem.id" :parserContent.sync="htmlContent82"/>
+                    </view>
+                  </blcok>
+                  <blcok wx:elif="{{index == 9}}">
+                    <view class="desc" wx:if="{{activityItem.type == '01'}}">
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml91 :parserName="activityItem.id" :parserContent.sync="htmlContent91"/>
+                    </view>
+                    <view class="desc" wx:else>
+                      <import src="../wxparse/wxParse.wxml"/>
+                      <html2wxml92 :parserName="activityItem.id" :parserContent.sync="htmlContent92"/>
+                    </view>
+                  </blcok>
+                  <!--<block wx:for="{{activityArray}}" wx:for-item="contentItem" wx:key="">-->
+                    <!--<view class="desc">-->
+                      <!--<import src="../wxparse/wxParse.wxml"/>-->
+                      <!--<template is="wxParse0" data="{{contentItem}}"/>-->
+                    <!--</view>-->
+                  <!--</block>-->
                 </view>
               </block>
             </view>
@@ -69,6 +168,7 @@
   import commonApi from '../mixins/commonApi'
   import {httpUrl} from '../utils/httpUrl'
   import html2wxml from '../components/html2wxml'
+  import WxParse from '../wxparse/wxParse'
 
   export default class nationProducts extends wepy.page {
     config = {
@@ -76,8 +176,26 @@
       enablePullDownRefresh:true,
     };
     components = {
-      html2wxml: html2wxml,
-      html2wxml1: html2wxml,
+      html2wxml01: html2wxml,
+      html2wxml02: html2wxml,
+      html2wxml11: html2wxml,
+      html2wxml12: html2wxml,
+      html2wxml21: html2wxml,
+      html2wxml22: html2wxml,
+      html2wxml31: html2wxml,
+      html2wxml32: html2wxml,
+      html2wxml41: html2wxml,
+      html2wxml42: html2wxml,
+      html2wxml51: html2wxml,
+      html2wxml52: html2wxml,
+      html2wxml61: html2wxml,
+      html2wxml62: html2wxml,
+      html2wxml71: html2wxml,
+      html2wxml72: html2wxml,
+      html2wxml81: html2wxml,
+      html2wxml82: html2wxml,
+      html2wxml91: html2wxml,
+      html2wxml92: html2wxml,
     };
 
     data = {
@@ -85,8 +203,27 @@
       carouselNation:'',
       carousels:[],
       recommendList: [],
-      htmlContent:'',
-      htmlContent1:'',
+      activityArray:[],
+      htmlContent01:'',
+      htmlContent02:'',
+      htmlContent11:'',
+      htmlContent12:'',
+      htmlContent21:'',
+      htmlContent22:'',
+      htmlContent31:'',
+      htmlContent32:'',
+      htmlContent41:'',
+      htmlContent42:'',
+      htmlContent51:'',
+      htmlContent52:'',
+      htmlContent61:'',
+      htmlContent62:'',
+      htmlContent71:'',
+      htmlContent72:'',
+      htmlContent81:'',
+      htmlContent82:'',
+      htmlContent91:'',
+      htmlContent92:'',
       showLoading:true,
     };
 
@@ -136,23 +273,87 @@
     }
 
     parseHtml() {
+      let bindDataArr = [];
       for (let i = 0;i< this.recommendList.length;i++){
         let item = this.recommendList[i];
         if (item.operations && item.operations.length > 0){
           for (let j = 0; j < item.operations.length; j++) {
             let activityItem = item.operations[j];
+            // bindDataArr.push(WxParse.wxParse('activity' + j, 'html', activityItem.content, this));
+            // if (j === item.operations.length - 1) {
+            //   item.operationsTrans = WxParse.wxParseTemArray("activityArray" + i,'activity', item.operations.length, bindDataArr,this)
+            // }
             if (activityItem.type == '01') {
-              this.htmlContent = activityItem.content;
+              if (i == 0) {
+                this.htmlContent01 = activityItem.content;
+              }else if(i == 1){
+                this.htmlContent11 = activityItem.content;
+              }else if(i == 2){
+                this.htmlContent21 = activityItem.content;
+              }else if(i == 3){
+                this.htmlContent31 = activityItem.content;
+              }else if(i == 4){
+                this.htmlContent41 = activityItem.content;
+              }else if(i == 5){
+                this.htmlContent51 = activityItem.content;
+              }else if(i == 6){
+                this.htmlContent61 = activityItem.content;
+              }else if(i == 7){
+                this.htmlContent71 = activityItem.content;
+              }else if(i == 8){
+                this.htmlContent81 = activityItem.content;
+              }else if(i == 9){
+                this.htmlContent91 = activityItem.content;
+              }
             }else {
-              this.htmlContent1 = activityItem.content;
+              if (i == 0) {
+                this.htmlContent02 = activityItem.content;
+              }else if(i == 1){
+                this.htmlContent12 = activityItem.content;
+              }else if(i == 2){
+                this.htmlContent22 = activityItem.content;
+              }else if(i == 3){
+                this.htmlContent32 = activityItem.content;
+              }else if(i == 4){
+                this.htmlContent42 = activityItem.content;
+              }else if(i == 5){
+                this.htmlContent52 = activityItem.content;
+              }else if(i == 6){
+                this.htmlContent62 = activityItem.content;
+              }else if(i == 7){
+                this.htmlContent72 = activityItem.content;
+              }else if(i == 8){
+                this.htmlContent82 = activityItem.content;
+              }else if(i == 9){
+                this.htmlContent92 = activityItem.content;
+              }
             }
           }
         }
+        // console.log("item",item);
       }
       this.$apply();
       //调用通知接口通知组件更新数据
-      this.$invoke('html2wxml', 'htmlParserNotice');
-      this.$invoke('html2wxml1', 'htmlParserNotice');
+      this.$invoke('html2wxml01', 'htmlParserNotice');
+      this.$invoke('html2wxml02', 'htmlParserNotice');
+      this.$invoke('html2wxml11', 'htmlParserNotice');
+      this.$invoke('html2wxml12', 'htmlParserNotice');
+      this.$invoke('html2wxml21', 'htmlParserNotice');
+      this.$invoke('html2wxml22', 'htmlParserNotice');
+      this.$invoke('html2wxml31', 'htmlParserNotice');
+      this.$invoke('html2wxml32', 'htmlParserNotice');
+      this.$invoke('html2wxml41', 'htmlParserNotice');
+      this.$invoke('html2wxml42', 'htmlParserNotice');
+      this.$invoke('html2wxml51', 'htmlParserNotice');
+      this.$invoke('html2wxml52', 'htmlParserNotice');
+      this.$invoke('html2wxml61', 'htmlParserNotice');
+      this.$invoke('html2wxml62', 'htmlParserNotice');
+      this.$invoke('html2wxml71', 'htmlParserNotice');
+      this.$invoke('html2wxml72', 'htmlParserNotice');
+      this.$invoke('html2wxml81', 'htmlParserNotice');
+      this.$invoke('html2wxml82', 'htmlParserNotice');
+      this.$invoke('html2wxml91', 'htmlParserNotice');
+      this.$invoke('html2wxml92', 'htmlParserNotice');
     }
 
     onPullDownRefresh(){
