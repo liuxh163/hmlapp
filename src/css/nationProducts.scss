@@ -143,11 +143,8 @@
             font-size: px2rpx(11);
           }
           .desc{
-            view{
-              display: flex;
-            }
+            margin-top: px2rpx(-5);
             margin-left: px2rpx(10);
-            display: flex;
           }
         }
         .staging{

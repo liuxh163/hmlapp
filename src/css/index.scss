@@ -253,7 +253,7 @@ page{
           .offer{
             margin-top: px2rpx(9);
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             text:first-child{
               border-top-left-radius: px2rpx(5);
               border-bottom-right-radius: px2rpx(5);
@@ -269,11 +269,8 @@ page{
               font-size: px2rpx(11);
             }
             .desc{
-              view{
-                display: flex;
-              }
+              margin-top: px2rpx(-5);
               margin-left: px2rpx(10);
-              display: flex;
             }
           }
           .staging{
