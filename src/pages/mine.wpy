@@ -184,7 +184,7 @@
     data = {
       thumbNum:'',
       commentNum:'',
-      money:'0',
+      money:'100000',
       scrollTop: 0,
       tab1ScrollTop:0,
       tab2ScrollTop:0,

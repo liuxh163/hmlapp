@@ -20,7 +20,7 @@
       </view>
       <view class="fun-view" @tap="bindTurnFun(3)">
         <image src="../img/icon_fund.png"></image>
-        <text>海马基金</text>
+        <text>海马金</text>
       </view>
     </view>
     <view class="swiper-view">
