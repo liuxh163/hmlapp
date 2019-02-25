@@ -137,6 +137,7 @@
       codeLoading:false,
       interval:null,
       codeValue:'',
+      exit:false,
     };
 
     methods = {
@@ -180,17 +181,21 @@
             wx.showToast({
               title: '登录成功'
             });
-            let pages = getCurrentPages();
-            let prevPage = pages[pages.length - 2];  //上一个页面
-            if (prevPage){
-              // console.log("prevPage",prevPage);
-              prevPage.onLoad(prevPage.options);
+            if (this.exit){
+              t.$switch("index");
             }else {
-              console.log("上一个页面实例为空,跳转到index");
-              t.$redirect("index");
+              let pages = getCurrentPages();
+              let prevPage = pages[pages.length - 2];  //上一个页面
+              if (prevPage){
+                // console.log("prevPage",prevPage);
+                prevPage.onLoad(prevPage.options);
+                this.$apply();
+                wx.navigateBack();
+              }else {
+                console.log("上一个页面实例为空,跳转到index");
+                t.$switch("index");
+              }
             }
-            this.$apply();
-            wx.navigateBack();
           },err =>{
             this.loginBtnLoading = false;
             this.$apply();
@@ -249,6 +254,7 @@
         options.preload = data.preload;
       }
       this.$wxpage.options = options;
+      this.exit = options.exit;
 
       wepy.$instance.globalData.isToLogin = false;
     }

@@ -64,7 +64,7 @@
       exitLogin(){
         wx.removeStorageSync('accessToken');
         wx.reLaunch({
-          url: '../login'
+          url: '../login?exit=true'
         })
       }
     };
